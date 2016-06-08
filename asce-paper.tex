@@ -1,0 +1,221 @@
+\documentclass[Journal,SectionNumbers,SingleSpace]{ascelike}
+
+\usepackage{subfigure}
+\usepackage{epsfig}
+%\usepackage{timesmt}
+
+\usepackage[utf8]{inputenc}
+\usepackage[OT1]{fontenc}
+\usepackage{graphicx}
+\usepackage[english]{babel}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{url}
+\usepackage{tikz}
+\usetikzlibrary{shapes.misc,fit}
+
+%\usepackage[bookmarks]{hyperref}
+\usepackage[colorlinks=true,citecolor=red,linkcolor=black]{hyperref}
+
+\newcommand{\reals}{\mathbb{R}}
+\newcommand{\posreals}{\reals_{>0}}
+\newcommand{\posrealszero}{\reals_{\ge 0}}
+\newcommand{\naturals}{\mathbb{N}}
+
+\newcommand{\dd}{\,\mathrm{d}}
+
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+\renewcommand{\vec}[1]{{\bm#1}}
+
+\newcommand{\uz}{^{(0)}} % upper zero
+\newcommand{\un}{^{(n)}} % upper n
+\newcommand{\ui}{^{(i)}} % upper i
+
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+
+\newcommand{\Rsys}{R_\text{sys}}
+\newcommand{\lRsys}{\ul{R}_\text{sys}}
+\newcommand{\uRsys}{\ol{R}_\text{sys}}
+
+\newcommand{\Fsys}{F_\text{sys}}
+\newcommand{\lFsys}{\ul{F}_\text{sys}}
+\newcommand{\uFsys}{\ol{F}_\text{sys}}
+
+\def\Tsys{T_\text{sys}}
+
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\V}{\operatorname{Var}}
+\newcommand{\wei}{\operatorname{Wei}} % Weibull Distribution
+\newcommand{\ig}{\operatorname{IG}}   % Inverse Gamma Distribution
+
+\def\yz{y\uz}
+\def\yn{y\un}
+%\def\yi{y\ui}
+\newcommand{\yfun}[1]{y^{({#1})}}
+\newcommand{\yfunl}[1]{\ul{y}^{({#1})}}
+\newcommand{\yfunu}[1]{\ol{y}^{({#1})}}
+
+\def\ykz{y\uz_k}
+\def\ykn{y\un_k}
+
+\def\yzl{\ul{y}\uz}
+\def\yzu{\ol{y}\uz}
+\def\ynl{\ul{y}\un}
+\def\ynu{\ol{y}\un}
+\def\yil{\ul{y}\ui}
+\def\yiu{\ol{y}\ui}
+
+\def\ykzl{\ul{y}\uz_k}
+\def\ykzu{\ol{y}\uz_k}
+\def\yknl{\ul{y}\un_k}
+\def\yknu{\ol{y}\un_k}
+
+
+\def\nz{n\uz}
+\def\nn{n\un}
+%\def\ni{n\ui}
+\newcommand{\nfun}[1]{n^{({#1})}}
+\newcommand{\nfunl}[1]{\ul{n}^{({#1})}}
+\newcommand{\nfunu}[1]{\ol{n}^{({#1})}}
+
+\def\nkz{n\uz_k}
+\def\nkn{n\un_k}
+\newcommand{\nkzfun}[1]{n\uz_{#1}}
+
+
+\def\nzl{\ul{n}\uz}
+\def\nzu{\ol{n}\uz}
+\def\nnl{\ul{n}\un}
+\def\nnu{\ol{n}\un}
+\def\nil{\ul{n}\ui}
+\def\niu{\ol{n}\ui}
+
+\def\nkzl{\ul{n}\uz_k}
+\def\nkzu{\ol{n}\uz_k}
+\def\nknl{\ul{n}\un_k}
+\def\nknu{\ol{n}\un_k}
+
+
+\def\taut{\tau(\vec{t})}
+\def\ttau{\tilde{\tau}}
+\def\ttaut{\ttau(\vec{t})}
+
+\def\MZ{\mathcal{M}\uz}
+\def\MN{\mathcal{M}\un}
+
+\def\MkZ{\mathcal{M}\uz_k}
+\def\MkN{\mathcal{M}\un_k}
+
+\def\PkZ{\Pi\uz_k}
+\def\PkN{\Pi\un_k}
+\newcommand{\PZi}[1]{\Pi\uz_{#1}}
+
+
+\def\tnow{t_\text{now}}
+\def\tpnow{t^+_\text{now}}
+
+\newcommand{\comments}[1]{{\small\color{gray} #1}}
+
+\newtheorem{example}{Example}
+
+\allowdisplaybreaks
+
+\title{Notes for ISIPTA poster}
+\author{Gero Walter, Frank P.A. Coolen, Simme Douwe Flapper}
+
+\begin{document}
+\title{ROBUST REMAINING USEFUL LIFE FOR COMPLEX SYSTEMS\\ or\\ ROBUST BAYESIAN RELIABILITY FOR COMPLEX SYSTEMS\\ or \ldots}
+
+\author{
+Gero Walter%
+\thanks{
+School of Industrial Engineering,
+Eindhoven University of Technology, Eindhoven, The Netherlands.
+E-mail: g.walter@tue.nl.},
+\ Ph.D.
+\\
+and
+Frank P.A. Coolen%
+\thanks{
+Department of Mathematical Sciences,
+Durham University, Durham, United Kingdom.
+E-mail: frank.coolen@durham.ac.uk.},
+\ Ph.D.
+}
+
+\maketitle
+
+% slightly adapted ESREL abstract
+\begin{abstract}
+In reliability engineering, data about failure events is often scarce.
+To arrive at meaningful estimates for the reliability of a system,
+it is therefore often necessary to also include expert information in the analysis,
+which is straightforward in the Bayesian approach by using an informative prior distribution.
+%
+A problem that then can arise is called prior-data conflict:
+from the viewpoint of the prior, the observed data seem very surprising,
+i.e., the information from data is in conflict with the prior assumptions.
+It has been recognised that models based on conjugate priors can be insensitive to prior-data conflict,
+in the sense that the spread of the posterior distribution does not increase in case of such a conflict,
+thus conveying a false sense of certainty by communicating that we can quantify the reliability of a system quite precisely when in fact we cannot.
+%
+We present an approach to mitigate this issue, by considering sets of prior distributions
+to model vague knowledge on component lifetimes,
+and study how surprisingly early or late component failures
+affect the prediction of the reliability of a system with arbitrary layout,
+making use of survival signature to characterise the system under study.
+Our approach can be seen as a robust Bayesian procedure or imprecise probability method
+that appropriately reflects surprising data in the posterior system survival function or other posterior inferences.
+\end{abstract}
+
+\KeyWords{System Reliability, Imprecise Probability, Survival Signature, Robust Bayesian, Remaining Useful Life}
+
+***slightly adapted ESREL abstract, must be 150--175 words long (this has 226), may not contain references or mathematics.
+
+\section{Introduction}
+
+***reuse ESREL paper intro
+
+\section{The Meat}
+
+System with components of $k=1,\ldots,K$ different types.
+There are $n_k$ components of type $k$ in the system.
+
+For each $k$, component lifetimes ($i=1,\ldots,n_k$) are $T_i^k \mid \lambda_k \sim \wei(\kappa,\lambda_k)$,
+where $\kappa$ is fixed and known:
+\begin{linenomath*}
+\begin{align}
+f_k(t_i^k \mid \lambda_k) &= \frac{\kappa}{\lambda_k} (t_i^k)^{\kappa-1} e^{-\frac{(t_i^k)^{\kappa-1}}{\lambda_k}} \\
+F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\kappa}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)
+\end{align}
+\end{linenomath*}
+
+Conjugate prior is $\lambda_k \sim \ig(\alpha_k,\beta_k)$:
+\begin{linenomath*}
+\begin{align}
+f_{\lambda_k}(\lambda_k\mid \alpha_k,\beta_k) &= \frac{(\beta_k)^{\alpha_k}}{\Gamma(\alpha_k)} \lambda_k^{-\alpha_k -1} e^{-\frac{\beta_k}{\lambda_k}}
+\end{align}
+\end{linenomath*}
+In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
+
+Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
+
+Observing a one of a kind system with $n_k$ components of type $k$ running until $\tnow$,
+where $e_k$ components have failed by $\tnow$, and $n_k - e_k$ components still function:
+\begin{linenomath*}
+\begin{align}
+\mbf{t}^k_{e_k;n_k} &= \big( \underbrace{t^k_1, \ldots, t^k_{e_k}}_{e_k \text{failure times}},
+                             \underbrace{\tpnow, \ldots, \tpnow}_{n_k-e_k \text{censored obs.}} \big)
+\end{align}
+\end{linenomath*}
+
+
+\end{document}
