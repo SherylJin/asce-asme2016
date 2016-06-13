@@ -149,9 +149,15 @@ Department of Mathematical Sciences,
 Durham University, Durham, United Kingdom.
 E-mail: frank.coolen@durham.ac.uk.},
 \ Ph.D.
+\\
+and ???
 }
 
 \maketitle
+
+Invited for special issue ``The treatment of uncertainty in risk and reliability modelling and decision making''
+(special issue code SI022A), guest editors Luca Podolfillini, Bruno Sudret, Enrico Zio,
+in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems: Part A (Civil Engineering)
 
 % slightly adapted ESREL abstract
 \begin{abstract}
@@ -184,7 +190,7 @@ that appropriately reflects surprising data in the posterior system survival fun
 
 ***reuse ESREL paper intro
 
-\section{The Meat}
+\section{Bayesian Analysis of Weibull Lifetimes}
 
 System with components of $k=1,\ldots,K$ different types.
 There are $n_k$ components of type $k$ in the system.
@@ -206,7 +212,17 @@ f_{\lambda_k}(\lambda_k\mid \alpha_k,\beta_k) &= \frac{(\beta_k)^{\alpha_k}}{\Ga
 \end{linenomath*}
 In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
 
+
+\section{Sets of Priors}
+
 Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
+
+***illustrate prior-data conflict similar to ESREL paper
+
+
+\section{Robust RUL Estimation for Complex Systems via the Survival Signature}
+
+\subsection{Right-censored Lifetimes}
 
 Observing a one of a kind system with $n_k$ components of type $k$ running until $\tnow$,
 where $e_k$ components have failed by $\tnow$, and $n_k - e_k$ components still function:
@@ -216,6 +232,204 @@ where $e_k$ components have failed by $\tnow$, and $n_k - e_k$ components still 
                              \underbrace{\tpnow, \ldots, \tpnow}_{n_k-e_k \text{censored obs.}} \big)
 \end{align}
 \end{linenomath*}
+
+***change to general right-censoring? So $n_k-e_k \to c_k$, $e_k+c_k=n_k$,
+introduce sets of observed and censored?
+
+\subsection{Bayesian Estimation of Component Scale Parameter}
+
+Posterior:
+\begin{linenomath*}
+\begin{align}
+f_{\lambda_k\mid\ldots}(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k})
+ &\propto f_{\lambda_k}(\lambda_k)
+          \big[ 1- F_k(\tnow\mid\lambda_k) \big]^{n_k-e_k}
+          \prod_{i=1}^{e_k} f_k(t_i^k \mid \lambda_k) 
+\end{align}
+\end{linenomath*}
+and so $\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k} \sim \ig(\nkn + 1, \nkn\ykn)$, where
+\begin{linenomath*}
+\begin{align}
+\nkn + 1 &= \nkz + e_k + 1 \\
+\nkn\ykn &= \nkz\ykz + (n_k-e_k) \tnow^\kappa + \sum_{i=1}^{e_k} (t_i^k)^\kappa
+\end{align}
+\end{linenomath*}
+so the posterior expectation for $\lambda$ is
+\begin{linenomath*}
+\begin{align}
+\E[\lambda_k\mid\nkn,\ykn] &= \ykn
+                            = \frac{\nkz}{\nkz + e_k} \ykz +
+                              \frac{e_k}{\nkz + e_k} \cdot \Big[\frac{n_k-e_k}{e_k} \tnow^\kappa + \frac{1}{e_k}\sum_{i=1}^{e_k} (t_i^k)^\kappa \Big]
+\end{align}
+\end{linenomath*}
+
+\subsection{RUL using the Survival Signature}
+
+System survival calculated by %(see Risk Analysis paper eq. (7))
+\begin{linenomath*}
+\begin{align}
+P(\Tsys > t) &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) P\Big( \bigcap_{k=1}^K \{ C^k_t = l_k\} \Big) \\
+\intertext{ and assuming components of different types are independent,}
+             &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K P(C^k_t = l_k)
+\end{align}
+\end{linenomath*}
+where the survival signature $\Phi(l_1,\ldots,l_K)$ is non-decreasing in each $l_k$ for coherent systems,
+and $P(C^k_t = l_k)$ is the (predictive) probability that exactly $l_k$ components of type $k$ function at time $t$.
+
+A priori, we have, for $l_k = 0,1,\ldots, n_k$,
+\begin{linenomath*}
+\begin{align}
+P(C^k_t = l_k\mid\nkz,\ykz)
+ &= { n_k \choose l_k} \int [F_k(t \mid\lambda_k)]^{n_k-l_k}
+                        [1 - F_k(t \mid\lambda_k)]^{l_k} f_{\lambda_k}(\lambda_k\mid\nkz,\ykz) \dd \lambda_k
+\end{align}
+\end{linenomath*}
+under the assumption that components of the same type are independent given $\lambda_k$.
+
+\subsection{Posterior Predictive Distribution}
+
+For the situation with the system observed until $\tnow$, with data $\mbf{t}^k_{e_k;n_k}$,
+we need the posterior predictive probability $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$.
+
+For $l_k > n_k - e_k$, we must have $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k}) = 0$,
+as at most $n_k - e_k$ components can function for $t > \tnow$.
+
+%(Should one work with the subsystem consisting only of the non-failed $n_k - e_k$ components?)\\
+
+A posteriori, we have, for $l_k = 0,1,\ldots, n_k - e_k$,
+\begin{linenomath*}
+\begin{align}
+P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})
+ &= { n_k - e_k \choose l_k} \int [P_k(T \leq t \mid T > \tnow, \lambda_k)]^{n_k - e_k - l_k} \times \\ & \hspace*{2ex}
+                              [1 - P_k(T \leq t \mid T > \tnow, \lambda_k)]^{l_k}
+    f_{\lambda_k\mid\ldots}(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k}) \dd \lambda_k
+\end{align}
+\end{linenomath*}
+
+Now,
+\begin{linenomath*}
+\begin{align}
+P_k(T \leq t \mid T > \tnow, \lambda_k)
+ &= \frac{P_k(\tnow < T \leq t \mid\lambda_k)}{P_k(T > \tnow \mid \lambda_k)}
+  = \frac{F_k(t\mid\lambda_k) - F_k(\tnow\mid\lambda_k)}{1-F_k(\tnow\mid\lambda_k)} \\
+ &= \frac{e^{-\frac{(\tnow)^\kappa}{\lambda_k}} - e^{-\frac{t^\kappa}{\lambda_k}}}{e^{-\frac{(\tnow)^\kappa}{\lambda_k}}}
+  = 1 - e^{-\frac{t^\kappa - (\tnow)^\kappa}{\lambda_k}}
+\end{align}
+\end{linenomath*}
+
+With this and the posterior substituted in, we get
+\begin{linenomath*}
+\begin{align}
+\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})} \\
+ &= { n_k - e_k \choose l_k} \int \Big[1 - e^{-\frac{t^\kappa - (\tnow)^\kappa}{\lambda_k}}\Big]^{n_k - e_k - l_k}
+                                  \Big[    e^{-\frac{t^\kappa - (\tnow)^\kappa}{\lambda_k}}\Big]^{l_k} \times \\ & \hspace*{28ex}
+    \frac{[\nkn\ykn]^{\nkn + 1}}{\Gamma(\nkn+1)} \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{\nkn\ykn}{\lambda_k}} \dd \lambda_k \\
+ &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j} \frac{[\nkn\ykn]^{\nkn + 1}}{\Gamma(\nkn+1)} 
+    \times \\ & \hspace*{25ex}
+    \int \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{(l_k + j) (t^\kappa - (\tnow)^\kappa) + \nkn\ykn}{\lambda_k}} \dd \lambda_k
+\end{align}
+\end{linenomath*}
+
+The terms remaining under the integral form the core of an $\ig(\nkn + 1, \nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa))$,
+allowing us to solve the integral using the corresponding normalization constant.
+\begin{linenomath*}
+\begin{align}
+\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})} \\
+ &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j}
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa)}\right)^{\nkn + 1} \\
+ &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!}   
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa)}\right)^{\nkn + 1} \\
+ &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \\ & \hspace*{13ex}  
+    \left(\frac{\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^\kappa + (n_k-e_k) (\tnow)^\kappa }%
+               {\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^\kappa + (n_k-e_k-l_k-j) (\tnow)^\kappa + (l_k + j) t^\kappa }\right)^{%
+    \nkz + e_k + 1} 
+\end{align}
+\end{linenomath*}
+for $l_k \in \{0,1,\ldots,n_k-e_k\}$.
+
+We actually need to compute only those $P(C^k_t = l_k\mid \ldots)$ with $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$.
+
+Seen as function in $t$, we see that $t$ appears $n_k-e_k-l_k+1$ times,
+once in each summand, in the denominator of the fraction powered to the $\nkn+1$,
+and summands whith even $j$ are decreasing in $t$,
+while summands whith odd $j$ are increasing in $t$.
+Nevertheless, in total $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$
+must be decreasing in $t$, as the remaining $n_k-e_k$ components continue to age,
+and so the probability that $l_k$ of them remain operational must decrease.
+
+\subsection{Optimizing over Sets of Parameters}
+
+%I would think that
+%$\min / \max_{(\nkz,\ykz) \in \PkZ} P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$
+%must be solved by numeric optimization for each $k, l_k, t$ 
+%because of the alternating signs for the summands.
+%(In absolute terms, each summand is increasing in $\ykz$, but not monotone in $\nkz$.)
+
+%(Box-constraint optimization possible, e.g., with option \texttt{L-BFGS-B} of \texttt{optim} in \textbf{R}.)
+Similar to the considerations about $t$, as higher values for $\ykz$ mean higher expected lifetimes for the components,
+the larger $\ykz$, the higher the probability that many components survive
+($P(C^k_t = l_k\mid\ldots)$ high for large $l_k$)
+and, with that, the lower the probability that few or no components survive
+($P(C^k_t = l_k\mid\ldots)$ low for small $l_k$).
+
+In terms of the cumulative probability mass function (cmf) for $C^k_t$, which can be written as 
+\begin{linenomath*}
+\begin{align}
+%F_{C^k_t}(l_k \mid \nkz,\ykz, \mbf{t}^k_{e_k;n_k}) = P(C^k_t \leq l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k}) 
+% = \sum_{q=0}^{l_k} P(C^k_t = q\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})
+F_{C^k_t}(l_k \mid \ldots) = P(C^k_t \leq l_k\mid\ldots) = \sum_{q=0}^{l_k} P(C^k_t = q\mid\ldots)\,,
+\end{align}
+\end{linenomath*}
+we therefore conclude that
+the lower cmf $\ul{F}(C^k_t = l_k\mid \ldots)$ must be obtained with the lower bounds for all $\ykz$, $k=1,\ldots,K$,
+and the upper cmf $\ol{F}(C^k_t = l_k\mid \ldots)$ must be obtained with the respective upper bounds.
+
+***proove rigorously (would need a kind of likelihood difference order)?
+%Do I get your comments right that based on lower and upper bounds
+%$\ul{P}(C^k_t = l_k\mid \ldots)$ and $\ol{P}(C^k_t = l_k\mid \ldots)$ for all $l_k = 0, 1, \ldots, n_k - e_k$,
+%we can easily get lower and upper bounds for the cdf $F_{C^k_t}(l_k \mid \ldots)$?
+
+Furthermore, higher expected lifetimes for the components must mean
+a longer system survival, so in turn the $\ul{F}_{C^k_t}(l_k \mid \ldots)$'s
+should give us the lower bound for $P(\Tsys > t\mid\ldots)$,
+and the $\ol{F}_{C^k_t}(l_k \mid \ldots)$'s the upper bound.
+Note that e.g.\ $\ul{F}_{C^k_t}(l_k \mid \ldots)$ may, however, not correspond to a single parameter pair $(\nkz, \ykz)$.
+Also, in the system survival equation ($t > \tnow$)
+\begin{linenomath*}
+\begin{align} \label{eq:25}
+\lefteqn{%
+P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)} \hspace*{10ex}\nonumber\\ 
+ &= \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K
+    P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})
+\end{align}
+\end{linenomath*}
+we cannot simply plug in all the $\ul{P}(C^k_t = l_k\mid \ldots)$ %and $\ol{P}(C^k_t = l_k\mid \ldots)$
+to get $\ul{P}(\Tsys > t\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$, % and $\ol{P}(\Tsys > t\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$,
+as the $\ul{P}(C^k_t = l_k\mid \ldots)$ could correspond to different $(\nkz,\ykz)$ for each $l_k$.
+(It would give us a lower bound for $\ul{P}(\Tsys > t\mid\ldots)$, however, but it might be very coarse.)
+
+Writing out Equation~\eqref{eq:25}, we get
+\begin{linenomath*}
+\begin{align}
+\lefteqn{P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)} \\
+ &= \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K
+    P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k}) \\
+ &= \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K
+    \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \\ & \hspace*{45ex}
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa)}\right)^{\nkn + 1} \\
+ &= \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K \label{eq:30}
+    \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \\ & \hspace*{17ex}
+    \left(\frac{\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^\kappa + (n_k-e_k) (\tnow)^\kappa }%
+               {\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^\kappa + (n_k-e_k-l_k-j) (\tnow)^\kappa + (l_k + j) t^\kappa }\right)^{%
+    \nkz + e_k + 1} 
+\end{align}
+\end{linenomath*}
+
+While it is clear that the lower bounds for $\ykz$ will lead to the lower system survival function,
+the role of $\nkz$ is not so clear.
+We therefore resort to numerical optimization of \eqref{eq:25} over $\{\nkz, k=1,\ldots,K\}$
+to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)$.
+
 
 
 \end{document}
