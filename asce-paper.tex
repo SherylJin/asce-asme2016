@@ -159,6 +159,9 @@ Invited for special issue ``The treatment of uncertainty in risk and reliability
 (special issue code SI022A), guest editors Luca Podolfillini, Bruno Sudret, Enrico Zio,
 in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems: Part A (Civil Engineering)
 
+***``For most ASCE journals, the maximum number of words and word-equivalents is 10,000 for technical papers''
+
+
 % slightly adapted ESREL abstract
 \begin{abstract}
 In reliability engineering, data about failure events is often scarce.
@@ -186,9 +189,47 @@ that appropriately reflects surprising data in the posterior system survival fun
 
 ***slightly adapted ESREL abstract, must be 150--175 words long (this has 226), may not contain references or mathematics.
 
+
 \section{Introduction}
 
-***reuse ESREL paper intro
+In reliability engineering, a central task is to describe the reliability of a complex system.
+This is usually done by determining the \emph{reliability function} $R(t)$,
+in other contexts also known as the \emph{survival function} $S(t)$,
+giving the probability that the system has not failed by time $t$:
+\begin{align}
+R_\text{sys}(t) = P(T_\text{sys} \geq t)\,,
+\end{align}
+where $T_\text{sys}$ is the random variable giving the failure time of the system. %
+%\footnote{}
+Based on the distribution of $T_\text{sys}$, which can also be expressed
+in terms of the cumulative distribution function $F_\text{sys}(t) = 1 - R_\text{sys}(t)$,
+the density $p_\text{sys}(t)$ or the hazard rate $\lambda_\text{sys}(t)$,
+decisions about, e.g., scheduling of maintenance work can be made.
+
+Often, there is no failure data for the system itself
+(e.g., if the system is a prototype, or the system is used under unique circumstances),
+but there is some information about failure times for the components the system is made of.
+Information on the distribution of component failure times $T_i$,
+where $i = 1, \ldots, n$ if the system consists of $n$ components,
+can then be used to derive the distribution of $T_\text{sys}$.
+In this paper, we consider*** a simple parallel system
+where all components are of the same type,
+and our observations consist solely of the failure times of one or more components in this system.
+%In the last section, we will briefly describe
+%how the approach can be generalized to arbitrary system structures
+%using the survival signature \cite{2012:survsign},
+%which allows for different types of components and
+%the inclusion of data from component tests, as in \citeNP{2014:bayessurvsign}.
+%
+We assume a parametric probability distribution for component lifetimes $T_i$. 
+The Bayesian approach allows to base estimation of the component failure distributions
+on both data and further knowledge not given by the data,
+the latter usually provided in the form of expert knowledge.
+This knowledge is encoded in form of a so-called prior distribution,
+a distribution on the parameter(s) of the component lifetime distribution.
+This expert knowledge is especially important when there is very few data on the components (like in our scenario),
+as only with its help meaningful estimates for the system reliability can be made.
+
 
 \section{Bayesian Analysis of Weibull Lifetimes}
 
