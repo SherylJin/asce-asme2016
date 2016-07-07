@@ -49,6 +49,7 @@
 \newcommand{\lFsys}{\ul{F}_\text{sys}}
 \newcommand{\uFsys}{\ol{F}_\text{sys}}
 
+\def\Rsys{R_\text{sys}}
 \def\Tsys{T_\text{sys}}
 
 \newcommand{\E}{\operatorname{E}}
@@ -197,44 +198,65 @@ This is usually done by determining the \emph{reliability function} $R(t)$,
 in other contexts also known as the \emph{survival function} $S(t)$,
 giving the probability that the system has not failed by time $t$:
 \begin{align}
-R_\text{sys}(t) = P(T_\text{sys} \geq t)\,,
+\Rsys(t) = P(\Tsys \geq t)\,,
 \end{align}
-where $T_\text{sys}$ is the random variable giving the failure time of the system. %
+where $\Tsys$ is the random variable giving the failure time of the system. %
 %\footnote{}
-Based on the distribution of $T_\text{sys}$, which can also be expressed
-in terms of the cumulative distribution function $F_\text{sys}(t) = 1 - R_\text{sys}(t)$,
+Based on the distribution of $\Tsys$, which can also be expressed
+in terms of the cumulative distribution function $F_\text{sys}(t) = 1 - \Rsys(t)$,
 the density $p_\text{sys}(t)$ or the hazard rate $\lambda_\text{sys}(t)$,
 decisions about, e.g., scheduling of maintenance work can be made.
 
 Often, there is no failure data for the system itself
 (e.g., if the system is a prototype, or the system is used under unique circumstances),
 but there is some information about failure times for the components the system is made of.
-Information on the distribution of component failure times $T_i$,
-where $i = 1, \ldots, n$ if the system consists of $n$ components,
-can then be used to derive the distribution of $T_\text{sys}$.
-In this paper, we consider*** a simple parallel system
-where all components are of the same type,
-and our observations consist solely of the failure times of one or more components in this system.
+We are able to analyse systems of arbitrary system structures, %layout of components,
+i.e., any combination and nesting of series, parallel, k-out-of-n, or bridge-type arrangements,
+by use of the survival signature \cite{2012:survsign}.
+In this paper, we assume that components can be divided into $K$ different groups,
+and components within each group $k$ ($k=1, \ldots, K$) can be assumed to follow the same failure time distribution.
+We denote components of group $k$ as \emph{type $k$ components},
+and assume independence between component types,
+such that failure times of components of different types are independent.
+We assume that type $k$ component lifetimes $T_i^k$ ($i = 1, \ldots, n_k$)
+are Weibull distributed, with type-specific parameters $\beta_k$ (shape) and $\lambda_k$ (scale).
+***type-specific shape not implemented yet!***
+
+Focusing on the prototype application,
+we assume that our observations consist solely of the failure times of components in this system up to time $\tnow$,
+such that the failure times of components that have not failed by $\tnow$ are right-censored,
+and calculate $\Rsys(t \mid t > \tnow) = P(\Tsys \geq t \mid t > \tnow)$,
+which can be used to determine the remaining useful life (in short RUL, see, e.g., ***) of the system.
+%This sparse information is complemented by expert information on component lifetimes $T_i^k$.
+
+The Bayesian approach allows to base estimation of the component failure distributions
+on both data and further knowledge not given by the data,
+the latter usually provided in the form of expert knowledge.
+This knowledge is encoded in form of a so-called prior distribution,
+a distribution on the parameter of the component lifetime distributions.
+This expert knowledge is especially important when there is very few data on the components (like in our scenario),
+as only with its help meaningful estimates for the system reliability can be made.
+
+***
+
+This work extends \ldots
+
+The paper is structured as follows:
+
 %In the last section, we will briefly describe
 %how the approach can be generalized to arbitrary system structures
 %using the survival signature \cite{2012:survsign},
 %which allows for different types of components and
 %the inclusion of data from component tests, as in \citeNP{2014:bayessurvsign}.
-%
-We assume a parametric probability distribution for component lifetimes $T_i$. 
-The Bayesian approach allows to base estimation of the component failure distributions
-on both data and further knowledge not given by the data,
-the latter usually provided in the form of expert knowledge.
-This knowledge is encoded in form of a so-called prior distribution,
-a distribution on the parameter(s) of the component lifetime distribution.
-This expert knowledge is especially important when there is very few data on the components (like in our scenario),
-as only with its help meaningful estimates for the system reliability can be made.
+%Information on the distribution of component failure times $T_i$,
+%where $i = 1, \ldots, n$ if the system consists of $n$ components,
+%can then be used to derive the distribution of $T_\text{sys}$.
 
 
 \section{Bayesian Analysis of Weibull Lifetimes}
 
 System with components of $k=1,\ldots,K$ different types.
-There are $n_k$ components of type $k$ in the system.
+There are $n_k$ exchangeable components of type $k$ in the system.
 
 For each $k$, component lifetimes ($i=1,\ldots,n_k$) are $T_i^k \mid \lambda_k \sim \wei(\kappa,\lambda_k)$,
 where $\kappa$ is fixed and known:
@@ -479,6 +501,42 @@ to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}
 *** cf paper from Frank 20ys ago (?)
 
 
+\pagebreak
+%
+%
+% Now we start the appendices, with the new section name, "Appendix", and a 
+%  new counter, "I", "II", etc.
+%
+\appendix\label{section:references}
+%
+% Here's the first appendix, the list of references:
+%
+\bibliography{refs}
+%
+%\cite{key}   produces citations with full author list and year 
+%\citeNP{key} produces citations with full author list and year, but without enclosing parentheses
+%\citeA{key}  produces citations with only the full author list
+%\citeN{key}  produces citations with the full author list and year, but
+%             which can be used as nouns in a sentence; no parentheses appear around
+%             the author names, but only around the year
+%\citeyear{key}   produces the year information only, within parentheses
+%\citeyearNP{key} produces the year information only
+%
+%
+% And now for some pretty impressive notation.  In this example, I have used
+%   the tabular environment to line up the columns in ASCE style.
+%   Note that this and all appendices (except the references) start with 
+%   the \section command
+%
+\section{Notation}
+\emph{The following symbols are used in this paper:}%\par\vspace{0.10in}
+\nopagebreak
+\par
+\begin{tabular}{r  @{\hspace{1em}=\hspace{1em}}  l}
+$D$                    & pile diameter (m); \\
+$R$                    & distance (m);      and\\
+$C_{\mathrm{Oh\;no!}}$ & fudge factor.
+\end{tabular}
 
 
 \end{document}
