@@ -204,7 +204,7 @@ where $\Tsys$ is the random variable giving the failure time of the system. %
 %\footnote{}
 Based on the distribution of $\Tsys$, which can also be expressed
 in terms of the cumulative distribution function $F_\text{sys}(t) = 1 - \Rsys(t)$,
-the density $p_\text{sys}(t)$ or the hazard rate $\lambda_\text{sys}(t)$,
+%the density $p_\text{sys}(t)$ or the hazard rate $\lambda_\text{sys}(t)$,
 decisions about, e.g., scheduling of maintenance work can be made.
 
 Often, there is no failure data for the system itself
@@ -233,15 +233,67 @@ The Bayesian approach allows to base estimation of the component failure distrib
 on both data and further knowledge not given by the data,
 the latter usually provided in the form of expert knowledge.
 This knowledge is encoded in form of a so-called prior distribution,
-a distribution on the parameter of the component lifetime distributions.
+a distribution on the parameters of the component lifetime distributions.
 This expert knowledge is especially important when there is very few data on the components (like in our scenario),
 as only with its help meaningful estimates for the system reliability can be made.
 
-***
+However, the choice for the prior distribution to encode the given expert knowledge is often debatable,
+and a specific choice of prior is difficult to justify.
+A way to deal with this is to employ sensitivity analysis,
+i.e., studying the effect of different choices of prior distribution on the quantities of interest
+(in our case, the system reliability function, which, in Bayesian terms, is a predictive distribution).
+This idea has been explored in systematic sensitivity analysis, or robust Bayesian methods
+(for an overview on this approach, see, e.g.,
+\citeNP{1994:berger} or \citeNP{2000:rios}). %\citeNP{2005:ruggeri}, \citeNP{2000:bergerinsuaruggeri}
 
-This work extends \ldots
+The work we present here can be seen as belonging to the robust Bayesian approach,
+as our work uses sets of priors. However, our focus and interpretation is slightly different,
+as we consider the result of our procedure, sets of reliability functions, as the proper result,
+while a robust Bayesian would base his analyses on a single reliability function from the set
+in case (s)he was able to conclude that quantities of interest are not `too sensitive' to the choice of prior.
+In contrast, our viewpoint is rooted in the theory of imprecise or interval probability \cite{1991:walley,itip},
+where sets of distributions are used to express the precision of probability statements themselves:
+the smaller the set, the more precise the probability statement.
+Indeed, the system reliability function $\Rsys(t)$ is a collection of probability statements,
+and a small set for $\Rsys(t)$ will indicate that we can quantify the reliability of the system quite precisely,
+while a large set will indicate that our knowledge about $\Tsys$ is rather shaky.
 
-The paper is structured as follows:
+In line with imprecise or interval probability methods, we will thus have, for each $t$,
+a lower reliability $\lRsys(t) = \ul{P}(T_\text{sys} \geq t)$,
+and an upper reliability $\uRsys(t) = \ol{P}(T_\text{sys} \geq t)$.
+We will explain in Sections~\ref{sec:modforsurpr} and *** how these bounds are obtained
+based on a set of prior distributions on the scale parameter of the component lifetime distribution.
+
+The central merit of our method is that it adequately reflects prior-data conflict
+(see, e.g., \citeNP{2006:evans}),
+i.e.\ the conflict that can arise between prior assumptions on component lifetimes
+and observed behaviour of components in the system under study.
+As we will show in Section~\ref{sec:weibull}, when taking the standard choice of a conjugate prior,
+prior-data conflict is ignored, as the spread of the posterior distribution does not increase in case of such a conflict,
+ultimately conveying a false sense of certainty
+by communicating that we can quantify the reliability of a system quite precisely when in fact we can not.
+%
+In contrast, our method will indicate prior-data conflict by wider bounds for $\Rsys(t)$.
+This behaviour is obtained by a specific choice for the set of priors (see \citeNP{Walter2009a} and \citeNP{diss} \S 3.1.4)
+which leads to larger sets of posterior distributions when prior knowledge and data are in conflict
+(see Section~\ref{sec:modforsurpr} for more details).
+
+This work extends \ldots ***
+
+***comment on shape parameter $\beta_k$ being fixed***
+
+We study the effect of surprisingly early or late component failures,
+%on the system reliability prediction,
+showing that observations in conflict to prior assumptions
+indeed lead to more cautious system reliability predictions.
+
+  
+The paper is organized as follows.
+In Section~\ref{sec:weibull}, we describe a Bayesian analysis for Weibull component lifetimes
+and illustrate the issue of prior-data conflict.
+Section~\ref{sec:modforsurpr} then details the use of sets of priors
+for the scale parameter $\lambda_k$ of the Weibull distribution,
+showing how this mitigates the prior-data conflict issue for $\lambda_k$.
 
 %In the last section, we will briefly describe
 %how the approach can be generalized to arbitrary system structures
@@ -254,6 +306,7 @@ The paper is structured as follows:
 
 
 \section{Bayesian Analysis of Weibull Lifetimes}
+\label{sec:weibull}
 
 System with components of $k=1,\ldots,K$ different types.
 There are $n_k$ exchangeable components of type $k$ in the system.
@@ -276,7 +329,8 @@ f_{\lambda_k}(\lambda_k\mid \alpha_k,\beta_k) &= \frac{(\beta_k)^{\alpha_k}}{\Ga
 In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
 
 
-\section{Sets of Priors}
+\section{Models reflecting surprising data / Sets of Priors}
+\label{sec:modforsurpr}
 
 Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
 
