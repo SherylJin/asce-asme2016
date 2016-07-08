@@ -294,6 +294,7 @@ and illustrate the issue of prior-data conflict.
 Section~\ref{sec:modforsurpr} then details the use of sets of priors
 for the scale parameter $\lambda_k$ of the Weibull distribution,
 showing how this mitigates the prior-data conflict issue for $\lambda_k$.
+***
 
 %In the last section, we will briefly describe
 %how the approach can be generalized to arbitrary system structures
@@ -311,19 +312,19 @@ showing how this mitigates the prior-data conflict issue for $\lambda_k$.
 System with components of $k=1,\ldots,K$ different types.
 There are $n_k$ exchangeable components of type $k$ in the system.
 
-For each $k$, component lifetimes ($i=1,\ldots,n_k$) are $T_i^k \mid \lambda_k \sim \wei(\kappa,\lambda_k)$,
-where $\kappa$ is fixed and known:
+For each $k$, component lifetimes ($i=1,\ldots,n_k$) are $T_i^k \mid \lambda_k \sim \wei(\beta_k,\lambda_k)$,
+where $\beta_k$ is fixed and known:
 \begin{linenomath*}
 \begin{align}
-f_k(t_i^k \mid \lambda_k) &= \frac{\kappa}{\lambda_k} (t_i^k)^{\kappa-1} e^{-\frac{(t_i^k)^{\kappa-1}}{\lambda_k}} \\
-F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\kappa}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)
+f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}} \\
+F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\beta_k}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)
 \end{align}
 \end{linenomath*}
 
-Conjugate prior is $\lambda_k \sim \ig(\alpha_k,\beta_k)$:
+Conjugate prior is $\lambda_k \sim \ig(a_k,b_k)$:
 \begin{linenomath*}
 \begin{align}
-f_{\lambda_k}(\lambda_k\mid \alpha_k,\beta_k) &= \frac{(\beta_k)^{\alpha_k}}{\Gamma(\alpha_k)} \lambda_k^{-\alpha_k -1} e^{-\frac{\beta_k}{\lambda_k}}
+f_{\lambda_k}(\lambda_k\mid a_k,b_k) &= \frac{(b_k)^{a_k}}{\Gamma(a_k)} \lambda_k^{-a_k -1} e^{-\frac{b_k}{\lambda_k}}
 \end{align}
 \end{linenomath*}
 In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
