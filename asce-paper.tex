@@ -214,7 +214,8 @@ We are able to analyse systems of arbitrary system structures, %layout of compon
 i.e., any combination and nesting of series, parallel, k-out-of-n, or bridge-type arrangements,
 by use of the survival signature \cite{2012:survsign}.
 In this paper, we assume that components can be divided into $K$ different groups,
-and components within each group $k$ ($k=1, \ldots, K$) can be assumed to follow the same failure time distribution.
+and components within each group $k$ ($k=1, \ldots, K$) can be assumed to be exchangeable,
+i.e., to follow the same failure time distribution.
 We denote components of group $k$ as \emph{type $k$ components},
 and assume independence between component types,
 such that failure times of components of different types are independent.
@@ -226,7 +227,8 @@ Focusing on the prototype application,
 we assume that our observations consist solely of the failure times of components in this system up to time $\tnow$,
 such that the failure times of components that have not failed by $\tnow$ are right-censored,
 and calculate $\Rsys(t \mid t > \tnow) = P(\Tsys \geq t \mid t > \tnow)$,
-which can be used to determine the remaining useful life (in short RUL, see, e.g., ***) of the system.
+which can be used to determine the remaining useful life of the system
+(in short RUL, see, e.g., \citeNP{2014:rul-review}).
 %This sparse information is complemented by expert information on component lifetimes $T_i^k$.
 
 The Bayesian approach allows to base estimation of the component failure distributions
@@ -234,7 +236,7 @@ on both data and further knowledge not given by the data,
 the latter usually provided in the form of expert knowledge.
 This knowledge is encoded in form of a so-called prior distribution,
 a distribution on the parameters of the component lifetime distributions.
-This expert knowledge is especially important when there is very few data on the components (like in our scenario),
+Expert knowledge is especially important when there is very few data on the components (like in our scenario),
 as only with its help meaningful estimates for the system reliability can be made.
 
 However, the choice for the prior distribution to encode the given expert knowledge is often debatable,
@@ -278,6 +280,12 @@ This behaviour is obtained by a specific choice for the set of priors (see \cite
 which leads to larger sets of posterior distributions when prior knowledge and data are in conflict
 (see Section~\ref{sec:modforsurpr} for more details).
 
+Due to the iterative nature of the Bayesian framework,
+it is possible to use a set of posteriors based on component test data as the set of priors
+instead of a purely expert-based set of priors as discussed so far.
+In that case, prior-data conflict sensitivity allows to uncover also a conflict between
+current observations in the running system and past observations from component tests.
+
 This work extends \ldots ***
 
 ***comment on shape parameter $\beta_k$ being fixed***
@@ -309,17 +317,25 @@ showing how this mitigates the prior-data conflict issue for $\lambda_k$.
 \section{Bayesian Analysis of Weibull Lifetimes}
 \label{sec:weibull}
 
-System with components of $k=1,\ldots,K$ different types.
-There are $n_k$ exchangeable components of type $k$ in the system.
-
-For each $k$, component lifetimes ($i=1,\ldots,n_k$) are $T_i^k \mid \lambda_k \sim \wei(\beta_k,\lambda_k)$,
-where $\beta_k$ is fixed and known:
+We consider a system with components of $k=1,\ldots,K$ different types;
+for each type $k$, there are $n_k$ exchangeable components in the system.
+For each type $k$ component, we assume for its lifetime $T_i^k$ ($i=1,\ldots,n_k$, $k = 1, \ldots, K$)
+a Weibull distribution with fixed shape parameter $\beta_k > 0$, with density and cdf%
+\footnote{Our approach would be possible also for other parametric lifetime distributions
+that form a canonical exponential family
+(see, e.g., \citeNP[p.~202 and 272f]{2000:bernardosmith}, or \citeNP[p.~8]{diss}).}
 \begin{linenomath*}
 \begin{align}
-f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}} \\
-F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\beta_k}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)
+f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\, \\
+F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\beta_k}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
 \end{linenomath*}
+%For each $k$, component lifetimes ($i=1,\ldots,n_k$) are
+in short $T_i^k \mid \lambda_k \sim \wei(\beta_k,\lambda_k)$.
+%where $\beta_k$ is fixed and known:
+
+
+
 
 Conjugate prior is $\lambda_k \sim \ig(a_k,b_k)$:
 \begin{linenomath*}
