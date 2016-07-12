@@ -320,30 +320,97 @@ showing how this mitigates the prior-data conflict issue for $\lambda_k$.
 We consider a system with components of $k=1,\ldots,K$ different types;
 for each type $k$, there are $n_k$ exchangeable components in the system.
 For each type $k$ component, we assume for its lifetime $T_i^k$ ($i=1,\ldots,n_k$, $k = 1, \ldots, K$)
-a Weibull distribution with fixed shape parameter $\beta_k > 0$, with density and cdf%
+a Weibull distribution with fixed shape parameter $\beta_k > 0$,
+in short $T_i^k \mid \lambda_k \sim \wei(\beta_k,\lambda_k)$,
+with density and cdf%
 \footnote{Our approach would be possible also for other parametric lifetime distributions
 that form a canonical exponential family
 (see, e.g., \citeNP[p.~202 and 272f]{2000:bernardosmith}, or \citeNP[p.~8]{diss}).}
 \begin{linenomath*}
 \begin{align}
-f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\, \\
+f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\,, \\
 F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\beta_k}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
 \end{linenomath*}
-%For each $k$, component lifetimes ($i=1,\ldots,n_k$) are
-in short $T_i^k \mid \lambda_k \sim \wei(\beta_k,\lambda_k)$.
-%where $\beta_k$ is fixed and known:
-
-
-
-
-Conjugate prior is $\lambda_k \sim \ig(a_k,b_k)$:
+where $\lambda_k > 0$ and $t > 0$.%
+\footnote{The shape parameter $\beta_k$ determines whether the hazard rate is increasing ($\beta_k > 1$)
+or decreasing ($\beta_k < 1$) over time.
+For $\beta_k=1$, we obtain the Exponential distribution with constant hazard rate as a special case.
+The value for $\beta_k$ will thus often be clear from practical considerations.}
+The scale parameter $\lambda_k$ can be interpreted through the relation
+\begin{linenomath*}
+\begin{align}
+\E[T_i^k \mid \lambda_k] &= \lambda_k^{1/\beta_k}\, \Gamma(1 + 1/\beta_k)\,.
+\label{eq:lambdainterpret}
+\end{align}
+\end{linenomath*}
+For encoding expert knowledge about the reliability of the components,
+we need to assign a prior distribution over the scale parameter $\lambda_k$.
+A convenient choice is to use the inverse Gamma distribution,
+commonly parametrized in terms of the hyperparameters $a_k > 0$ and $b_k > 0$:
+%Conjugate prior is $\lambda_k \sim \ig(a_k,b_k)$:
 \begin{linenomath*}
 \begin{align}
 f_{\lambda_k}(\lambda_k\mid a_k,b_k) &= \frac{(b_k)^{a_k}}{\Gamma(a_k)} \lambda_k^{-a_k -1} e^{-\frac{b_k}{\lambda_k}}
 \end{align}
 \end{linenomath*}
-In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
+in short, $\lambda_k \mid a_k, b_k \sim \ig(a_k,b_k)$.
+The inverse Gamma is convenient because it is a conjugate prior,
+i.e., the posterior obtained by Bayes' rule is again inverse Gamma and thus easily tractable;
+the prior parameters only need to be updated to obtain the posterior parameters.
+
+***drop $k$ for rest of this and next section?***
+
+In the standard Bayesian approach, 
+one has to fix a prior by choosing values for $a_k$ and $b_k$
+to encode specific prior information about component lifetimes.
+In our imprecise approach, we allow instead these parameters
+to vary in a set, this is advantageous also
+because expert knowledge is often vague,
+and it is difficult for the expert(s) to pin down precise hyperparameter values.
+For the definition of the hyperparameter set,
+we use however a parametrization in terms of $\nz > 1$ and $\yz > 0$ instead of $a_k$ and $b_k$,
+\begin{linenomath*}
+\begin{align}
+\nz &= \alpha - 1\,,
+&
+\yz &= \beta / \nz \,,
+\end{align}
+\end{linenomath*}
+where $\yz$ can be interpreted as the prior guess for the scale parameter $\lambda$,
+as $\E[\lambda\mid\nz,\yz] = \yz$.
+This parametrization also makes the nature of the combination
+of prior information and data through Bayes' rule more clear:
+After observing $n$ component lifetimes $\vec{t} = (t_1, \ldots, t_n)$,
+the updated parameters are
+\begin{linenomath*}
+\begin{align}
+\nn &= \nz + n\,, 
+&
+\yn &=  \frac{\nz \yz + \taut}{\nz + n}\,,
+\label{eq:ig-update}
+\end{align}
+\end{linenomath*}
+where $\taut = \sum_{i=1}^n t_i^k$. %
+%\footnote{
+We thus have
+\begin{linenomath*}
+\begin{align}
+\lambda \mid \nz, \yz, \vec{t} \sim \ig(\nz + n + 1, \nz \yz + \taut). %}
+\label{eq:ig-update-alpha}
+\end{align}
+\end{linenomath*}
+From the simple update rule \eqref{eq:ig-update}, we see that
+$\yn$ is a weighted average of the prior parameter $\yz$ and the Maximum Likelihood estimator $\taut/n$,
+with weights $\nz$ and $n$, respectively.
+$\nz$ can thus be interpreted as a prior strength or pseudocount,
+indicating how much our prior guess should weigh against the $n$ observations.
+Furthermore, $\V[\lambda\mid\nz,\yz] = (\yz)^2 / (1 - 1/\nz)$,
+so for fixed $\yz$, the higher $\nz$,
+the more probability mass is concentrated around $\yz$. %$p(\lambda\mid\nz,\yz)$ 
+
+
+%In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
 
 
 \section{Models reflecting surprising data / Sets of Priors}
