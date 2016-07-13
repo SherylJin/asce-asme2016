@@ -329,7 +329,7 @@ that form a canonical exponential family
 \begin{linenomath*}
 \begin{align}
 f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\,, \\
-F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^\beta_k}{\lambda_k}} = P_k(T_i^k \leq t_i^k \mid \lambda_k)\,,
+F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}} = P(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
 \end{linenomath*}
 where $\lambda_k > 0$ and $t > 0$.%
@@ -359,8 +359,6 @@ The inverse Gamma is convenient because it is a conjugate prior,
 i.e., the posterior obtained by Bayes' rule is again inverse Gamma and thus easily tractable;
 the prior parameters only need to be updated to obtain the posterior parameters.
 
-***drop $k$ for rest of this and next section?***
-
 In the standard Bayesian approach, 
 one has to fix a prior by choosing values for $a_k$ and $b_k$
 to encode specific prior information about component lifetimes.
@@ -370,13 +368,16 @@ because expert knowledge is often vague,
 and it is difficult for the expert(s) to pin down precise hyperparameter values.
 For the definition of the hyperparameter set,
 we use however a parametrization in terms of $\nz > 1$ and $\yz > 0$ instead of $a_k$ and $b_k$,
-\begin{linenomath*}
-\begin{align}
-\nz &= \alpha - 1\,,
-&
-\yz &= \beta / \nz \,,
-\end{align}
-\end{linenomath*}
+where we drop the index $k$ for the discussion about the prior model in the following,
+keeping in mind that each component type will have its own specific parameters.
+We use
+%\begin{linenomath*}
+%\begin{align}
+$\nz = a - 1$ and
+%&
+$\yz = b / \nz$,
+%\end{align}
+%\end{linenomath*}
 where $\yz$ can be interpreted as the prior guess for the scale parameter $\lambda$,
 as $\E[\lambda\mid\nz,\yz] = \yz$.
 This parametrization also makes the nature of the combination
@@ -391,7 +392,7 @@ the updated parameters are
 \label{eq:ig-update}
 \end{align}
 \end{linenomath*}
-where $\taut = \sum_{i=1}^n t_i^k$. %
+where $\taut = \sum_{i=1}^n (t_i)^\beta$. %
 %\footnote{
 We thus have
 \begin{linenomath*}
@@ -400,8 +401,9 @@ We thus have
 \label{eq:ig-update-alpha}
 \end{align}
 \end{linenomath*}
+%In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
 From the simple update rule \eqref{eq:ig-update}, we see that
-$\yn$ is a weighted average of the prior parameter $\yz$ and the Maximum Likelihood estimator $\taut/n$,
+$\yn$ is a weighted average of the prior parameter $\yz$ and the maximum likelihood (ML) estimator $\taut/n$,
 with weights $\nz$ and $n$, respectively.
 $\nz$ can thus be interpreted as a prior strength or pseudocount,
 indicating how much our prior guess should weigh against the $n$ observations.
@@ -409,8 +411,45 @@ Furthermore, $\V[\lambda\mid\nz,\yz] = (\yz)^2 / (1 - 1/\nz)$,
 so for fixed $\yz$, the higher $\nz$,
 the more probability mass is concentrated around $\yz$. %$p(\lambda\mid\nz,\yz)$ 
 
+However, the weighted average structure for $\yn$
+is behind the problematic behaviour in case of prior-data conflict.
+Assume that from expert knowledge we expect
+to have a mean component lifetime of 9 weeks.
+Using \eqref{eq:lambdainterpret}, with $\beta=2$ we obtain $\yz = 103.13$.
+We choose $\nz = 2$, so our prior guess for the mean component lifetime
+counts like having two observations with this mean.
+If we now have a sample of two observations
+with surprisingly early failure times $t_1 = 1$ and $t_2 = 2$,
+using \eqref{eq:ig-update} we get $\nfun{2} = 4$
+and $\yfun{2} = \frac{1}{4}(2 \cdot 103.13 + 1^2 + 2^2) = 52.82$,
+so our posterior expectation for the scale parameter $\lambda$ is $52.82$,
+equivalent to a mean component lifetime of $6.44$ weeks.
+The posterior standard deviation (sd) for $\lambda$ is $60.99$.
+Compared to the prior standard deviation of $145.85$,
+the posterior expresses now more confidence that mean lifetimes are around $\yfun{2} = 52.82$
+than the prior had about $\yz = 103.13$.
+This irritating conclusion is illustrated in Figure~\ref{fig:weibull-pdc};
+the posterior cdf is shifted halfway towards the values for $\lambda$
+that the two observations suggest
+(the ML estimator for $\lambda$ would be $2.5$),
+and is steeper than the prior (so the pdf is more pointed),
+thus conveying a false sense of certainty about $\lambda$.%
+\footnote{This is a general problem in Bayesian analysis with canonical conjugate priors.
+For such priors, the same update formula \eqref{eq:ig-update} applies,
+and so conflict is averaged out, for details see \citeN{Walter2009a} and \citeN[\S 3.1.4 and \S A.1.2]{diss}.}
+We would obtain almost the same %values of $\nfun{2}$ and $\yfun{2}$, and so the same 
+posterior distribution
+if we had assumed the mean component lifetime to be 7 weeks (so $\yz = 62.39$),
+and observed lifetimes $t_1 = 6$, $t_2 = 7$ in line with our expectations.
+It seems unreasonable to make the same probability statements on component lifetimes in these two fundamentally different scenarios.
 
-%In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
+\begin{figure}
+\includegraphics[width=0.48\textwidth]{fig1font}
+\caption{Prior and posterior cdf for $\lambda$ given surprising observations;
+the conflict between prior assumptions and data is averaged out,
+with a more pointed posterior giving a false sense of certainty.}
+\label{fig:weibull-pdc}
+\end{figure}
 
 
 \section{Models reflecting surprising data / Sets of Priors}
