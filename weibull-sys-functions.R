@@ -42,10 +42,10 @@ cpinvgamma <- function(x, n0, y0, ...)
 # tnow    time until the system is observed
 # fts     vector of length e giving the observed failure times,
 #         or NULL if no failures observed
-# kappa   fixed weibull shape parameter
+# beta    fixed weibull shape parameter
 # prior   whether the prior predictive should be calculated,
 #         when FALSE, fts is ignored 
-postpredC <- function(n0y0, kappa, n, fts, tnow, t, l, prior = FALSE){
+postpredC <- function(n0y0, beta, n, fts, tnow, t, l, prior = FALSE){
   if (t < tnow)
     stop("t must be larger than tnow")
   if(!prior){
@@ -59,29 +59,26 @@ postpredC <- function(n0y0, kappa, n, fts, tnow, t, l, prior = FALSE){
     stop("l can be at most n-e")
   nn <- n0y0[1] + e
   if(!prior)
-    nnyn <- n0y0[1]*n0y0[2] + (n-e)*tnow + sum(fts^kappa)
+    nnyn <- n0y0[1]*n0y0[2] + (n-e)*tnow + sum(fts^beta)
   else
     nnyn <- n0y0[1]*n0y0[2]
   j <- seq(0, n-e-l)
-  choose(n-e, l) * sum( (-1)^j * choose(n-e-l, j) * (nnyn/(nnyn + (l+j)*(t^kappa - tnow^kappa)))^(nn + 1))
+  choose(n-e, l) * sum( (-1)^j * choose(n-e-l, j) * (nnyn/(nnyn + (l+j)*(t^beta - tnow^beta)))^(nn + 1))
 }
 
 # calculates the probability mass function for C_t
-postpredCpmf <- function(n0y0, kappa, n, fts, tnow, t, prior = FALSE){
+postpredCpmf <- function(n0y0, beta, n, fts, tnow, t, prior = FALSE){
   l <- seq(0, n-length(fts))
   res <- numeric(length(l))
-  for (i in l) res[i+1] <- postpredC(n0y0, kappa, n, fts, tnow, t, i, prior = prior)
+  for (i in l) res[i+1] <- postpredC(n0y0, beta, n, fts, tnow, t, i, prior = prior)
   res <- array(res)
   dimnames(res)[[1]] <- l
   res
 }
 
-#postpredCpmf(n0y0_1, kappa, n_1, fts_1, tnow = 3, t = 4)
-
-
 # calculates the cumulative mass function for C_t
-postpredCcmf <- function(n0y0, kappa, n, fts, tnow, t, prior = FALSE){
-  pmf <- postpredCpmf(n0y0, kappa, n, fts, tnow, t, prior = prior)
+postpredCcmf <- function(n0y0, beta, n, fts, tnow, t, prior = FALSE){
+  pmf <- postpredCpmf(n0y0, beta, n, fts, tnow, t, prior = prior)
   cmf <- cumsum(pmf)
   cmf
 }
@@ -96,13 +93,13 @@ Ccmfplot <- function(cmf, add = FALSE, ylim = c(0,1), xlab = "l", ylab = "F(C = 
 
 
 # plots and prints the cmfs for the four 'corner' (n0,y0) pairs.
-fourCornersCcmf <- function(luckobj, kappa, n, fts, tnow, t, prior = FALSE){
+fourCornersCcmf <- function(luckobj, beta, n, fts, tnow, t, prior = FALSE){
   n0 <- n0(luckobj)
   y0 <- y0(luckobj)
-  tl <- postpredCcmf(n0y0 = c(n0[1], y0[2]), kappa = kappa, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
-  tr <- postpredCcmf(n0y0 = c(n0[2], y0[2]), kappa = kappa, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
-  bl <- postpredCcmf(n0y0 = c(n0[1], y0[1]), kappa = kappa, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
-  br <- postpredCcmf(n0y0 = c(n0[2], y0[1]), kappa = kappa, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
+  tl <- postpredCcmf(n0y0 = c(n0[1], y0[2]), beta = beta, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
+  tr <- postpredCcmf(n0y0 = c(n0[2], y0[2]), beta = beta, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
+  bl <- postpredCcmf(n0y0 = c(n0[1], y0[1]), beta = beta, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
+  br <- postpredCcmf(n0y0 = c(n0[2], y0[1]), beta = beta, n = n, fts = fts, tnow = tnow, t = t, prior = prior)
   Ccmfplot(tl, main = bquote(paste("n0 = [",.(n0[1]),",",.(n0[2]),"], y0 = [",.(round(y0[1],2)),",",.(round(y0[2],2)),"]")))
   Ccmfplot(tr, lty = 2, add = TRUE)
   Ccmfplot(bl, col = 2, add = TRUE)
@@ -120,7 +117,7 @@ fourCornersCcmf <- function(luckobj, kappa, n, fts, tnow, t, prior = FALSE){
   cat("br", paste(round(br,4), collapse = " "), "\n")
 }
 
-
+## TODO below: kappa -> beta 
 
 # calculates the system reliability / survival
 # this implements (25)

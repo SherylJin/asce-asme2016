@@ -1,7 +1,7 @@
-\documentclass[Journal,SectionNumbers,SingleSpace]{ascelike}
+\documentclass[Journal,SectionNumbers,SingleSpace,InsideFigs]{ascelike}
 
-\usepackage{subfigure}
-\usepackage{epsfig}
+%\usepackage{subfigure}
+%\usepackage{epsfig}
 %\usepackage{timesmt}
 
 \usepackage[utf8]{inputenc}
@@ -133,7 +133,7 @@
 \author{Gero Walter, Frank P.A. Coolen, Simme Douwe Flapper}
 
 \begin{document}
-\title{ROBUST REMAINING USEFUL LIFE FOR COMPLEX SYSTEMS\\ or\\ ROBUST BAYESIAN RELIABILITY FOR COMPLEX SYSTEMS\\ or \ldots}
+\title{ROBUST BAYESIAN RELIABILITY FOR COMPLEX SYSTEMS\\ or \ldots}
 
 \author{
 Gero Walter%
@@ -442,14 +442,17 @@ posterior distribution
 if we had assumed the mean component lifetime to be 7 weeks (so $\yz = 62.39$),
 and observed lifetimes $t_1 = 6$, $t_2 = 7$ in line with our expectations.
 It seems unreasonable to make the same probability statements on component lifetimes in these two fundamentally different scenarios.
-
+%
+%\iffalse
 \begin{figure}
-\includegraphics[width=0.48\textwidth]{fig1font}
+\centering
+\includegraphics[width=0.8\textwidth]{fig1}
 \caption{Prior and posterior cdf for $\lambda$ given surprising observations;
 the conflict between prior assumptions and data is averaged out,
 with a more pointed posterior giving a false sense of certainty.}
 \label{fig:weibull-pdc}
 \end{figure}
+%\fi
 
 
 \section{Models reflecting surprising data / Sets of Priors}
