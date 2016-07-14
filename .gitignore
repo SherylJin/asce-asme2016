@@ -160,3 +160,5 @@ TSWLatexianTemp*
 
 *~
 .Rproj.user
+.RData
+.Rhistory

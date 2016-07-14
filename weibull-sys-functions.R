@@ -31,6 +31,12 @@ cdinvgamma <- function(x, n0, y0, ...)
 cpinvgamma <- function(x, n0, y0, ...)
   pinvgamma(x, shape = n0+1, scale = n0*y0, ...)
 
+cpigforoptim <- function(ny, t, ...)
+  cpinvgamma(t, ny[1], ny[2], ...)
+
+cpigfornoptim <- function(n, y, t, ...)
+  cpinvgamma(t, n, y, ...)
+
 # function to calculate P(C_t = l | n^(0), y^(0), data),
 # the posterior predictive probability that l components function at time t
 # in the system observed until t_now (notion "of type k" dropped here)
