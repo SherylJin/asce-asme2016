@@ -328,8 +328,8 @@ that form a canonical exponential family
 (see, e.g., \citeNP[p.~202 and 272f]{2000:bernardosmith}, or \citeNP[p.~8]{diss}).}
 \begin{linenomath*}
 \begin{align}
-f_k(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\,, \\
-F_k(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}} = P(T_i^k \leq t_i^k \mid \lambda_k)\,,
+f(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\,, \\
+F(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}} = P(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
 \end{linenomath*}
 where $\lambda_k > 0$ and $t > 0$.%
@@ -351,7 +351,7 @@ commonly parametrized in terms of the hyperparameters $a_k > 0$ and $b_k > 0$:
 %Conjugate prior is $\lambda_k \sim \ig(a_k,b_k)$:
 \begin{linenomath*}
 \begin{align}
-f_{\lambda_k}(\lambda_k\mid a_k,b_k) &= \frac{(b_k)^{a_k}}{\Gamma(a_k)} \lambda_k^{-a_k -1} e^{-\frac{b_k}{\lambda_k}}
+f(\lambda_k\mid a_k,b_k) &= \frac{(b_k)^{a_k}}{\Gamma(a_k)} \lambda_k^{-a_k -1} e^{-\frac{b_k}{\lambda_k}}
 \end{align}
 \end{linenomath*}
 in short, $\lambda_k \mid a_k, b_k \sim \ig(a_k,b_k)$.
