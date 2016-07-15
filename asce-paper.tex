@@ -535,9 +535,31 @@ where the censoring process is independent of the failure process.
 \section{Robust Reliability for Complex Systems via the Survival Signature}
 \label{sec:robrel}
 
-***Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
+We now consider a system of arbitrary layout,
+consisting of components of $K$ types.
+This system is observed until time $\tnow$,
+leading to censored observations,
+and we will explain in Section~\ref{sec:lambdawithcens}
+how the scale parameter $\lambda_k$ for component type $k$
+can be estimated in this situation.
+%
+Section~\ref{sec:sysrelwithsurvsign} describes then
+how the system relibility function can be efficiently obtained using the survival signature.
+%
+For this, we need the posterior predictive distribution
+of the number of components function at times $t > \tnow$,
+which we will derive in Section~\ref{sec:postpred}.
+%
+Finally, in Section~\ref{sec:optimize} we describe how
+the lower and upper bound for the system reliability function
+are obtained when prior parameters $(\nkz,\ykz)$
+vary in sets $\PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$,
+defining sets $\MkZ$ of prior distributions over $\lambda_k$,
+as introduced in Section~\ref{sec:modforsurpr}.
 
-\subsection{Right-censored Lifetimes}
+
+\subsection{Bayesian Estimation of Component Scale Parameter with Right-censored Lifetimes}
+\label{sec:lambdawithcens}
 
 Observing a one of a kind system with $n_k$ components of type $k$ running until $\tnow$,
 where $e_k$ components have failed by $\tnow$, and $n_k - e_k$ components still function:
@@ -551,7 +573,6 @@ where $e_k$ components have failed by $\tnow$, and $n_k - e_k$ components still 
 ***change to general right-censoring? So $n_k-e_k \to c_k$, $e_k+c_k=n_k$,
 introduce sets of observed and censored?
 
-\subsection{Bayesian Estimation of Component Scale Parameter}
 
 Posterior:
 \begin{linenomath*}
@@ -578,7 +599,8 @@ so the posterior expectation for $\lambda$ is
 \end{align}
 \end{linenomath*}
 
-\subsection{RUL using the Survival Signature}
+\subsection{System Reliability using the Survival Signature}
+\label{sec:sysrelwithsurvsign}
 
 System survival calculated by %(see Risk Analysis paper eq. (7))
 \begin{linenomath*}
@@ -601,7 +623,9 @@ P(C^k_t = l_k\mid\nkz,\ykz)
 \end{linenomath*}
 under the assumption that components of the same type are independent given $\lambda_k$.
 
+
 \subsection{Posterior Predictive Distribution}
+\label{sec:postpred}
 
 For the situation with the system observed until $\tnow$, with data $\mbf{t}^k_{e_k;n_k}$,
 we need the posterior predictive probability $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$.
@@ -673,6 +697,9 @@ must be decreasing in $t$, as the remaining $n_k-e_k$ components continue to age
 and so the probability that $l_k$ of them remain operational must decrease.
 
 \subsection{Optimizing over Sets of Parameters}
+\label{sec:optimize}
+
+***Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
 
 %I would think that
 %$\min / \max_{(\nkz,\ykz) \in \PkZ} P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$
@@ -746,11 +773,16 @@ We therefore resort to numerical optimization of \eqref{eq:25} over $\{\nkz, k=1
 to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)$.
 
 
-\section{elicitation}
+\section{Elicitation of prior parameter sets}
 
 *** prior via pseudo-observations, can contain censored pseudo-data 
 
 *** cf paper from Frank \cite{1996:coolen::cens}
+
+\section{Examples}
+
+
+\section{Concluding Remarks}
 
 
 \pagebreak
