@@ -561,14 +561,19 @@ as introduced in Section~\ref{sec:modforsurpr}.
 \subsection{Bayesian Estimation of Component Scale Parameter with Right-censored Lifetimes}
 \label{sec:lambdawithcens}
 
-Observing a one of a kind system with $n_k$ components of type $k$ running until $\tnow$,
-where $e_k$ components have failed by $\tnow$, and $n_k - e_k$ components still function:
+Consider observing a prototype system until $\tnow$,
+where the system has $K$ different types of components,
+and for each type $k$ there are $n_k$ components in the system.
+Denoting the number of type $k$ components that have failed by $\tnow$ by $e_k$,
+there are $n_k - e_k$ components still functioning at $\tnow$.
+We denote the corresponding vector of observations by
 \begin{linenomath*}
 \begin{align}
 \mbf{t}^k_{e_k;n_k} &= \big( \underbrace{t^k_1, \ldots, t^k_{e_k}}_{e_k \text{failure times}},
-                             \underbrace{\tpnow, \ldots, \tpnow}_{n_k-e_k \text{censored obs.}} \big)
+                             \underbrace{\tpnow, \ldots, \tpnow}_{n_k-e_k \text{censored obs.}} \big)\,,
 \end{align}
 \end{linenomath*}
+where $t^+$ indicates a censored observation.
 
 ***change to general right-censoring? So $n_k-e_k \to c_k$, $e_k+c_k=n_k$,
 introduce sets of observed and censored?
