@@ -328,7 +328,9 @@ that form a canonical exponential family
 (see, e.g., \citeNP[p.~202 and 272f]{2000:bernardosmith}, or \citeNP[p.~8]{diss}).}
 \begin{linenomath*}
 \begin{align}
+\label{eq:weibulldens}
 f(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\,, \\
+\label{eq:weibullcdf}
 F(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}} = P(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
 \end{linenomath*}
@@ -352,6 +354,7 @@ commonly parametrized in terms of the hyperparameters $a_k > 0$ and $b_k > 0$:
 \begin{linenomath*}
 \begin{align}
 f(\lambda_k\mid a_k,b_k) &= \frac{(b_k)^{a_k}}{\Gamma(a_k)} \lambda_k^{-a_k -1} e^{-\frac{b_k}{\lambda_k}}
+\label{eq:ig-def}
 \end{align}
 \end{linenomath*}
 in short, $\lambda_k \mid a_k, b_k \sim \ig(a_k,b_k)$.
@@ -569,7 +572,7 @@ there are $n_k - e_k$ components still functioning at $\tnow$.
 We denote the corresponding vector of observations by
 \begin{linenomath*}
 \begin{align}
-\mbf{t}^k_{e_k;n_k} &= \big( \underbrace{t^k_1, \ldots, t^k_{e_k}}_{e_k \text{failure times}},
+\vec{t}^k_{e_k;n_k} &= \big( \underbrace{t^k_1, \ldots, t^k_{e_k}}_{e_k \text{failure times}},
                              \underbrace{\tpnow, \ldots, \tpnow}_{n_k-e_k \text{censored obs.}} \big)\,,
 \end{align}
 \end{linenomath*}
@@ -587,14 +590,14 @@ gives a term proportional to the density of the posterior distribution for $\lam
 % &\propto f_{\lambda_k}(\lambda_k)
 %          \big[ 1- F_k(\tnow\mid\lambda_k) \big]^{n_k-e_k}
 %          \prod_{i=1}^{e_k} f_k(t_i^k \mid \lambda_k) 
-f(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k})
+f(\lambda_k\mid\nkz,\ykz,\vec{t}^k_{e_k;n_k})
  &\propto f(\lambda_k)
           \big[ 1- F(\tnow\mid\lambda_k) \big]^{n_k-e_k}
           \prod_{i=1}^{e_k} f(t_i^k \mid \lambda_k) 
 \end{align}
 \end{linenomath*}
 Conjugacy is preserved and we get 
-$\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k} \sim \ig(\nkn + 1, \nkn\ykn)$, where
+$\lambda_k\mid\nkz,\ykz,\vec{t}^k_{e_k;n_k} \sim \ig(\nkn + 1, \nkn\ykn)$, where
 \begin{linenomath*}
 \begin{align}
 \nkn + 1 &= \nkz + e_k + 1 \\
@@ -616,104 +619,138 @@ are the updated parameters of the inverse gamma distribution.
 \subsection{System Reliability using the Survival Signature}
 \label{sec:sysrelwithsurvsign}
 
-System survival calculated by %(see Risk Analysis paper eq. (7))
-\begin{linenomath*}
-\begin{align}
-P(\Tsys > t) &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) P\Big( \bigcap_{k=1}^K \{ C^k_t = l_k\} \Big) \\
-\intertext{ and assuming components of different types are independent,}
-             &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K P(C^k_t = l_k)
-\end{align}
-\end{linenomath*}
-where the survival signature $\Phi(l_1,\ldots,l_K)$ is non-decreasing in each $l_k$ for coherent systems,
-and $P(C^k_t = l_k)$ is the (predictive) probability that exactly $l_k$ components of type $k$ function at time $t$.
+The structure of complex systems can be visualized by reliability block diagrams,
+an example is given in Figure~***.
+Components are represented by boxes or nodes,
+and the system works when a path from the left end to the right exists
+which passes only through working components.
+In a system with $n$ components, the state of the components can be expressed by the state vector
+$\vec{x} = (x_1,x_2,\ldots,x_n) \in \{0,1\}^n$, with $x_i=1$ if the $i$th component functions 
+and $x_i=0$ if not.
+The structure function $\phi : \{0,1\}^n \rightarrow \{0,1\}$, defined for all possible $\vec{x}$, takes 
+the value 1 if the system functions and 0 if the system does not function for state vector $\vec{x}$
+\cite{BP75}.
+Most real-life systems are coherent,
+which means that $\phi(\vec{x})$ is non-decreasing in any of the components of $\vec{x}$,
+so system functioning cannot be improved by worse performance of one or more of its components.
+Furthermore, one can usually assume that $\phi(0, \ldots, 0) = 0$ and $\phi(1, \ldots, 1) = 1$.
 
-A priori, we have, for $l_k = 0,1,\ldots, n_k$,
+The survival signature \cite{2012:survsign} is a summary of the structure function
+for systems with $K$ groups of exchangeable components.
+Denoted by $\Phi(l_1,\ldots,l_K)$, with $l_k=0,1,\ldots,n_k$ for $k=1,\ldots,K$,
+it is defined as the probability for the event that the system functions
+given that precisely $l_k$ of its $n_k$ components of type $k$ function, for each $k\in \{1,\ldots,K\}$.
+Essentially, this creates a $K$-dimensional partition for the event $\Tsys > t$,
+such that $\Rsys(t) = P(\Tsys > t)$ can be calculated using the law of total probability,
+%System survival calculated by %(see Risk Analysis paper eq. (7))
 \begin{linenomath*}
 \begin{align}
-P(C^k_t = l_k\mid\nkz,\ykz)
- &= { n_k \choose l_k} \int [F_k(t \mid\lambda_k)]^{n_k-l_k}
-                        [1 - F_k(t \mid\lambda_k)]^{l_k} f_{\lambda_k}(\lambda_k\mid\nkz,\ykz) \dd \lambda_k
+P(\Tsys > t) &= \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} P(\Tsys > t \mid C^1_t = l_1,\ldots, C^K_t = l_K)
+                                                                                  P\Big( \bigcap_{k=1}^K \{ C^k_t = l_k\} \Big) \nonumber\\
+             &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) P\Big( \bigcap_{k=1}^K \{ C^k_t = l_k\} \Big) \nonumber\\
+%\intertext{ and assuming components of different types are independent,}
+             &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K P(C^k_t = l_k)\,,
+\label{eq:sysrel-survsign}
 \end{align}
 \end{linenomath*}
-under the assumption that components of the same type are independent given $\lambda_k$.
+where $P(C^k_t = l_k)$ is the (predictive) probability that exactly $l_k$ components of type $k$ function at time $t$,
+and the last equality holds as we assume that components of different types are independent.
+Note that for coherent systems,
+the survival signature $\Phi(l_1,\ldots,l_K)$ is non-decreasing in each $l_k$.
+%
+%A priori, we have, for $l_k = 0,1,\ldots, n_k$,
+%\begin{linenomath*}
+%\begin{align}
+%P(C^k_t = l_k\mid\nkz,\ykz)
+% &= { n_k \choose l_k} \int [F_k(t \mid\lambda_k)]^{n_k-l_k}
+%                        [1 - F_k(t \mid\lambda_k)]^{l_k} f_{\lambda_k}(\lambda_k\mid\nkz,\ykz) \dd \lambda_k
+%\end{align}
+%\end{linenomath*}
+%under the assumption that components of the same type are independent given $\lambda_k$.
 
 
 \subsection{Posterior Predictive Distribution}
 \label{sec:postpred}
 
-For the situation with the system observed until $\tnow$, with data $\mbf{t}^k_{e_k;n_k}$,
-we need the posterior predictive probability $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$.
-
-For $l_k > n_k - e_k$, we must have $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k}) = 0$,
-as at most $n_k - e_k$ components can function for $t > \tnow$.
-
+In calculating the system reliability using \eqref{eq:sysrel-survsign},
+the component-specific predictive probabilities $P(C^k_t = l_k)$
+need to use all information available at time $\tnow$,
+which, in the Bayesian framework,
+are given by the posterior predictive distribution 
+$P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$, $l_k = 0, 1, \ldots, n_k-e_k$. %$k=1,\ldots, K$.
+(Remember that $e_k$ type $k$ components have failed by $\tnow$,
+such that there are at most $n_k-e_k$ working components at time $\tnow$.)
 %(Should one work with the subsystem consisting only of the non-failed $n_k - e_k$ components?)\\
-
-A posteriori, we have, for $l_k = 0,1,\ldots, n_k - e_k$,
+This posterior predictive distribution is obtained as
 \begin{linenomath*}
 \begin{align}
-P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})
- &= { n_k - e_k \choose l_k} \int [P_k(T \leq t \mid T > \tnow, \lambda_k)]^{n_k - e_k - l_k} \times \\ & \hspace*{2ex}
-                              [1 - P_k(T \leq t \mid T > \tnow, \lambda_k)]^{l_k}
-    f_{\lambda_k\mid\ldots}(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k}) \dd \lambda_k
+\lefteqn{%
+P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})}\hspace*{5ex} \nonumber\\  %
+ &= { n_k - e_k \choose l_k} \int \big[P(T^k >    t \mid T^k > \tnow, \lambda_k)\big]^{l_k} \times \nonumber\\ & \hspace*{17ex}
+                                  \big[P(T^k \leq t \mid T^k > \tnow, \lambda_k)\big]^{n_k - e_k - l_k}
+    f(\lambda_k\mid\nkz,\ykz,\vec{t}^k_{e_k;n_k}) \dd \lambda_k
+\label{eq:postpredtnow}
 \end{align}
 \end{linenomath*}
-
-Now,
+%
+Now, by the Weibull assumption \eqref{eq:weibullcdf}, we have
 \begin{linenomath*}
 \begin{align}
-P_k(T \leq t \mid T > \tnow, \lambda_k)
- &= \frac{P_k(\tnow < T \leq t \mid\lambda_k)}{P_k(T > \tnow \mid \lambda_k)}
-  = \frac{F_k(t\mid\lambda_k) - F_k(\tnow\mid\lambda_k)}{1-F_k(\tnow\mid\lambda_k)} \\
- &= \frac{e^{-\frac{(\tnow)^\kappa}{\lambda_k}} - e^{-\frac{t^\kappa}{\lambda_k}}}{e^{-\frac{(\tnow)^\kappa}{\lambda_k}}}
-  = 1 - e^{-\frac{t^\kappa - (\tnow)^\kappa}{\lambda_k}}
+P(T^k \leq t \mid T^k > \tnow, \lambda_k)
+ &= \frac{P(\tnow < T^k \leq t \mid\lambda_k)}{P(T^k > \tnow \mid \lambda_k)} \nonumber\\
+ &= \frac{F(t\mid\lambda_k) - F(\tnow\mid\lambda_k)}{1-F(\tnow\mid\lambda_k)} 
+% = \frac{e^{-\frac{(\tnow)^{\beta_k}}{\lambda_k}} - e^{-\frac{t^{\beta_k}}{\lambda_k}}}{e^{-\frac{(\tnow)^{\beta_k}}{\lambda_k}}}
+  = 1 - e^{-\frac{t^{\beta_k} - (\tnow)^{\beta_k}}{\lambda_k}}\,.
 \end{align}
 \end{linenomath*}
-
-With this and the posterior substituted in, we get
+%
+With this and the posterior \eqref{eq:ig-update-alpha} substituted into \eqref{eq:postpredtnow}, we get
 \begin{linenomath*}
 \begin{align}
-\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})} \\
- &= { n_k - e_k \choose l_k} \int \Big[1 - e^{-\frac{t^\kappa - (\tnow)^\kappa}{\lambda_k}}\Big]^{n_k - e_k - l_k}
-                                  \Big[    e^{-\frac{t^\kappa - (\tnow)^\kappa}{\lambda_k}}\Big]^{l_k} \times \\ & \hspace*{28ex}
-    \frac{[\nkn\ykn]^{\nkn + 1}}{\Gamma(\nkn+1)} \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{\nkn\ykn}{\lambda_k}} \dd \lambda_k \\
- &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j} \frac{[\nkn\ykn]^{\nkn + 1}}{\Gamma(\nkn+1)} 
-    \times \\ & \hspace*{25ex}
-    \int \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{(l_k + j) (t^\kappa - (\tnow)^\kappa) + \nkn\ykn}{\lambda_k}} \dd \lambda_k
+\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})}\hspace*{5ex} \\
+ &= { n_k - e_k \choose l_k} \int \Big[    e^{-\frac{t^{\beta_k} - (\tnow)^{\beta_k}}{\lambda_k}}\Big]^{l_k}
+                                  \Big[1 - e^{-\frac{t^{\beta_k} - (\tnow)^{\beta_k}}{\lambda_k}}\Big]^{n_k - e_k - l_k}\times\\&\hspace*{27ex}
+    \frac{\big(\nkn\ykn\big)^{\nkn + 1}}{\Gamma(\nkn+1)} \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{\nkn\ykn}{\lambda_k}} \dd \lambda_k \\
+ &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j} \frac{\big(\nkn\ykn\big)^{\nkn + 1}}{\Gamma(\nkn+1)} 
+    \times \\ & \hspace*{13ex}
+    \int \lambda_k^{-(\nkn + 1) - 1} \exp\Big\{-\frac{(l_k + j) (t^{\beta_k} - (\tnow)^{\beta_k}) + \nkn\ykn}{\lambda_k}\Big\} \dd \lambda_k\,.
 \end{align}
 \end{linenomath*}
-
-The terms remaining under the integral form the core of an $\ig(\nkn + 1, \nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa))$,
+%
+The terms remaining under the integral form the core of an inverse gamma distribution \eqref{eq:ig-def}
+with parameters $\nkn + 1$ and $\nkn\ykn + (l_k + j) (t^{\beta_k} - (\tnow)^{\beta_k}))$,
 allowing us to solve the integral using the corresponding normalization constant.
+We thus have, for $l_k \in \{0,1,\ldots,n_k-e_k\}$,
 \begin{linenomath*}
 \begin{align}
-\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})} \\
+\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})} \\
  &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j}
-    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa)}\right)^{\nkn + 1} \\
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) \big(t^{\beta_k} - (\tnow)^{\beta_k}\big)}\right)^{\nkn + 1} \\
  &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!}   
-    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) (t^\kappa - (\tnow)^\kappa)}\right)^{\nkn + 1} \\
- &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \\ & \hspace*{13ex}  
-    \left(\frac{\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^\kappa + (n_k-e_k) (\tnow)^\kappa }%
-               {\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^\kappa + (n_k-e_k-l_k-j) (\tnow)^\kappa + (l_k + j) t^\kappa }\right)^{%
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) \big(t^{\beta_k} - (\tnow)^{\beta_k}\big)}\right)^{\nkn + 1} \\
+ &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \\ & \hspace*{10ex}  
+    \left(\frac{\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^{\beta_k} + (n_k-e_k)       (\tnow)^{\beta_k} }%
+               {\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^{\beta_k} + (n_k-e_k-l_k-j) (\tnow)^{\beta_k} + (l_k + j) t^{\beta_k} }\right)^{%
     \nkz + e_k + 1} 
 \end{align}
 \end{linenomath*}
-for $l_k \in \{0,1,\ldots,n_k-e_k\}$.
 
-We actually need to compute only those $P(C^k_t = l_k\mid \ldots)$ with $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$.
+%Seen as function in $t$, we see that $t$ appears $n_k-e_k-l_k+1$ times,
+%once in each summand, in the denominator of the fraction powered to the $\nkn+1$,
+%and summands whith even $j$ are decreasing in $t$,
+%while summands whith odd $j$ are increasing in $t$.
+%Nevertheless, in total $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$
+%must be decreasing in $t$, as the remaining $n_k-e_k$ components continue to age,
+%and so the probability that $l_k$ of them remain operational must decrease.
 
-Seen as function in $t$, we see that $t$ appears $n_k-e_k-l_k+1$ times,
-once in each summand, in the denominator of the fraction powered to the $\nkn+1$,
-and summands whith even $j$ are decreasing in $t$,
-while summands whith odd $j$ are increasing in $t$.
-Nevertheless, in total $P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$
-must be decreasing in $t$, as the remaining $n_k-e_k$ components continue to age,
-and so the probability that $l_k$ of them remain operational must decrease.
+***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
 
 \subsection{Optimizing over Sets of Parameters}
 \label{sec:optimize}
 
 ***Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
+
+***We actually need to compute only those $P(C^k_t = l_k\mid \ldots)$ with $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$.
 
 %I would think that
 %$\min / \max_{(\nkz,\ykz) \in \PkZ} P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$
