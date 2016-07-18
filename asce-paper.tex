@@ -538,13 +538,13 @@ where the censoring process is independent of the failure process.
 We now consider a system of arbitrary layout,
 consisting of components of $K$ types.
 This system is observed until time $\tnow$,
-leading to censored observations,
+leading to censored observation of lifetimes of components within the system,
 and we will explain in Section~\ref{sec:lambdawithcens}
 how the scale parameter $\lambda_k$ for component type $k$
 can be estimated in this situation.
 %
 Section~\ref{sec:sysrelwithsurvsign} describes then
-how the system relibility function can be efficiently obtained using the survival signature.
+how the system reliability function can be efficiently obtained using the survival signature.
 %
 For this, we need the posterior predictive distribution
 of the number of components function at times $t > \tnow$,
@@ -573,36 +573,45 @@ We denote the corresponding vector of observations by
                              \underbrace{\tpnow, \ldots, \tpnow}_{n_k-e_k \text{censored obs.}} \big)\,,
 \end{align}
 \end{linenomath*}
-where $t^+$ indicates a censored observation.
+where $t^+$ indicates a right-censored observation.
+%
+%***change to general right-censoring? So $n_k-e_k \to c_k$, $e_k+c_k=n_k$,
+%introduce sets of observed and censored?
 
-***change to general right-censoring? So $n_k-e_k \to c_k$, $e_k+c_k=n_k$,
-introduce sets of observed and censored?
-
-
-Posterior:
+According to Bayes' rule, multiplying the prior density and the likelihood
+(which accounts for right-censored observations through the cdf terms)
+gives a term proportional to the density of the posterior distribution for $\lambda_k$:
 \begin{linenomath*}
 \begin{align}
-f_{\lambda_k\mid\ldots}(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k})
- &\propto f_{\lambda_k}(\lambda_k)
-          \big[ 1- F_k(\tnow\mid\lambda_k) \big]^{n_k-e_k}
-          \prod_{i=1}^{e_k} f_k(t_i^k \mid \lambda_k) 
+%f_{\lambda_k\mid\ldots}(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k})
+% &\propto f_{\lambda_k}(\lambda_k)
+%          \big[ 1- F_k(\tnow\mid\lambda_k) \big]^{n_k-e_k}
+%          \prod_{i=1}^{e_k} f_k(t_i^k \mid \lambda_k) 
+f(\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k})
+ &\propto f(\lambda_k)
+          \big[ 1- F(\tnow\mid\lambda_k) \big]^{n_k-e_k}
+          \prod_{i=1}^{e_k} f(t_i^k \mid \lambda_k) 
 \end{align}
 \end{linenomath*}
-and so $\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k} \sim \ig(\nkn + 1, \nkn\ykn)$, where
+Conjugacy is preserved and we get 
+$\lambda_k\mid\nkz,\ykz,\mbf{t}^k_{e_k;n_k} \sim \ig(\nkn + 1, \nkn\ykn)$, where
 \begin{linenomath*}
 \begin{align}
 \nkn + 1 &= \nkz + e_k + 1 \\
-\nkn\ykn &= \nkz\ykz + (n_k-e_k) \tnow^\kappa + \sum_{i=1}^{e_k} (t_i^k)^\kappa
+\nkn\ykn &= \nkz\ykz + (n_k-e_k) (\tnow)^\beta + \sum_{i=1}^{e_k} (t_i^k)^\beta
 \end{align}
 \end{linenomath*}
-so the posterior expectation for $\lambda$ is
-\begin{linenomath*}
-\begin{align}
-\E[\lambda_k\mid\nkn,\ykn] &= \ykn
-                            = \frac{\nkz}{\nkz + e_k} \ykz +
-                              \frac{e_k}{\nkz + e_k} \cdot \Big[\frac{n_k-e_k}{e_k} \tnow^\kappa + \frac{1}{e_k}\sum_{i=1}^{e_k} (t_i^k)^\kappa \Big]
-\end{align}
-\end{linenomath*}
+are the updated parameters of the inverse gamma distribution.
+%The posterior expectation for $\lambda_k$ is
+%\begin{linenomath*}
+%\begin{align}
+%\E[\lambda_k\mid\nkn,\ykn] &= \ykn
+%                            = \frac{\nkz}{\nkz + e_k} \ykz +
+%                              \frac{e_k}{\nkz + e_k} \cdot \Big[\frac{n_k-e_k}{e_k} (\tnow)^\beta 
+%                                                                    + \frac{1}{e_k} \sum_{i=1}^{e_k} (t_i^k)^\beta \Big]
+%\end{align}
+%\end{linenomath*}
+
 
 \subsection{System Reliability using the Survival Signature}
 \label{sec:sysrelwithsurvsign}
@@ -786,6 +795,7 @@ to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}
 
 \section{Examples}
 
+***from poster or similar
 
 \section{Concluding Remarks}
 
