@@ -90,7 +90,8 @@
 \def\nkz{n\uz_k}
 \def\nkn{n\un_k}
 \newcommand{\nkzfun}[1]{n\uz_{#1}}
-
+\newcommand{\nkzlfun}[1]{\ul{n}\uz_{#1}}
+\newcommand{\nkzufun}[1]{\ol{n}\uz_{#1}}
 
 \def\nzl{\ul{n}\uz}
 \def\nzu{\ol{n}\uz}
@@ -620,7 +621,7 @@ are the updated parameters of the inverse gamma distribution.
 \label{sec:sysrelwithsurvsign}
 
 The structure of complex systems can be visualized by reliability block diagrams,
-an example is given in Figure~***.
+an example is given in Figure~\ref{fig:bridge-layout}.
 Components are represented by boxes or nodes,
 and the system works when a path from the left end to the right exists
 which passes only through working components.
@@ -679,7 +680,7 @@ which, in the Bayesian framework,
 are given by the posterior predictive distribution 
 $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$, $l_k = 0, 1, \ldots, n_k-e_k$. %$k=1,\ldots, K$.
 (Remember that $e_k$ type $k$ components have failed by $\tnow$,
-such that there are at most $n_k-e_k$ working components at time $\tnow$.)
+such that there can be at most $n_k-e_k$ working components beyond time $\tnow$.)
 %(Should one work with the subsystem consisting only of the non-failed $n_k - e_k$ components?)\\
 This posterior predictive distribution is obtained as
 \begin{linenomath*}
@@ -707,12 +708,13 @@ P(T^k \leq t \mid T^k > \tnow, \lambda_k)
 With this and the posterior \eqref{eq:ig-update-alpha} substituted into \eqref{eq:postpredtnow}, we get
 \begin{linenomath*}
 \begin{align}
-\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})}\hspace*{5ex} \\
+\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})}\hspace*{5ex} \nonumber\\
  &= { n_k - e_k \choose l_k} \int \Big[    e^{-\frac{t^{\beta_k} - (\tnow)^{\beta_k}}{\lambda_k}}\Big]^{l_k}
-                                  \Big[1 - e^{-\frac{t^{\beta_k} - (\tnow)^{\beta_k}}{\lambda_k}}\Big]^{n_k - e_k - l_k}\times\\&\hspace*{27ex}
-    \frac{\big(\nkn\ykn\big)^{\nkn + 1}}{\Gamma(\nkn+1)} \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{\nkn\ykn}{\lambda_k}} \dd \lambda_k \\
+                                  \Big[1 - e^{-\frac{t^{\beta_k} - (\tnow)^{\beta_k}}{\lambda_k}}\Big]^{n_k - e_k - l_k}
+    \times \nonumber\\ & \hspace*{27ex}
+    \frac{\big(\nkn\ykn\big)^{\nkn + 1}}{\Gamma(\nkn+1)} \lambda_k^{-(\nkn + 1) - 1} e^{-\frac{\nkn\ykn}{\lambda_k}} \dd \lambda_k \nonumber\\
  &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j} \frac{\big(\nkn\ykn\big)^{\nkn + 1}}{\Gamma(\nkn+1)} 
-    \times \\ & \hspace*{13ex}
+    \times \nonumber\\ & \hspace*{13ex}
     \int \lambda_k^{-(\nkn + 1) - 1} \exp\Big\{-\frac{(l_k + j) (t^{\beta_k} - (\tnow)^{\beta_k}) + \nkn\ykn}{\lambda_k}\Big\} \dd \lambda_k\,.
 \end{align}
 \end{linenomath*}
@@ -723,18 +725,27 @@ allowing us to solve the integral using the corresponding normalization constant
 We thus have, for $l_k \in \{0,1,\ldots,n_k-e_k\}$,
 \begin{linenomath*}
 \begin{align}
-\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})} \\
+\lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})} \nonumber\\
  &= { n_k - e_k \choose l_k} \sum_{j=0}^{n_k-e_k-l_k} (-1)^j { n_k - e_k - l_k \choose j}
-    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) \big(t^{\beta_k} - (\tnow)^{\beta_k}\big)}\right)^{\nkn + 1} \\
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) \big(t^{\beta_k} - (\tnow)^{\beta_k}\big)}\right)^{\nkn + 1} \nonumber\\
  &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!}   
-    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) \big(t^{\beta_k} - (\tnow)^{\beta_k}\big)}\right)^{\nkn + 1} \\
- &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \\ & \hspace*{10ex}  
+    \left(\frac{\nkn\ykn}{\nkn\ykn + (l_k + j) \big(t^{\beta_k} - (\tnow)^{\beta_k}\big)}\right)^{\nkn + 1} \nonumber\\
+ &= \sum_{j=0}^{n_k-e_k-l_k} (-1)^j \frac{(n_k - e_k)!}{l_k! j! (n_k - e_k - l_k - j)!} \times \nonumber\\ & \hspace*{10ex}  
     \left(\frac{\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^{\beta_k} + (n_k-e_k)       (\tnow)^{\beta_k} }%
                {\nkz\ykz + \sum_{i=1}^{e_k} (t_i^k)^{\beta_k} + (n_k-e_k-l_k-j) (\tnow)^{\beta_k} + (l_k + j) t^{\beta_k} }\right)^{%
-    \nkz + e_k + 1} 
+    \nkz + e_k + 1}.
+\label{eq:postpred-priorparams}
 \end{align}
 \end{linenomath*}
-
+%
+These posterior predictive probabilities can also be expressed as a cumulative probability mass function (cmf) 
+\begin{linenomath*}
+\begin{align}
+F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k}) = P(C^k_t \leq l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k}) 
+ = \sum_{j=0}^{l_k} P(C^k_t = j \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})\,.
+%F_{C^k_t}(l_k \mid \ldots) = P(C^k_t \leq l_k\mid\ldots) = \sum_{q=0}^{l_k} P(C^k_t = q\mid\ldots)\,,
+\end{align}
+\end{linenomath*}
 %Seen as function in $t$, we see that $t$ appears $n_k-e_k-l_k+1$ times,
 %once in each summand, in the denominator of the fraction powered to the $\nkn+1$,
 %and summands whith even $j$ are decreasing in $t$,
@@ -743,65 +754,97 @@ We thus have, for $l_k \in \{0,1,\ldots,n_k-e_k\}$,
 %must be decreasing in $t$, as the remaining $n_k-e_k$ components continue to age,
 %and so the probability that $l_k$ of them remain operational must decrease.
 
-***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
 
 \subsection{Optimizing over Sets of Parameters}
 \label{sec:optimize}
 
-***Set of priors $\MkZ$ defined by $(\nkz,\ykz) \in \PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$.
-
-***We actually need to compute only those $P(C^k_t = l_k\mid \ldots)$ with $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$.
-
-%I would think that
-%$\min / \max_{(\nkz,\ykz) \in \PkZ} P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$
-%must be solved by numeric optimization for each $k, l_k, t$ 
-%because of the alternating signs for the summands.
-%(In absolute terms, each summand is increasing in $\ykz$, but not monotone in $\nkz$.)
-
-%(Box-constraint optimization possible, e.g., with option \texttt{L-BFGS-B} of \texttt{optim} in \textbf{R}.)
-Similar to the considerations about $t$, as higher values for $\ykz$ mean higher expected lifetimes for the components,
-the larger $\ykz$, the higher the probability that many components survive
-($P(C^k_t = l_k\mid\ldots)$ high for large $l_k$)
-and, with that, the lower the probability that few or no components survive
-($P(C^k_t = l_k\mid\ldots)$ low for small $l_k$).
-
-In terms of the cumulative probability mass function (cmf) for $C^k_t$, which can be written as 
+Together with \eqref{eq:postpred-priorparams},
+\eqref{eq:sysrel-survsign} allows us to calculate the system reliability $\Rsys(t\mid t>\tnow)$
+for fixed prior parameters $(\nkz, \ykz)$, $k=1, \ldots, K$.
+In Section~\ref{sec:modforsurpr}, we argued for using sets of priors $\MZ$,
+which allow for vague and incomplete prior knowledge, and provide prior-data conflict sensitivity.
+%
+We will thus use, for each component type,
+a set of priors $\MkZ$ defined by varying $(\nkz,\ykz)$ in a prior parameter set $\PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$,
+and we are interested in the bounds
+%This leads to a set of system reliability functions with the bounds
 \begin{linenomath*}
 \begin{align}
-%F_{C^k_t}(l_k \mid \nkz,\ykz, \mbf{t}^k_{e_k;n_k}) = P(C^k_t \leq l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k}) 
-% = \sum_{q=0}^{l_k} P(C^k_t = q\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})
-F_{C^k_t}(l_k \mid \ldots) = P(C^k_t \leq l_k\mid\ldots) = \sum_{q=0}^{l_k} P(C^k_t = q\mid\ldots)\,,
+\lRsys(t \mid t > \tnow) &= \min_{\PZi{1},\ldots,\PZi{K}} \Rsys\big(t \mid t > \tnow, \cup_{k=1}^K \{\PkZ, \vec{t}^k_{e_k;n_k}\}\big)\,,
+\label{eq:lrsysdef}\\
+\uRsys(t \mid t > \tnow) &= \max_{\PZi{1},\ldots,\PZi{K}} \Rsys\big(t \mid t > \tnow, \cup_{k=1}^K \{\PkZ, \vec{t}^k_{e_k;n_k}\}\big)\,,
+\label{eq:ursysdef}
 \end{align}
 \end{linenomath*}
-we therefore conclude that
-the lower cmf $\ul{F}(C^k_t = l_k\mid \ldots)$ must be obtained with the lower bounds for all $\ykz$, $k=1,\ldots,K$,
-and the upper cmf $\ol{F}(C^k_t = l_k\mid \ldots)$ must be obtained with the respective upper bounds.
+where we surpress in notation that $\lRsys(t \mid t > \tnow)$ and $\uRsys(t \mid t > \tnow)$
+depend on prior parameter sets and data.
 
-***proove rigorously (would need a kind of likelihood difference order)?
-%Do I get your comments right that based on lower and upper bounds
-%$\ul{P}(C^k_t = l_k\mid \ldots)$ and $\ol{P}(C^k_t = l_k\mid \ldots)$ for all $l_k = 0, 1, \ldots, n_k - e_k$,
-%we can easily get lower and upper bounds for the cdf $F_{C^k_t}(l_k \mid \ldots)$?
+\eqref{eq:lrsysdef} and \eqref{eq:ursysdef} seem to suggest that
+a full $2K$-dimensional box-constraint optimization is necessary,
+but this is not the case.
+Remember that $\Phi(l_1,\ldots,l_k)$ from \eqref{eq:sysrel-survsign} is non-decreasing in each of its arguments $l_1,\ldots,l_K$,
+so if there is stochastic dominance in $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$,
+then there is, for each component type $k$,
+a prior parameter pair in $\PkZ$ that minimizes system reliability, and
+a prior parameter pair in $\PkZ$ that maximizes system reliability,
+independently of the other component types. 
+%such that system reliability is
+%minimized by a distribution that gives most weight to low values of $l_k$, and
+%maximized by a distribution that gives most weight to high values of $l_k$.
+Indeed, stochastic dominance in $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ is provided for $\ykz$.
+To see this, note that $\ykz$ gives the mean expected lifetime for type $k$ components.
+Thus, higher values for $\ykz$ mean higher expected lifetimes for the components,
+which in turn increases the probability that many components survive until time $t$,
+and with it, decreases the propability of few or no components surviving,
+so in total giving low probability weight for low values of $l_k$,
+and high probability weight for high values of $l_k$. 
+We therefore conclude that, for any fixed value of $\nkz$,
+the lower bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzu$, and
+the upper bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzl$.
 
-Furthermore, higher expected lifetimes for the components must mean
-a longer system survival, so in turn the $\ul{F}_{C^k_t}(l_k \mid \ldots)$'s
-should give us the lower bound for $P(\Tsys > t\mid\ldots)$,
-and the $\ol{F}_{C^k_t}(l_k \mid \ldots)$'s the upper bound.
-Note that e.g.\ $\ul{F}_{C^k_t}(l_k \mid \ldots)$ may, however, not correspond to a single parameter pair $(\nkz, \ykz)$.
-Also, in the system survival equation ($t > \tnow$)
+***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
+I have it for inverse gamma posterior $f(\lambda_k\mid \nkz,\ykz, \vec{t}^k_{e_k;n_k})$,
+but not for posterior predictive***
+
+However, there is no corresponding reasoning for $\nkz$,
+such that different values of $\nkz$ may minimize (or maximize) $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ at different $l_k$'s.
+Therefore, the $\nkz$ values for lower and upper system reliability bounds are obtained by numeric optimization.
+%
+\iffalse %---------------------------
 \begin{linenomath*}
 \begin{align} \label{eq:25}
 \lefteqn{%
 P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)} \hspace*{10ex}\nonumber\\ 
  &= \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K
-    P(C^k_t = l_k\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})
+    P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})
 \end{align}
 \end{linenomath*}
 we cannot simply plug in all the $\ul{P}(C^k_t = l_k\mid \ldots)$ %and $\ol{P}(C^k_t = l_k\mid \ldots)$
 to get $\ul{P}(\Tsys > t\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$, % and $\ol{P}(\Tsys > t\mid\nkz,\ykz, \mbf{t}^k_{e_k;n_k})$,
 as the $\ul{P}(C^k_t = l_k\mid \ldots)$ could correspond to different $(\nkz,\ykz)$ for each $l_k$.
 (It would give us a lower bound for $\ul{P}(\Tsys > t\mid\ldots)$, however, but it might be very coarse.)
+%
+While it is clear that the lower bounds for $\ykz$ will lead to the lower system survival function,
+the role of $\nkz$ is not so clear.
+We therefore resort to numerical optimization of \eqref{eq:25} over $\{\nkz, k=1,\ldots,K\}$
+to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)$.
+\fi %---------------------------
 
-Writing out Equation~\eqref{eq:25}, we get
+Writing out \eqref{eq:sysrel-survsign}, we get
+\begin{linenomath*}
+\begin{align}
+\lRsys(t \mid t > \tnow)
+ &= \min_{\PZi{1},\ldots,\PZi{K}} \Rsys\big(t \mid t > \tnow, \cup_{k=1}^K \{\PkZ, \vec{t}^k_{e_k;n_k}\}\big) \nonumber\\
+ &= \min_{\substack{\nkzfun{1} \in \left[\nkzlfun{1}, \nkzufun{1}\right]\\ \vdots\\ \nkzfun{K} \in \left[\nkzlfun{K}, \nkzufun{K}\right]}}
+    \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K P(C^k_t = l_k\mid\nkz,\ykzl, \mbf{t}^k_{e_k;n_k})\,,
+\end{align}
+\end{linenomath*}
+such that a $K$-dimensional box-constraint optimization is needed to obtain $\lRsys(t \mid t > \tnow)$.
+The result for $\uRsys(t \mid t > \tnow)$ is completely analogous.
+Computing time can furthermore be saved
+by computing only those $P(C^k_t = l_k\mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$.
+
+\iffalse %---------------------------
 \begin{linenomath*}
 \begin{align}
 \lefteqn{P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)} \\
@@ -817,11 +860,7 @@ Writing out Equation~\eqref{eq:25}, we get
     \nkz + e_k + 1} 
 \end{align}
 \end{linenomath*}
-
-While it is clear that the lower bounds for $\ykz$ will lead to the lower system survival function,
-the role of $\nkz$ is not so clear.
-We therefore resort to numerical optimization of \eqref{eq:25} over $\{\nkz, k=1,\ldots,K\}$
-to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)$.
+\fi %---------------------------
 
 
 \section{Elicitation of prior parameter sets}
@@ -832,7 +871,48 @@ to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}
 
 \section{Examples}
 
-***from poster or similar
+***from poster, bridge type system Fig.~\ref{fig:bridge-layout}, or brake system from ijar paper?
+
+we use box-constraint optimization with option \texttt{L-BFGS-B} of \texttt{optim} in \textsf{R}.
+
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+[type1/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
+ type2/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
+ type3/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
+ cross/.style={cross out,draw=red,very thick,minimum width=7mm, minimum height=5mm},
+ hv path/.style={thick, to path={-| (\tikztotarget)}},
+ vh path/.style={thick, to path={|- (\tikztotarget)}}]
+%\begin{scope}[scale=0.75]
+\node[type1] (T3)   at ( 5.6, 0) {T3};
+\node[type2] (T2)   at ( 2.8, 0) {T2};
+\node[type3] (T1-2) at ( 1.4, 1) {T1};
+\node[type3] (T1-3) at ( 1.4,-1) {T1};
+\node[type3] (T1-5) at ( 4.2, 1) {T1};
+\node[type3] (T1-6) at ( 4.2,-1) {T1};
+\coordinate (start) at (0  ,0);
+\coordinate (end)   at (6.3,0);
+\coordinate (bista) at (0.7,0);
+\coordinate (biend) at (4.9,0);
+\path (bista)     edge[hv path] (start)
+                  edge[vh path] (T1-2.west)
+                  edge[vh path] (T1-3.west)
+      (T1-2.east) edge[hv path] (T2.north)
+      (T1-3.east) edge[hv path] (T2.south)
+      (T2.north)  edge[vh path] (T1-5.west)
+      (T2.south)  edge[vh path] (T1-6.west)
+      (biend)     edge[vh path] (T1-5.east)
+                  edge[vh path] (T1-6.east)
+                  edge[hv path] (T3.west)
+      (T3.east)   edge[hv path] (end);
+%\end{scope}
+\end{tikzpicture}
+\caption{Reliability block diagram for a `bridge' system with three component types.}
+\label{fig:bridge-layout}
+\end{figure}
+
 
 \section{Concluding Remarks}
 
@@ -864,6 +944,7 @@ to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}
 %   Note that this and all appendices (except the references) start with 
 %   the \section command
 %
+\iffalse
 \section{Notation}
 \emph{The following symbols are used in this paper:}%\par\vspace{0.10in}
 \nopagebreak
@@ -873,6 +954,6 @@ $D$                    & pile diameter (m); \\
 $R$                    & distance (m);      and\\
 $C_{\mathrm{Oh\;no!}}$ & fudge factor.
 \end{tabular}
-
+\fi
 
 \end{document}
