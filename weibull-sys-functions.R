@@ -318,21 +318,20 @@ sysrelPbox <- function(luckobjlist, survsign, beta, fts, tnow, tvec, nk = NULL, 
 # res  table of lower and upper system reliability values as output by sysrelPbox()
 plotSysrelPbox <- function(res, add = FALSE, ylim = c(0,1), xlab = "t", ylab = expression(R[sys](t)),
                            polygonBorderCol = NA, polygonFillCol = "grey", ...){
-  tvec <- res$tvec
+  tvec <- res[,1]
   if(!add){
     plot(c(min(tvec), max(tvec)), c(0,0), type = "n", ylim = ylim, xlab = "", ylab = "", ...)
     mtext(xlab, 1, 2)
     mtext(ylab, 2, 2)
   }
   tvecrev <- numeric(length(tvec))
-  lower <- res[,1]
+  lower <- res[,2]
   upper <- numeric(length(tvec))
   for (t in 1:length(tvec)){
     tvecrev[length(tvec)-t+1] <- tvec[t]
-    upper[length(tvec)-t+1] <- res[t,2]
+    upper[length(tvec)-t+1] <- res[t,3]
   }
   polygon(c(tvec, tvecrev), c(lower, upper), border = polygonBorderCol, col = polygonFillCol)
 }
-#
 
 #
