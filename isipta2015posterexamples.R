@@ -59,5 +59,11 @@ fourKcornersSysrelPlot(tvec = postertvec1, rframe = postercorners1$lower, add = 
 fourKcornersSysrelPlot(tvec = postertvec1, rframe = postercorners1$upper, add = TRUE, col = rgb(16,16,115, max =255))
 #dev.off()
 
+# lower and upper median: region around 0.5
+posterpbox1[posterpbox1[,2] < 0.51 & posterpbox1[,2] > 0.49,]
+posterpbox1[posterpbox1[,3] < 0.51 & posterpbox1[,3] > 0.49,]
+# closest to 0.5
+posterpbox1[which.min(abs(posterpbox1[,2] - 0.5)),] # 8.10
+posterpbox1[which.min(abs(posterpbox1[,3] - 0.5)),] # 9.95
 
 #
