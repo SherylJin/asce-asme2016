@@ -163,33 +163,39 @@ in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems: Part A (Civ
 
 ***``For most ASCE journals, the maximum number of words and word-equivalents is 10,000 for technical papers''
 
+***Abstract must be 150--175 words long (this has 175), may not contain references or mathematics.
 
-% slightly adapted ESREL abstract
 \begin{abstract}
 In reliability engineering, data about failure events is often scarce.
 To arrive at meaningful estimates for the reliability of a system,
 it is therefore often necessary to also include expert information in the analysis,
 which is straightforward in the Bayesian approach by using an informative prior distribution.
 %
-A problem that then can arise is called prior-data conflict:
-from the viewpoint of the prior, the observed data seem very surprising,
-i.e., the information from data is in conflict with the prior assumptions.
-It has been recognised that models based on conjugate priors can be insensitive to prior-data conflict,
+A problem called prior-data conflict then can arise:
+observed data seem very surprising from the viewpoint of the prior,
+i.e., information from data is in conflict with prior assumptions.
+Models based on conjugate priors can be insensitive to prior-data conflict,
 in the sense that the spread of the posterior distribution does not increase in case of such a conflict,
-thus conveying a false sense of certainty by communicating that we can quantify the reliability of a system quite precisely when in fact we cannot.
+thus conveying a false sense of certainty.
 %
 We present an approach to mitigate this issue, by considering sets of prior distributions
-to model vague knowledge on component lifetimes,
-and study how surprisingly early or late component failures
-affect the prediction of the reliability of a system with arbitrary layout,
-making use of survival signature to characterise the system under study.
+to model limited knowledge on Weibull distributed component lifetimes,
+treating systems with arbitary layout using the survival signature.
 Our approach can be seen as a robust Bayesian procedure or imprecise probability method
-that appropriately reflects surprising data in the posterior system survival function or other posterior inferences.
+that reflects surprisingly early or late component failures
+by wider system reliability bounds.
+%We show how surprisingly early or late component failures
+%result in wider system reliability bounds.
+%
+%and study how surprisingly early or late component failures
+%affect the prediction of the reliability of a system with arbitrary layout,
+%making use of survival signature to characterise the system under study.
+%Our approach can be seen as a robust Bayesian procedure or imprecise probability method
+%that appropriately reflects surprising data in the posterior system reliability function.
 \end{abstract}
+% by communicating that we can quantify the reliability of a system quite precisely when in fact we cannot.
 
-\KeyWords{System Reliability, Imprecise Probability, Survival Signature, Robust Bayesian, Remaining Useful Life}
-
-***slightly adapted ESREL abstract, must be 150--175 words long (this has 226), may not contain references or mathematics.
+\KeyWords{System Reliability, Imprecise Probability, Survival Signature, Robust Bayesian Methods, Remaining Useful Life}
 
 
 \section{Introduction}
