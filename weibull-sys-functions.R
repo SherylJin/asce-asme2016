@@ -154,7 +154,8 @@ sysrel <- function(n0y0, survsign, beta, fts, tnow, t, table = FALSE, nk = NULL,
   survsign2 <- survsign
   for (k in 1:K)
     survsign2 <- survsign2[survsign2[,k] <= (nk-ek)[k],]
-  survsign2 <- survsign2[survsign2$Probability > 0,]
+  if (dim(survsign2)[1] > 1)
+    survsign2 <- survsign2[survsign2$Probability > 0,]
   for (k in 1:K){ # for loop is probably slow
     survsign2$new <- NA
     newname <- paste("PCt",k,sep="")
@@ -292,7 +293,6 @@ sysrelLuck <- function(luckobjlist, survsign, beta, fts, tnow, t, returnasvec = 
 
 
 # calculates the the lower and upper system reliability function for vector of timepoints tvec
-# as grey area
 # luckobjlist list of K of prior luckmodel objetcs
 # survsign    data frame with the survival signature as output by computeSystemSurvivalSignature()
 # beta        vector of K fixed weibull shape parameters
@@ -332,6 +332,14 @@ plotSysrelPbox <- function(res, add = FALSE, ylim = c(0,1), xlab = "t", ylab = e
     upper[length(tvec)-t+1] <- res[t,3]
   }
   polygon(c(tvec, tvecrev), c(lower, upper), border = polygonBorderCol, col = polygonFillCol)
+}
+
+# produces survival signature matrix for one component of type "name",
+# for use in nonParBayesSystemInference()
+oneCompSurvSign <- function(name){
+  res <- data.frame(name=c(0,1), Probability=c(0,1))
+  names(res)[1] <- name
+  res
 }
 
 #

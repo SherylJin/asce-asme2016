@@ -16,9 +16,48 @@
 \usepackage{bm}
 
 \usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{booktabs}
 \usepackage{url}
 \usepackage{tikz}
-\usetikzlibrary{shapes.misc,fit}
+%\usetikzlibrary{shapes.misc,fit}
+\usetikzlibrary{%
+   arrows,%
+   calc,%
+   fit,%
+   patterns,%
+   plotmarks,%
+   shapes.geometric,%
+   shapes.misc,%
+   shapes.symbols,%
+   shapes.arrows,%
+   shapes.callouts,%
+   shapes.multipart,%
+   shapes.gates.logic.US,%
+   shapes.gates.logic.IEC,%
+   er,%
+   automata,%
+   backgrounds,%
+   chains,%
+   topaths,%
+   trees,%
+   petri,%
+   mindmap,%
+   matrix,%
+   calendar,%
+   folding,%
+   fadings,%
+   through,%
+   patterns,%
+   positioning,%
+   scopes,%
+   decorations.fractals,%
+   decorations.shapes,%
+   decorations.text,%
+   decorations.pathmorphing,%
+   decorations.pathreplacing,%
+   decorations.footprints,%
+   decorations.markings,%
+   shadows}
 
 %\usepackage[bookmarks]{hyperref}
 \usepackage[colorlinks=true,citecolor=red,linkcolor=black]{hyperref}
@@ -321,13 +360,19 @@ and illustrate the issue of prior-data conflict.
 Section~\ref{sec:modforsurpr} then details the use of sets of priors
 for the scale parameter $\lambda_k$ of the Weibull distribution,
 showing how this mitigates the prior-data conflict issue for $\lambda_k$.
-Section~\ref{sec:robrel} then exploits this model to calculate system reliability bounds for a running system. 
-To this end, Bayesian estimation of $\lambda_k$ under right-censored observations is covered in Section~\ref{sec:lambdawithcens},
-followed by a brief introduction to the survival signature (Section~\ref{sec:sysrelwithsurvsign}).
-Section~\ref{sec:postpred} then details how gathered information on component lifetimes
-is transfomed to the necessary form for use within the survival signature framework,
-and Section~\ref{sec:optimize} explains how lower and upper bounds for $\Rsys(t \mid t > \tnow)$
-are obtained by efficiently optimizing over the parameter sets that define the sets of priors.
+Section~\ref{sec:robrel} then develops a method to calculate system reliability bounds
+for a running system based on sets of priors for $\lambda_k$. 
+%To this end, Bayesian estimation of $\lambda_k$ under right-censored observations is covered in Section~\ref{sec:lambdawithcens},
+%followed by a brief introduction to the survival signature (Section~\ref{sec:sysrelwithsurvsign}).
+%Section~\ref{sec:postpred} then details how gathered information on component lifetimes
+%is transfomed to the necessary form for use within the survival signature framework,
+%and Section~\ref{sec:optimize} explains how lower and upper bounds for $\Rsys(t \mid t > \tnow)$
+%are obtained by efficiently optimizing over the parameter sets that define the sets of priors.
+Section~\ref{sec:elicitation} discusses elicitation,
+by giving guidelines on how to choose prior parameter bounds
+that reflect expert information on components;
+Section~\ref{sec:examples} contains examples illustrating ***.
+Section~\ref{sec:concluding} concludes the paper by *** 
 ***
 
 %In the last section, we will briefly describe
@@ -352,7 +397,7 @@ with density and cdf%
 \begin{linenomath*}
 \begin{align}
 \label{eq:weibulldens}
-f(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k-1}}{\lambda_k}}\,, \\
+f(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}}\,, \\
 \label{eq:weibullcdf}
 F(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}} = P(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
@@ -643,7 +688,7 @@ are the updated parameters of the inverse gamma distribution.
 \label{sec:sysrelwithsurvsign}
 
 The structure of complex systems can be visualized by reliability block diagrams,
-an example is given in Figure~\ref{fig:bridge-layout}.
+an example is given in Figure~\ref{fig:brakesys-layout}.
 Components are represented by boxes or nodes,
 and the system works when a path from the left end to the right exists
 which passes only through working components.
@@ -864,7 +909,8 @@ Writing out \eqref{eq:sysrel-survsign}, we get
 such that a $K$-dimensional box-constraint optimization is needed to obtain $\lRsys(t \mid t > \tnow)$.
 The result for $\uRsys(t \mid t > \tnow)$ is completely analogous.
 Computing time can furthermore be saved
-by computing only those $P(C^k_t = l_k\mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$.
+by computing only those %$P(C^k_t = l_k\mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for $l_k$'s for which $\Phi(l_1,\ldots,l_K) > 0$
+summation terms for which $\Phi(l_1,\ldots,l_K) > 0$.
 
 \iffalse %---------------------------
 \begin{linenomath*}
@@ -886,57 +932,155 @@ by computing only those $P(C^k_t = l_k\mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for $
 
 
 \section{Elicitation of prior parameter sets}
+\label{sec:elicitation}
 
-*** prior via pseudo-observations, can contain censored pseudo-data 
+To represent expert knowledge on component failure times
+through bounds for $\ykz$ and $\nkz$,
+we can refer to the interpretations as given in Section~\ref{sec:weibull}:
+$\ykz$ is the prior expected value of $\lambda_k$,
+where $\lambda_k$ is linked to expected component lifetimes through \eqref{eq:lambdainterpret}.
+$\nkz$ can be seen as pseudocount, indicating how strong expert knwoledge is trusted
+in comparison to a sample of size $n$.
+Our approach allows the expert to give ranges $[\ykzl, \ykzu]$ and $[\nkzl, \nkzu]$
+instead of forcing a precise answer.
 
-*** cf paper from Frank \cite{1996:coolen::cens}
+It is also possible to directly link $\nkz$ and $\ykz$
+to observed lifetimes using a prior predictive distribution.
+Dropping the component index $k$ for ease of notation, this is given by
+\begin{linenomath*}
+\begin{align}
+f(t\mid \nz, \yz)
+ &= \int f(t\mid \lambda) f(\lambda\mid\nz,\yz) \dd \lambda \nonumber\\
+ &= \beta\, t^{\beta - 1}\, (\nz + 1) \frac{(\nz \yz)^{\nz + 1}}{(\nz \yz + t^\beta)^{\nz + 2}} \,.
+\label{eq:tpriopred}
+\end{align}
+\end{linenomath*}
+Replacing the prior parameters $\nz$ and $\yz$
+with their posterior counterparts $\nn$ and $\yn$ as defined in \eqref{eq:ig-update},
+the effect of virtual observations on \eqref{eq:tpriopred}, or the corresponding reliability function, can be determined.
+This allows to determine $\nz$ and $\yz$ through a number of `what-if' scenarios,
+by asking the expert to state what (s)he would expect to learn from observing certain virtual data.
 
-\section{Examples}
+This strategy is known as pre-posterior analysis,
+being first advocated by \citeN[p.~19]{1965:good}.
+We recommend to check whether the effects of $\PkZ$ on the inference of interest
+(this may not always be the full reliability function)
+reasonably reflect an expert's beliefs before the data and in case some specific data become available,
+both data agreeing with initial beliefs and surprising data.
+Essentially, we advise to do an analysis like in our examples in Section~\ref{sec:examples} below,
+using hypothetical data.
 
-***from poster, bridge type system Fig.~\ref{fig:bridge-layout}, or brake system from ijar paper?
-
-we use box-constraint optimization with option \texttt{L-BFGS-B} of \texttt{optim} in \textsf{R}.
-
+To elicit a meaningful prior distribution, or a set of prior distributions,
+it is important to ask questions which enable experts to stay close to their actual expertise.
+\citeN{1996:coolen::cens} discussed the possibility of generalizing the usual conjugate prior distributions,
+for parameters of exponential family models, by including pseudo-data which are right-censored.
+If the real data set contains such values, then such generalized priors do not lead to more computational complexities,
+while they can have several advantages.
+In addition to providing slightly more general classes of prior distributions through an additional hyperparameter,
+they may enable more realistic elicitation of expert judgements,
+for example if the expert has no experience with certain components past a specific life time.
+For more details we refer to \citeN{1996:coolen::cens},
+it should be noted that adopting such generalized prior distributions
+may also provide more flexibility for modelling the effects of prior-data conflict,
+this is left as a topic for future research.
 
 \begin{figure}
 \centering
 \begin{tikzpicture}
-[type1/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
+[typeM/.style={rectangle,draw,fill=black!20,thick,inner sep=0pt,minimum size=8mm}, %font=\footnotesize},
+ typeC/.style={rectangle,draw,fill=black!20,thick,inner sep=0pt,minimum size=8mm}, %font=\footnotesize},
+ typeP/.style={rectangle,draw,fill=black!20,thick,inner sep=0pt,minimum size=8mm}, %font=\footnotesize},
+ typeH/.style={rectangle,draw,fill=black!20,thick,inner sep=0pt,minimum size=8mm}, %font=\footnotesize},
+ type1/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
  type2/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
  type3/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
  cross/.style={cross out,draw=red,very thick,minimum width=7mm, minimum height=5mm},
  hv path/.style={thick, to path={-| (\tikztotarget)}},
  vh path/.style={thick, to path={|- (\tikztotarget)}}]
-%\begin{scope}[scale=0.75]
-\node[type1] (T3)   at ( 5.6, 0) {T3};
-\node[type2] (T2)   at ( 2.8, 0) {T2};
-\node[type3] (T1-2) at ( 1.4, 1) {T1};
-\node[type3] (T1-3) at ( 1.4,-1) {T1};
-\node[type3] (T1-5) at ( 4.2, 1) {T1};
-\node[type3] (T1-6) at ( 4.2,-1) {T1};
-\coordinate (start) at (0  ,0);
-\coordinate (end)   at (6.3,0);
-\coordinate (bista) at (0.7,0);
-\coordinate (biend) at (4.9,0);
-\path (bista)     edge[hv path] (start)
-                  edge[vh path] (T1-2.west)
-                  edge[vh path] (T1-3.west)
-      (T1-2.east) edge[hv path] (T2.north)
-      (T1-3.east) edge[hv path] (T2.south)
-      (T2.north)  edge[vh path] (T1-5.west)
-      (T2.south)  edge[vh path] (T1-6.west)
-      (biend)     edge[vh path] (T1-5.east)
-                  edge[vh path] (T1-6.east)
-                  edge[hv path] (T3.west)
-      (T3.east)   edge[hv path] (end);
-%\end{scope}
+\begin{scope}[scale=1.5]
+\node[typeM] (M)    at ( 0  , 0  ) {M};
+\node[typeC] (C1)   at ( 1  , 1.5) {C1};
+\node[typeC] (C2)   at ( 1  , 0.5) {C2};
+\node[typeC] (C3)   at ( 1  ,-0.5) {C3};
+\node[typeC] (C4)   at ( 1  ,-1.5) {C4};
+\node[typeP] (P1)   at ( 2  , 1.5) {P1};
+\node[typeP] (P2)   at ( 2  , 0.5) {P2};
+\node[typeP] (P3)   at ( 2  ,-0.5) {P3};
+\node[typeP] (P4)   at ( 2  ,-1.5) {P4};
+\node[typeH] (H)    at ( 0  ,-1  ) {H};
+\coordinate (start)  at (-0.7, 0);
+\coordinate (startC) at ( 0.5, 0);
+\coordinate (startH) at (-0.4, 0);
+\coordinate (Hhop1)  at ( 0.4,-1);
+\coordinate (Hhop2)  at ( 0.6,-1);
+\coordinate (endP)   at ( 2.5, 0);
+\coordinate (end)    at ( 2.8, 0);
+\path (start)     edge[hv path] (M.west)
+      (M.east)    edge[hv path] (startC)
+      (startC)    edge[vh path] (C1.west)
+                  edge[vh path] (C2.west)
+                  edge[vh path] (C3.west)
+                  edge[vh path] (C4.west)
+      (C1.east)   edge[hv path] (P1.west)
+      (C2.east)   edge[hv path] (P2.west)
+      (C3.east)   edge[hv path] (P3.west)
+      (C4.east)   edge[hv path] (P4.west)
+      (endP)      edge[vh path] (P1.east)
+                  edge[vh path] (P2.east)
+                  edge[vh path] (P3.east)
+                  edge[vh path] (P4.east)
+                  edge[hv path] (end)
+      (startH)    edge[vh path] (H.west)
+      (H.east)    edge[hv path] (Hhop1)
+      (Hhop1)     edge[thick,out=90,in=90] (Hhop2)
+      (Hhop2)     edge[hv path] (P3.south)
+                  edge[hv path] (P4.north);
+\end{scope}
 \end{tikzpicture}
-\caption{Reliability block diagram for a `bridge' system with three component types.}
-\label{fig:bridge-layout}
+\caption{Reliability block diagram for a simplified automotive brake system.}
+\label{fig:brakesys-layout}
 \end{figure}
+
+\section{Examples}
+\label{sec:examples}
+
+%***brake system from ijar paper, Fig.~\ref{fig:brakesys-layout}
+As illustrative example, we consider a simplified automotive brake system with four types of component.
+The system layout is depicted in Figure~\ref{fig:brakesys-layout}.
+The master brake cylinder (M) activates all four wheel brake cylinders (C1 -- C4),
+which in turn actuate a braking pad assembly each (P1 -- P4).
+The hand brake mechanism (H) goes directly to the brake pad assemblies P3 and P4;
+the car brakes when at least one brake pad assembly is actuated.
+All values for $\Phi \not\in \{0,1\}$ for this system are given in Table~\ref{tab:brake-survsign}.
+
+\begin{table}
+\centering
+\begin{tabular}{cccclcccccl}
+  \toprule
+M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\ 
+  \midrule
+1 & 0 & 1 & 1 & 0.25 & & 1 & 0 & 2 & 1 & 0.50 \\ 
+1 & 0 & 1 & 2 & 0.50 & & 1 & 0 & 2 & 2 & 0.83 \\ 
+1 & 0 & 1 & 3 & 0.75 & & 1 & 0 & 3 & 1 & 0.75 \\ 
+0 & 1 & 0 & 1 & 0.50 & & 1 & 1 & 0 & 1 & 0.50 \\ 
+0 & 1 & 0 & 2 & 0.83 & & 1 & 1 & 0 & 2 & 0.83 \\ 
+0 & 1 & 1 & 1 & 0.62 & & 1 & 1 & 1 & 1 & 0.62 \\ 
+0 & 1 & 1 & 2 & 0.92 & & 1 & 1 & 1 & 2 & 0.92 \\ 
+0 & 1 & 2 & 1 & 0.75 & & 1 & 1 & 2 & 1 & 0.75 \\ 
+0 & 1 & 2 & 2 & 0.97 & & 1 & 1 & 2 & 2 & 0.97 \\ 
+0 & 1 & 3 & 1 & 0.88 & & 1 & 1 & 3 & 1 & 0.88 \\ 
+   \bottomrule
+\end{tabular}
+\caption{Survival signature values $\not\in \{0,1\}$ for the simplified automotive brake system depicted in Figure~\ref{fig:brakesys-layout}.}
+\label{tab:brake-survsign}
+\end{table}
+
+
+***we use box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim} in \textsf{R}.
 
 
 \section{Concluding Remarks}
+\label{sec:concluding}
 
 ***if we would also wish to learn about the shape pm, we could follow
 standard Bayesian approaches and use a finite discrete distribution for beta - developing this together
