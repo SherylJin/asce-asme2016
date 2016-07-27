@@ -997,7 +997,7 @@ this is left as a topic for future research.
  cross/.style={cross out,draw=red,very thick,minimum width=7mm, minimum height=5mm},
  hv path/.style={thick, to path={-| (\tikztotarget)}},
  vh path/.style={thick, to path={|- (\tikztotarget)}}]
-\begin{scope}[scale=1.5]
+\begin{scope}[xscale=1.5, yscale=1.2]
 \node[typeM] (M)    at ( 0  , 0  ) {M};
 \node[typeC] (C1)   at ( 1  , 1.5) {C1};
 \node[typeC] (C2)   at ( 1  , 0.5) {C2};
@@ -1074,6 +1074,15 @@ M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\
 \caption{Survival signature values $\not\in \{0,1\}$ for the simplified automotive brake system depicted in Figure~\ref{fig:brakesys-layout}.}
 \label{tab:brake-survsign}
 \end{table}
+
+***these prior assumptions for the four component types are visualized in Figure~\ref{fig:brake-comppriors}.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig4}
+\caption{Sets of prior predictive reliability functions for the four component types,
+illustrating the choice of prior parameter sets $\PkZ$.}
+\label{fig:brake-comppriors}
+\end{figure}
 
 
 ***we use box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim} in \textsf{R}.

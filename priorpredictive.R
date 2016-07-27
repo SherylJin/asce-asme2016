@@ -2,24 +2,6 @@
 # ASCE-ASME paper - prior predictive for t
 # --------------------------------------------------------------------------- #
 
-# prior predictive density
-prpr <- function(t, n0, y0, beta = 2)
-  beta * t^(beta - 1) * (n0 + 1) * (n0 * y0)^(n0 + 1) * (n0 * y0 + t^beta)^(-n0 - 2)
-
-# prior predictive reliability function, works only for t vectors starting at 0
-prprR <- function(t, n0, y0, beta = 2){
-  dens <- prpr(t = t, n0 = n0, y0 = y0, beta = beta)
-  1-cumsum(dens)/(length(t)/max(t)) # divide by evaluation points per unit
-}
-
-nn <- function(n0, fts)
-  n0 + length(fts)
-
-yn <- function(n0, y0, fts, beta)
-  (n0*y0 + sum(fts^beta))/(n0 + length(fts))
-
-# -------------------------------------
-
 tvec <- seq(0, 10, length.out = 101)
 
 pr1 <- prpr(tvec, 2, failuretolambda(5,2), 2)
