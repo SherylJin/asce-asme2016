@@ -96,6 +96,9 @@
 \newcommand{\wei}{\operatorname{Wei}} % Weibull Distribution
 \newcommand{\ig}{\operatorname{IG}}   % Inverse Gamma Distribution
 
+\newcommand{\El}{\ul{\operatorname{E}}}
+\newcommand{\Eu}{\ol{\operatorname{E}}}
+
 \def\yz{y\uz}
 \def\yn{y\un}
 %\def\yi{y\ui}
@@ -402,11 +405,13 @@ f(t_i^k \mid \lambda_k) &= \frac{\beta_k}{\lambda_k} (t_i^k)^{\beta_k-1} e^{-\fr
 F(t_i^k \mid \lambda_k) &= 1 - e^{-\frac{(t_i^k)^{\beta_k}}{\lambda_k}} = P(T_i^k \leq t_i^k \mid \lambda_k)\,,
 \end{align}
 \end{linenomath*}
-where $\lambda_k > 0$ and $t > 0$.%
-\footnote{The shape parameter $\beta_k$ determines whether the hazard rate is increasing ($\beta_k > 1$)
+where $\lambda_k > 0$ and $t > 0$.
+
+The shape parameter $\beta_k$ determines whether the hazard rate is increasing ($\beta_k > 1$)
 or decreasing ($\beta_k < 1$) over time.
-For $\beta_k=1$, we obtain the Exponential distribution with constant hazard rate as a special case.
-The value for $\beta_k$ will thus often be clear from practical considerations.}
+For $\beta_k=1$, one obtains the Exponential distribution with constant hazard rate as a special case.
+The value for $\beta_k$ will often be clear from practical considerations.
+
 The scale parameter $\lambda_k$ can be interpreted through the relation
 \begin{linenomath*}
 \begin{align}
@@ -930,6 +935,11 @@ summation terms for which $\Phi(l_1,\ldots,l_K) > 0$.
 \end{linenomath*}
 \fi %---------------------------
 
+We have implemented the method in \textsf{R},
+using box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim},
+and pan to release a package containing the code to reproduce all results and figures
+for the examples in Section~\ref{sec:examples}.
+
 
 \section{Elicitation of prior parameter sets}
 \label{sec:elicitation}
@@ -994,18 +1004,22 @@ this is left as a topic for future research.
  type1/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
  type2/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
  type3/.style={rectangle,draw,fill=black!20,very thick,inner sep=0pt,minimum size=8mm},
- cross/.style={cross out,draw=red,very thick,minimum width=7mm, minimum height=5mm},
+ cross/.style={cross out,draw=red,very thick,minimum width=9mm, minimum height=7mm},
  hv path/.style={thick, to path={-| (\tikztotarget)}},
  vh path/.style={thick, to path={|- (\tikztotarget)}}]
 \begin{scope}[xscale=1.5, yscale=1.2]
 \node[typeM] (M)    at ( 0  , 0  ) {M};
 \node[typeC] (C1)   at ( 1  , 1.5) {C1};
 \node[typeC] (C2)   at ( 1  , 0.5) {C2};
+\node[cross]        at ( 1  , 0.5) {};
 \node[typeC] (C3)   at ( 1  ,-0.5) {C3};
+\node[cross]        at ( 1  ,-0.5) {};
 \node[typeC] (C4)   at ( 1  ,-1.5) {C4};
 \node[typeP] (P1)   at ( 2  , 1.5) {P1};
 \node[typeP] (P2)   at ( 2  , 0.5) {P2};
+\node[cross]        at ( 2  , 0.5) {};
 \node[typeP] (P3)   at ( 2  ,-0.5) {P3};
+\node[cross]        at ( 2  ,-0.5) {};
 \node[typeP] (P4)   at ( 2  ,-1.5) {P4};
 \node[typeH] (H)    at ( 0  ,-1  ) {H};
 \coordinate (start)  at (-0.7, 0);
@@ -1037,7 +1051,8 @@ this is left as a topic for future research.
                   edge[hv path] (P4.north);
 \end{scope}
 \end{tikzpicture}
-\caption{Reliability block diagram for a simplified automotive brake system.}
+\caption{Reliability block diagram for a simplified automotive brake system,
+with those components marked that we assume to fail.}
 \label{fig:brakesys-layout}
 \end{figure}
 
@@ -1046,12 +1061,13 @@ this is left as a topic for future research.
 
 %***brake system from ijar paper, Fig.~\ref{fig:brakesys-layout}
 As illustrative example, we consider a simplified automotive brake system with four types of component.
-The system layout is depicted in Figure~\ref{fig:brakesys-layout}.
 The master brake cylinder (M) activates all four wheel brake cylinders (C1 -- C4),
 which in turn actuate a braking pad assembly each (P1 -- P4).
 The hand brake mechanism (H) goes directly to the brake pad assemblies P3 and P4;
 the car brakes when at least one brake pad assembly is actuated.
-All values for $\Phi \not\in \{0,1\}$ for this system are given in Table~\ref{tab:brake-survsign}.
+The system layout is depicted in Figure~\ref{fig:brakesys-layout},
+with those components marked that we assume to fail in each of the three cases studied below.
+The values for $\Phi \not\in \{0,1\}$ for the complete system are given in Table~\ref{tab:brake-survsign}.
 
 \begin{table}
 \centering
@@ -1075,7 +1091,12 @@ M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\
 \label{tab:brake-survsign}
 \end{table}
 
-***these prior assumptions for the four component types are visualized in Figure~\ref{fig:brake-comppriors}.
+We will use same prior setting with three different data scenarios,
+where we observe failure times in accordance with prior expectations in the first case,
+surprisingly early failures in the second case, and
+surprisingly late failures in the third case.
+In each case, we assume that C2, C3, P2 and P3 fail, vary only the failure times,
+and study their effect on the system reliability.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{fig4}
@@ -1084,8 +1105,77 @@ illustrating the choice of prior parameter sets $\PkZ$.}
 \label{fig:brake-comppriors}
 \end{figure}
 
+The prior assumptions for the four component types are visualized in Figure~\ref{fig:brake-comppriors},
+the corresponding prior parameter sets $\PkZ$, $k=\text{M}, \text{H}, \text{C}, \text{P}$
+are given in Table~\ref{tab:priorparamsets},
+where $\El[T_i^k]$ and $\Eu[T_i^k]$ give lower and upper bound for expected component lifetimes,
+which then have been transformed to bounds for the scale parameter using \eqref{eq:lambdainterpret}.
+%For the prior parameter sets $\PZi{\text{M}}$
 
-***we use box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim} in \textsf{R}.
+\begin{table}
+\centering
+\begin{tabular}{crrrrrrr}
+  \toprule
+$k$ & $\beta_k$ & $\El[T_i^k]$ & $\Eu[T_i^k]$ & $\ykzl$ & $\ykzu$ & $\nkzl$ & $\nkzu$ \\
+  \midrule
+M & $2.5$ & $5$\rule{1.5ex}{0ex} & $ 8$\rule{1.5ex}{0ex} & $75.4$ & $244.1$ & $2$\rule{1ex}{0ex} & $ 5$\rule{1ex}{0ex} \\
+H & $1.2$ & $2$\rule{1.5ex}{0ex} & $20$\rule{1.5ex}{0ex} & $ 2.5$ & $ 39.2$ & $1$\rule{1ex}{0ex} & $10$\rule{1ex}{0ex} \\
+C & $2  $ & $8$\rule{1.5ex}{0ex} & $10$\rule{1.5ex}{0ex} & $81.5$ & $127.3$ & $1$\rule{1ex}{0ex} & $ 5$\rule{1ex}{0ex} \\
+P & $1.5$ & $3$\rule{1.5ex}{0ex} & $ 4$\rule{1.5ex}{0ex} & $ 6.1$ & $  9.3$ & $1$\rule{1ex}{0ex} & $10$\rule{1ex}{0ex} \\
+  \bottomrule
+\end{tabular}
+\caption{Prior parameter sets for the four component types.}
+\label{tab:priorparamsets}
+\end{table}
+
+In the first case, we observe $t_1^\text{C} = 6$, $t_2^\text{C} = 7$, $t_1^\text{P} = 3$, $t_2^\text{P} = 4$,
+and observe the running system until $\tnow = 8$,
+i.e., $t_1^\text{M} = t_1^\text{H} = t_3^\text{C} = t_4^\text{C} = t_3^\text{P} = t_4^\text{P} = 8^+$.
+***Notation as ordered, not to component numbers***
+These observations correspond more or less to prior expectations,
+and the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-1}.
+***some discussion***
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig5a}
+\caption{Sets of posterior predictive reliability functions for the four component types
+for observations in line with prior expectations.}
+\label{fig:comppost-1}
+\end{figure}
+
+For the second case, with $t_1^\text{C} = 1$, $t_2^\text{C} = 2$, $t_1^\text{P} = 0.5$, $t_2^\text{P} = 1$
+and $\tnow = 2$, we assume to observe surprisingly early failures;
+the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-2}.
+***some discussion***
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig6a}
+\caption{Sets of posterior predictive reliability functions for the four component types
+for surprisingly early failures.}
+\label{fig:comppost-2}
+\end{figure}
+
+For the third case, we assume to observe surprisingly late failures,
+namely $t_1^\text{C} = 11$, $t_2^\text{C} = 12$, $t_1^\text{P} = 8$, $t_2^\text{P} = 9$, and $\tnow = 12$;
+the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-3}.
+***some discussion***
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig7a}
+\caption{Sets of posterior predictive reliability functions for the four component types
+for surprisingly late failures.}
+\label{fig:comppost-3}
+\end{figure}
+
+Figure~\ref{fig:brake-sysrels} depicts the set of prior system reliability functions,
+together with the sets of posterior system reliabilty function for the three cases.
+***some discussion***
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig8}
+\caption{Sets of prior and posterior system reliability functions for the three cases.*** }
+\label{fig:brake-sysrels}
+\end{figure}
 
 
 \section{Concluding Remarks}

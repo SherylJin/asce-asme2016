@@ -157,10 +157,10 @@ sysrel <- function(n0y0, survsign, beta, fts, tnow, t, table = FALSE, nk = NULL,
   if (dim(survsign2)[1] > 1)
     survsign2 <- survsign2[survsign2$Probability > 0,]
   for (k in 1:K){ # for loop is probably slow
-    survsign2$new <- NA
-    newname <- paste("PCt",k,sep="")
+    survsign2$tmp <- NA
+    tmpname <- paste("PCt",k,sep="")
     ncols <- length(survsign2)
-    names(survsign2) <- c(names(survsign2)[-ncols], newname)
+    names(survsign2) <- c(names(survsign2)[-ncols], tmpname)
     for (i in 1:dim(survsign2)[1]){
       survsign2[i,ncols] <- postpredC(n0y0 = n0y0[[k]], beta = beta[k], n = nk[k],
                                       fts = fts[[k]], tnow = tnow, t = t, l = survsign2[i,k], prior = prior)
