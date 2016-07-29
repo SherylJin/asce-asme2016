@@ -175,18 +175,16 @@
 
 \allowdisplaybreaks
 
-\title{Notes for ISIPTA poster}
-\author{Gero Walter, Frank P.A. Coolen, Simme Douwe Flapper}
 
 \begin{document}
-\title{ROBUST BAYESIAN RELIABILITY FOR COMPLEX SYSTEMS\\ or \ldots}
+\title{ROBUST BAYESIAN RELIABILITY FOR COMPLEX SYSTEMS UNDER PRIOR-DATA CONFLICT}
 
 \author{
 Gero Walter%
 \thanks{
 School of Industrial Engineering,
 Eindhoven University of Technology, Eindhoven, The Netherlands.
-E-mail: g.walter@tue.nl.},
+E-mail: g.walter@tue.nl. Corresponding author.},
 \ Ph.D.
 \\
 and
@@ -196,20 +194,17 @@ Department of Mathematical Sciences,
 Durham University, Durham, United Kingdom.
 E-mail: frank.coolen@durham.ac.uk.},
 \ Ph.D.
-\\
-and ???
 }
 
 \maketitle
 
-Invited for special issue ``The treatment of uncertainty in risk and reliability modelling and decision making''
-(special issue code SI022A), guest editors Luca Podolfillini, Bruno Sudret, Enrico Zio,
-in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems: Part A (Civil Engineering)
-
-***``For most ASCE journals, the maximum number of words and word-equivalents is 10,000 for technical papers''
-
-***Abstract must be 150--175 words long (this has 175), may not contain references or mathematics.
-
+%Invited for special issue ``The treatment of uncertainty in risk and reliability modelling and decision making''
+%(special issue code SI022A), guest editors Luca Podolfillini, Bruno Sudret, Enrico Zio,
+%in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems: Part A (Civil Engineering)
+%
+%***``For most ASCE journals, the maximum number of words and word-equivalents is 10,000 for technical papers''
+%***Abstract must be 150--175 words long (this has 175), may not contain references or mathematics.
+%
 \begin{abstract}
 In reliability engineering, data about failure events is often scarce.
 To arrive at meaningful estimates for the reliability of a system,
@@ -1133,7 +1128,7 @@ having been put under risk at time $0$, will have failed by time $t$.
 The top left graph in Figure~\ref{fig:brake-sysrels} shows what the prior assumptions on components
 signify for the system, depicting the prior bounds for the system reliability %before the system has started
 on a scale of time elapsed since system startup.
-For example, the prior probability of the system to survive until time $10$ is between $***$ and $***$.
+For example, the prior probability of the system to survive until time $10$ is between $0.03$\% and $6.91$\%.
 %calender time scale, where $t = 0$ is the time when the system starts to run.
 
 \begin{figure}
@@ -1163,7 +1158,7 @@ For easy comparisons, Figure~\ref{fig:comppost-1} also contains the prior bounds
 \begin{figure}
 \includegraphics[width=\textwidth]{fig5a}
 \caption{Sets of posterior predictive reliability functions for the four component types
-for observations in line with prior expectations.}
+for observations in line with prior expectations (case~1).}
 \label{fig:comppost-1}
 \end{figure}
 
@@ -1174,60 +1169,98 @@ showing the effect of having seen the four observations
 $t_1^\text{C} = 6$, $t_2^\text{C} = 7$, $t_3^\text{C} = t_4^\text{C} = 8^+$.
 The bounds for P have not narrowed as much;
 this is due to the two right-censored observations $t_3^\text{P} = t_4^\text{P} = 8^+$;
-from the prior assumptions, surviving past time 8 is already quite unusual.
+from the viewpoint of the prior, surviving past time 8 is already quite unusual.
 
 \subsection{Case 2: surprisingly early failure times}
 \label{sec:ex-case2}
 
-For the second case, with $t_1^\text{C} = 1$, $t_2^\text{C} = 2$, $t_1^\text{P} = 0.5$, $t_2^\text{P} = 1$
-and $\tnow = 2$, we assume to observe surprisingly early failures;
+For the second case, with $t_1^\text{C} = 1$, $t_2^\text{C} = 2$, $t_1^\text{P} = 0.25$, $t_2^\text{P} = 0.5$
+and $\tnow = 2$ (so $t_1^\text{M} = t_1^\text{H} = t_3^\text{C} = t_4^\text{C} = t_3^\text{P} = t_4^\text{P} = 2^+$),
+we assume to observe surprisingly early failures;
 the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-2}.
-***some discussion***
-
+%
 \begin{figure}
 \includegraphics[width=\textwidth]{fig6a}
 \caption{Sets of posterior predictive reliability functions for the four component types
-for surprisingly early failures.}
+for surprisingly early failures (case~2).}
 \label{fig:comppost-2}
 \end{figure}
+%
+Having observed the system only until $t = 2$, our data is not very informative,
+such that prior and posterior predictive reliability bounds are very similar.
+For C, the effect of the early failures is however still visible,
+and posterior imprecision, i.e., the range between lower and upper posterior bound, is notably larger
+as compared to prior imprecision, and substantially larger that posterior imprecision in case~1.
+The effect for P is less pronounced,
+mainly because observing $\vec{t}^\text{P} = (0.25, 0.5, 2^+, 2^+)$ for P is not as extreme
+as observing $\vec{t}^\text{C} = (1, 2, 2^+, 2^+)$ for C.
 
 \subsection{Case 3: surprisingly late failure times}
 \label{sec:ex-case3}
 
 For the third case, we assume to observe surprisingly late failures,
-namely $t_1^\text{C} = 11$, $t_2^\text{C} = 12$, $t_1^\text{P} = 8$, $t_2^\text{P} = 9$, and $\tnow = 12$;
+namely $t_1^\text{C} = 11$, $t_2^\text{C} = 12$, $t_1^\text{P} = 8$, $t_2^\text{P} = 9$,
+and $\tnow = 12$ (so $t_1^\text{M} = t_1^\text{H} = t_3^\text{C} = t_4^\text{C} = t_3^\text{P} = t_4^\text{P} = 12^+$);
 the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-3}.
-***some discussion***
-
+%
 \begin{figure}
 \includegraphics[width=\textwidth]{fig7a}
 \caption{Sets of posterior predictive reliability functions for the four component types
-for surprisingly late failures.}
+for surprisingly late failures (case~3).}
 \label{fig:comppost-3}
 \end{figure}
+%
+Having observed the system for a much longer time than in case 2,
+our data is much more informative,
+resulting in considerable differences between prior and posterior bounds. %predictive reliability
+The effect of these surprisingly late failures is most prominent for P,
+with a set considerably shifted to the right and having very wide posterior bounds.
+The posterior set for C also indicates that,
+after having seen these late failures, we expect type C components to fail much later.
+This effect is also visible for M and H,
+but is weaker for them as there is only one component of each in the system.
 
 \subsection{Reliability bounds for the running system}
 \label{sec:ex-sysrel}
 
-Figure~\ref{fig:brake-sysrels} depicts the set of prior system reliability functions,
-together with the sets of posterior system reliability function for the three cases.
-***some discussion***
-
 \begin{figure}
 \includegraphics[width=\textwidth]{fig8}
-\caption{Sets of prior and posterior system reliability functions for the three cases.*** }
+\caption{Sets of prior and posterior system reliability functions for the three cases
+on a time showing time elapsed since system startup.}
 \label{fig:brake-sysrels}
 \end{figure}
-
-Figure~\ref{fig:brake-sysrels-imprecision} shows $\uRsys(t) - \lRsys(t)$ ***
-
+%
+Figure~\ref{fig:brake-sysrels} depicts the set of prior system reliability functions,
+together with the sets of posterior system reliability function for the three cases,
+on a scale of elapsed time since system startup.
+Due to this time scale, posterior system reliability is 1 at $\tnow$,
+as we know that the system has survived until $\tnow = 8, 2, 12$ in each of the three cases.
+For all three cases, the posterior bounds drop faster after $\tnow$ than the prior bounds drop after $t = 0$
+since the components in the system have aged until $\tnow$ and so are expected to fail sooner.
+In the case of surprisingly early failures, posterior bounds are mostly within prior bounds,
+this is due to $\tnow$ being close to $0$ and weakly informative data in this scenario;
+the posterior bounds are nevertheless wider than those for case~1;
+posterior bounds are widest for case~3.
+%
 \begin{figure}
-\centering
-\includegraphics[width=0.8\textwidth]{fig9}
-\caption{Imprecision of prior and posterior system reliability sets.*** }
+%\centering
+\includegraphics[width=\textwidth]{fig9}
+\caption{Imprecision of prior and posterior system reliability sets.}
 \label{fig:brake-sysrels-imprecision}
 \end{figure}
-
+%
+This most visible in Figure~\ref{fig:brake-sysrels-imprecision},
+which shows $\uRsys(t) - \lRsys(t)$, the difference between upper and lower bound
+of prior and posterior system reliability.
+The left panel shows imprecision on the scale of elapsed time since system startup like in Figure~\ref{fig:brake-sysrels};
+the right panel instead on the scale of prospective time,
+indicating how far in the future periods are for which estimation of system reliability is most uncertain.
+We see that posterior imprecision is indeed considerably lower in case~1,
+where we had observed failures more or less like expected.
+On a prospective timescale, we see that periods of heightened uncertainty are closer to the present for the posteriors,
+while uncertainty is considerably reduced for periods further in the future.
+%This has interesting indications for maintenance planning,
+%where uncertainty about system failure in the near future
 
 \section{Concluding Remarks}
 \label{sec:concluding}

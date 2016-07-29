@@ -132,7 +132,7 @@ dev.off()
 
 
 # data 2: early failure times ---------------------------------------------------------------- #
-brfts2 <- list(c(1, 2), NULL, NULL, c(0.5, 1))
+brfts2 <- list(c(1, 2), NULL, NULL, c(0.25, 0.5))
 tnow2 <- 2
 
 # components posterior # CHMP
@@ -253,16 +253,32 @@ fig8
 dev.off()
 
 # plot of sysrel prior / posterior imprecision
-fig9 <- ggplot(br4df, aes(x = tvec)) + theme_bw() + ylim(0, 1) + ijarcol + #ijarfill + 
-#  geom_ribbon(aes(ymin = lower, ymax = upper, group = Item, colour = Item, fill = Item), alpha = 0.5) +
-#  geom_line(aes(y = lower, group = Item, colour = Item)) + 
-  geom_line(aes(y = upper-lower, group = interaction(Item, Panel), colour = Item, lty = Panel)) + # facet_wrap(~Panel, nrow=2) + 
-  xlab(expression(t)) + ylab(bquote(bar(R)[sys](t) - ~underline(R)[sys](t)))
+brpost1e <- brpost1
+brpost1e[,1] <- brpost1e[,1] - tnow1
+brpost2e <- brpost2
+brpost2e[,1] <- brpost2e[,1] - tnow2
+brpost3e <- brpost3
+brpost3e[,1] <- brpost3e[,1] - tnow3
+br5df <- rbind(data.frame(br4df, Panel2 = "Elapsed time"),
+               data.frame(brprio,  Panel = "Prior", Item = "Prior", Panel2 = "Prospective time"),
+               #data.frame(brprio,  Panel = "Failures as expected", Item = "Prior", Panel2 = "Prospective time"),
+               data.frame(brpost1e, Panel = "Failures as expected", Item = "Posterior", Panel2 = "Prospective time"),
+               #data.frame(brprio,  Panel = "Surprisingly early failures", Item = "Prior", Panel2 = "Prospective time"),
+               data.frame(brpost2e, Panel = "Surprisingly early failures", Item = "Posterior", Panel2 = "Prospective time"),
+               #data.frame(brprio,  Panel = "Surprisingly late failures", Item = "Prior", Panel2 = "Prospective time"),
+               data.frame(brpost3e, Panel = "Surprisingly late failures", Item = "Posterior", Panel2 = "Prospective time"))
+#br4dfe <- br4df
+#br4dfe$tvec <- 
+#br5df <- rbind(data.frame(br4df, Panel2 = "Elapsed time"), data.frame(br4dfe, Panel2 = "Elapsed time"))
+               
+fig9 <- ggplot(br5df, aes(x = tvec)) + theme_bw() + ylim(0, 1) + ijarcol + rightlegend + #ijarfill + 
+  geom_line(aes(y = upper-lower, group = interaction(Item, Panel), colour = Item, lty = Panel)) +
+  facet_wrap(~Panel2, nrow=1) + xlab(expression(t)) + ylab(bquote(bar(R)[sys](t) - ~underline(R)[sys](t)))
 fig9
 
 #setEPS()
 #postscript("fig9.eps",width=8,height=6)
-pdf("fig9.pdf", width=6, height=3)
+pdf("fig9.pdf", width=8, height=3)
 fig9
 dev.off()
 
