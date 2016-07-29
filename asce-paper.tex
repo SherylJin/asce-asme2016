@@ -221,7 +221,7 @@ thus conveying a false sense of certainty.
 %
 An approach to mitigate this issue is presented, by considering sets of prior distributions
 to model limited knowledge on Weibull distributed component lifetimes,
-treating systems with arbitary layout using the survival signature.
+treating systems with arbitrary layout using the survival signature.
 This approach can be seen as a robust Bayesian procedure or imprecise probability method
 that reflects surprisingly early or late component failures
 by wider system reliability bounds.
@@ -240,14 +240,17 @@ by wider system reliability bounds.
 
 
 \section{Introduction}
-
+\label{sec:intro}
+%
 In reliability engineering, a central task is to describe the reliability of a complex system.
 This is usually done by determining the \emph{reliability function} $R(t)$,
 in other contexts also known as the \emph{survival function},
 giving the probability that the system has not failed by time $t$:
+\begin{linenomath*}
 \begin{align}
 \Rsys(t) = P(\Tsys \geq t)\,,
 \end{align}
+\end{linenomath*}
 where $\Tsys$ is the random variable giving the failure time of the system. %
 %\footnote{}
 Based on the distribution of $\Tsys$, which can also be expressed
