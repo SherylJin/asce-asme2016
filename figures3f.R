@@ -246,4 +246,20 @@ fig8
 pdf("fig8.pdf", width=8, height=6)
 fig8
 dev.off()
+
+# plot of sysrel prior / posterior imprecision
+fig9 <- ggplot(br4df, aes(x = tvec)) + theme_bw() + ylim(0, 1) + ijarcol + #ijarfill + 
+#  geom_ribbon(aes(ymin = lower, ymax = upper, group = Item, colour = Item, fill = Item), alpha = 0.5) +
+#  geom_line(aes(y = lower, group = Item, colour = Item)) + 
+  geom_line(aes(y = upper-lower, group = interaction(Item, Panel), colour = Item, lty = Panel)) + # facet_wrap(~Panel, nrow=2) + 
+  xlab(expression(t)) + ylab(bquote(bar(R)[sys](t) - ~underline(R)[sys](t)))
+fig9
+
+#setEPS()
+#postscript("fig9.eps",width=8,height=6)
+pdf("fig9.pdf", width=6, height=3)
+fig9
+dev.off()
+
+
 #
