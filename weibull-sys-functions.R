@@ -341,34 +341,67 @@ prpr <- function(t, n0, y0, beta = 2)
   beta * t^(beta - 1) * (n0 + 1) * (n0 * y0)^(n0 + 1) * (n0 * y0 + t^beta)^(-n0 - 2)
 
 # prior predictive reliability function, works only for t vectors starting at 0
-prprR <- function(t, n0, y0, beta = 2){
-  dens <- prpr(t = t, n0 = n0, y0 = y0, beta = beta)
+prprRold <- function(t, n0, y0, beta = 2){
+  dens <- pmax(prpr(t = t, n0 = n0, y0 = y0, beta = beta), 0)
   1-cumsum(dens)/(length(t)/max(t)) # divide by evaluation points per unit
 }
 
-nn <- function(n0, fts)
-  n0 + length(fts)
-
-yn <- function(n0, y0, fts, beta, n = length(fts), tnow = max(fts))
-  (n0*y0 + (n - length(fts))*tnow^beta + sum(fts^beta))/(n0 + length(fts))
-# set fts = NULL when no failures occurred
-
-# prior predictive reliability function, works only for t vectors starting at 0
-prprRluck <- function(tvec, luckobj, beta = 2){
-  l1 <- prprR(tvec, n0(luckobj)[1], y0(luckobj)[1], beta)
-  l2 <- prprR(tvec, n0(luckobj)[2], y0(luckobj)[1], beta)
-  u1 <- prprR(tvec, n0(luckobj)[1], y0(luckobj)[2], beta)
-  u2 <- prprR(tvec, n0(luckobj)[2], y0(luckobj)[2], beta)
-  data.frame(tvec = tvec, lower = pmin(l1, l2), upper = pmax(u1, u2))
+# prior predictive reliability function with numerical integration
+prprR <- function(t, n0, y0, beta = 2){
+  1 - sapply(t, function(sgt) integrate(f = prpr, lower = 1e-5, upper = sgt, n0 = n0, y0 = y0, beta = beta)$value)
 }
 
+# prior predictive reliability function with numerical integration, with loop to see where the problem is
+prprRloop <- function(t, n0, y0, beta = 2){
+  res <- numeric(length(t))
+  for (i in 1:length(t)){
+    sgt <- t[i]
+    cat(i, ": t = ", sgt, "\n")
+    res[i] <- 1 - integrate(f = prpr, lower = 1e-5, upper = sgt, n0 = n0, y0 = y0, beta = beta)$value
+  }
+  res
+}
+
+# functions to update prior to posterior parameters for Weibull likelihood with censored observations
+# set fts = NULL when no failures occurred
+nn <- function(n0, fts)
+  n0 + length(fts)
+yn <- function(n0, y0, fts, beta, n = length(fts), tnow = max(fts))
+  (n0*y0 + (n - length(fts))*tnow^beta + sum(fts^beta))/(n0 + length(fts))
+
+# prior predictive reliability function, works only for t vectors starting at 0
+# going over n0 grid, default is only lower and upper n0
+prprRluck <- function(tvec, luckobj, beta = 2, n0gridlen = 2){
+  n0grid <- seq(n0(luckobj)[1], n0(luckobj)[2], length.out = n0gridlen)
+  lmat <- sapply(n0grid, function(n0) prprR(tvec, n0, y0(luckobj)[1], beta))
+  umat <- sapply(n0grid, function(n0) prprR(tvec, n0, y0(luckobj)[2], beta))
+  data.frame(tvec = tvec, lower = apply(lmat, 1, min), upper = apply(umat, 1, max))
+}
+
+
 # posterior predictive reliability function, works only for t vectors starting at 0
+# going over n0 grid, default is only lower and upper n0
+# n and tnow used only for update with censored observations
+poprRluck <- function(tvec, luckobj, beta = 2, fts, n, tnow, n0gridlen = 2){
+  n0grid <- seq(n0(luckobj)[1], n0(luckobj)[2], length.out = n0gridlen)
+  lmat <- sapply(n0grid, function(n0) prprR(tvec, nn(n0, fts),
+                                            yn(n0, y0(luckobj)[1], fts, beta, n, tnow), beta))
+  umat <- sapply(n0grid, function(n0) prprR(tvec, nn(n0, fts),
+                                            yn(n0, y0(luckobj)[2], fts, beta, n, tnow), beta))
+  data.frame(tvec = tvec, lower = apply(lmat, 1, min), upper = apply(umat, 1, max))
+}
+
+
 # checking only the four corners of the posterior parameter set
-poprRluck <- function(tvec, luckobj, beta = 2, fts, n, tnow){
+poprRluck2 <- function(tvec, luckobj, beta = 2, fts, n, tnow){
   l1 <- prprR(tvec, nn(n0(luckobj)[1], fts), yn(n0(luckobj)[1], y0(luckobj)[1], fts, beta, n, tnow), beta)
+  print("l1 ok")
   l2 <- prprR(tvec, nn(n0(luckobj)[2], fts), yn(n0(luckobj)[2], y0(luckobj)[1], fts, beta, n, tnow), beta)
+  print("l2 ok")
   u1 <- prprR(tvec, nn(n0(luckobj)[1], fts), yn(n0(luckobj)[1], y0(luckobj)[2], fts, beta, n, tnow), beta)
+  print("u1 ok")
   u2 <- prprR(tvec, nn(n0(luckobj)[2], fts), yn(n0(luckobj)[2], y0(luckobj)[2], fts, beta, n, tnow), beta)
+  print("u2 ok")
   data.frame(tvec = tvec, lower = pmin(l1, l2), upper = pmax(u1, u2))
 }
 

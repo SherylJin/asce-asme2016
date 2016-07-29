@@ -121,6 +121,9 @@
 \def\yknl{\ul{y}\un_k}
 \def\yknu{\ol{y}\un_k}
 
+\newcommand{\ykzfun}[1]{y\uz_{#1}}
+\newcommand{\ykzlfun}[1]{\ul{y}\uz_{#1}}
+\newcommand{\ykzufun}[1]{\ol{y}\uz_{#1}}
 
 \def\nz{n\uz}
 \def\nn{n\un}
@@ -374,19 +377,9 @@ for a running system based on sets of priors for $\lambda_k$.
 Section~\ref{sec:elicitation} discusses elicitation,
 by giving guidelines on how to choose prior parameter bounds
 that reflect expert information on components;
-Section~\ref{sec:examples} contains examples illustrating ***.
+Section~\ref{sec:examples} contains examples illustrating the merits of our method.
 Section~\ref{sec:concluding} concludes the paper by *** 
 ***
-
-%In the last section, we will briefly describe
-%how the approach can be generalized to arbitrary system structures
-%using the survival signature \cite{2012:survsign},
-%which allows for different types of components and
-%the inclusion of data from component tests, as in \citeNP{2014:bayessurvsign}.
-%Information on the distribution of component failure times $T_i$,
-%where $i = 1, \ldots, n$ if the system consists of $n$ components,
-%can then be used to derive the distribution of $T_\text{sys}$.
-
 
 \section{Bayesian Analysis of Weibull Lifetimes}
 \label{sec:weibull}
@@ -1052,7 +1045,7 @@ this is left as a topic for future research.
 \end{scope}
 \end{tikzpicture}
 \caption{Reliability block diagram for a simplified automotive brake system,
-with those components marked that we assume to fail.}
+with those components marked that we assume to fail in the three scenarios.}
 \label{fig:brakesys-layout}
 \end{figure}
 
@@ -1091,27 +1084,31 @@ M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\
 \label{tab:brake-survsign}
 \end{table}
 
-We will use same prior setting with three different data scenarios,
-where we observe failure times in accordance with prior expectations in the first case,
-surprisingly early failures in the second case, and
-surprisingly late failures in the third case.
-In each case, we assume that C2, C3, P2 and P3 fail, vary only the failure times,
-and study their effect on the system reliability.
+We will use same prior setting (described in Section~\ref{sec:ex-prior})
+and combine it with three different data scenarios,
+where we observe failure times in accordance with prior expectations in the first case (Section~\ref{sec:ex-case1}),
+surprisingly early failures in the second case (Section~\ref{sec:ex-case2}), and
+surprisingly late failures in the third case (Section~\ref{sec:ex-case3}).
+In each case, we assume that C2, C3, P2 and P3 fail, only varying the failure times,
+and study the effect of learning about these failures on the component level.
+%and for the running system.
+Effects on posterior reliability bounds for the running system
+are then discussed for all three cases in Section~\ref{sec:ex-sysrel}.
 
-\begin{figure}
-\includegraphics[width=\textwidth]{fig4}
-\caption{Sets of prior predictive reliability functions for the four component types,
-illustrating the choice of prior parameter sets $\PkZ$.}
-\label{fig:brake-comppriors}
-\end{figure}
+\subsection{Prior assumptions}
+\label{sec:ex-prior}
 
-The prior assumptions for the four component types are visualized in Figure~\ref{fig:brake-comppriors},
-the corresponding prior parameter sets $\PkZ$, $k=\text{M}, \text{H}, \text{C}, \text{P}$
-are given in Table~\ref{tab:priorparamsets},
-where $\El[T_i^k]$ and $\Eu[T_i^k]$ give lower and upper bound for expected component lifetimes,
-which then have been transformed to bounds for the scale parameter using \eqref{eq:lambdainterpret}.
-%For the prior parameter sets $\PZi{\text{M}}$
-
+The prior assumptions, which we can imagine to be determined by an expert,
+or by a combination of expert knowledge and component test data,
+are given by the prior parameter sets $\PkZ$, $k=\text{M}, \text{H}, \text{C}, \text{P}$,
+as described in Table~\ref{tab:priorparamsets}.
+There, $\El[T_i^k]$ and $\Eu[T_i^k]$ give the lower and upper bound for expected component lifetimes, respectively,
+which then have been transformed to bounds for the scale parameter using \eqref{eq:lambdainterpret},
+resulting in $\ykzl$ and $\ykzu$.
+For example, according to the expert, the mean time to failure for component type M is between 5 and 8 time units,
+leading to $\ykzlfun{\text{M}} = 75.4$ and $\ykzufun{\text{M}} = 244.1$,
+and the expert considers his knowledge on these expected lifetime bounds
+as having the strength of at least 2 and at most 5 observations.  
 \begin{table}
 \centering
 \begin{tabular}{crrrrrrr}
@@ -1127,14 +1124,41 @@ P & $1.5$ & $3$\rule{1.5ex}{0ex} & $ 4$\rule{1.5ex}{0ex} & $ 6.1$ & $  9.3$ & $1
 \caption{Prior parameter sets for the four component types.}
 \label{tab:priorparamsets}
 \end{table}
+%For the prior parameter sets $\PZi{\text{M}}$
+
+These prior assumptions for the four component types are visualized in Figure~\ref{fig:brake-comppriors},
+showing the sets of reliability functions corresponding to the prior predictive density \eqref{eq:tpriopred}.
+The figure thus displays the bounds for the probability that a single component,
+having been put under risk at time $0$, will have failed by time $t$.
+The top left graph in Figure~\ref{fig:brake-sysrels} shows what the prior assumptions on components
+signify for the system, depicting the prior bounds for the system reliability %before the system has started
+on a scale of time elapsed since system startup.
+For example, the prior probability of the system to survive until time $10$ is between $***$ and $***$.
+%calender time scale, where $t = 0$ is the time when the system starts to run.
+
+\begin{figure}
+\includegraphics[width=\textwidth]{fig4}
+\caption{Sets of prior predictive reliability functions for the four component types,
+illustrating the choice of prior parameter sets $\PkZ$.}
+\label{fig:brake-comppriors}
+\end{figure}
+
+
+\subsection{Case 1: failure times as expected}
+\label{sec:ex-case1}
 
 In the first case, we observe $t_1^\text{C} = 6$, $t_2^\text{C} = 7$, $t_1^\text{P} = 3$, $t_2^\text{P} = 4$,
 and observe the running system until $\tnow = 8$,
 i.e., $t_1^\text{M} = t_1^\text{H} = t_3^\text{C} = t_4^\text{C} = t_3^\text{P} = t_4^\text{P} = 8^+$.
-***Notation as ordered, not to component numbers***
+%***Notation as ordered, not to component numbers***
+(Note that we number component failure times by order, not by component number in the system layout.)
 These observations correspond more or less to prior expectations,
 and the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-1}.
-***some discussion***
+In analogue to Figure~\ref{fig:brake-comppriors},
+Figure~\ref{fig:comppost-1} displays the bounds for the probability that a single component,
+having been put under risk at time $0$, will have failed by time $t$,
+after having seen these (partly censored) observations.
+For easy comparisons, Figure~\ref{fig:comppost-1} also contains the prior bounds from Figure~\ref{fig:brake-comppriors}.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{fig5a}
@@ -1142,6 +1166,18 @@ and the corresponding posterior predictive component distributions are given in 
 for observations in line with prior expectations.}
 \label{fig:comppost-1}
 \end{figure}
+
+We see that the graphs for M and H do not change dramatically,
+as there is only one component of each in the system to learn from.
+For C, the bounds have considerably narrowed,
+showing the effect of having seen the four observations
+$t_1^\text{C} = 6$, $t_2^\text{C} = 7$, $t_3^\text{C} = t_4^\text{C} = 8^+$.
+The bounds for P have not narrowed as much;
+this is due to the two right-censored observations $t_3^\text{P} = t_4^\text{P} = 8^+$;
+from the prior assumptions, surviving past time 8 is already quite unusual.
+
+\subsection{Case 2: surprisingly early failure times}
+\label{sec:ex-case2}
 
 For the second case, with $t_1^\text{C} = 1$, $t_2^\text{C} = 2$, $t_1^\text{P} = 0.5$, $t_2^\text{P} = 1$
 and $\tnow = 2$, we assume to observe surprisingly early failures;
@@ -1155,6 +1191,9 @@ for surprisingly early failures.}
 \label{fig:comppost-2}
 \end{figure}
 
+\subsection{Case 3: surprisingly late failure times}
+\label{sec:ex-case3}
+
 For the third case, we assume to observe surprisingly late failures,
 namely $t_1^\text{C} = 11$, $t_2^\text{C} = 12$, $t_1^\text{P} = 8$, $t_2^\text{P} = 9$, and $\tnow = 12$;
 the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-3}.
@@ -1167,8 +1206,11 @@ for surprisingly late failures.}
 \label{fig:comppost-3}
 \end{figure}
 
+\subsection{Reliability bounds for the running system}
+\label{sec:ex-sysrel}
+
 Figure~\ref{fig:brake-sysrels} depicts the set of prior system reliability functions,
-together with the sets of posterior system reliabilty function for the three cases.
+together with the sets of posterior system reliability function for the three cases.
 ***some discussion***
 
 \begin{figure}
@@ -1186,6 +1228,7 @@ Figure~\ref{fig:brake-sysrels-imprecision} shows $\uRsys(t) - \lRsys(t)$ ***
 \label{fig:brake-sysrels-imprecision}
 \end{figure}
 
+
 \section{Concluding Remarks}
 \label{sec:concluding}
 
@@ -1194,6 +1237,7 @@ standard Bayesian approaches and use a finite discrete distribution for beta - d
 with suitable sets of priors for lambda, in particular to show the effect of prior-data conflict, is an interesting
 challenge for future research.
 
+***acknowledgements
 
 \pagebreak
 %

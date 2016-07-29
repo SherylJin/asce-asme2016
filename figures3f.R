@@ -53,22 +53,23 @@ fig3 <- ggplot(brprdf, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim(0
 fig3
 
 # component reliability functions using the prior predictive
-prprtvec <- seq(0, 20, length.out=501)
-prprC <- prprRluck(prprtvec, brpr[[1]], beta = brbeta[1])
-prprH <- prprRluck(prprtvec, brpr[[2]], beta = brbeta[2])
-prprM <- prprRluck(prprtvec, brpr[[3]], beta = brbeta[3])
-prprP <- prprRluck(prprtvec, brpr[[4]], beta = brbeta[4])
+prprtvec <- seq(0, 20, length.out=301)
+prprC <- prprRluck(prprtvec, brpr[[1]], beta = brbeta[1], n0gridlen = 2000)
+prprH <- prprRluck(prprtvec, brpr[[2]], beta = brbeta[2], n0gridlen = 2000)
+prprM <- prprRluck(prprtvec, brpr[[3]], beta = brbeta[3], n0gridlen = 2000)
+prprP <- prprRluck(prprtvec, brpr[[4]], beta = brbeta[4], n0gridlen = 2000)
 prprdf <- rbind(data.frame(prprM, Part = "M", Item = "Prior"), data.frame(prprH, Part = "H", Item = "Prior"),
                 data.frame(prprC, Part = "C", Item = "Prior"), data.frame(prprP, Part = "P", Item = "Prior"))
 prprdf$Item <- ordered(prprdf$Item, levels=c("Prior", "Posterior"))
 prprdf$Part <- ordered(prprdf$Part, levels=c("M", "H", "C", "P"))
 prprdf$lower[prprdf$lower < 0] <- 0
+prprdf$upper[prprdf$upper > 1] <- 1
 fig4 <- ggplot(prprdf, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim(0, 1) +  
   geom_ribbon(aes(ymin = lower, ymax = upper, group = Item, colour = Item, fill = Item), alpha = 0.5) +
   geom_line(aes(y = lower, group = Item, colour = Item)) + 
   geom_line(aes(y = upper, group = Item, colour = Item)) + 
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend #nolegend 
-fig4
+fig4 # warnings refer to the four instances which have been rounded down to 1, bug in ggplot?
 
 #setEPS()
 #postscript("fig4.eps",width=8,height=6)
@@ -82,10 +83,13 @@ brfts1 <- list(c(6, 7), NULL, NULL, c(3, 4))
 tnow1 <- 8
 
 # components posterior # CHMP
-popr1C <- poprRluck(prprtvec, brpr[[1]], beta = brbeta[1], fts = brfts1[[1]], n = 1, tnow = tnow1)
-popr1H <- poprRluck(prprtvec, brpr[[2]], beta = brbeta[2], fts = brfts1[[2]], n = 1, tnow = tnow1)
-popr1M <- poprRluck(prprtvec, brpr[[3]], beta = brbeta[3], fts = brfts1[[3]], n = 1, tnow = tnow1)
-popr1P <- poprRluck(prprtvec, brpr[[4]], beta = brbeta[4], fts = brfts1[[4]], n = 1, tnow = tnow1)
+# n and tnow are used for the updating!
+# prprtvec <- seq(0, 20, length.out=501)
+#prprtvec[1] <- 1e-5
+popr1C <- poprRluck(prprtvec, brpr[[1]], beta = brbeta[1], fts = brfts1[[1]], n = brprnk[1], tnow = tnow1, n0gridlen = 2000)
+popr1H <- poprRluck(prprtvec, brpr[[2]], beta = brbeta[2], fts = brfts1[[2]], n = brprnk[2], tnow = tnow1, n0gridlen = 2000)
+popr1M <- poprRluck(prprtvec, brpr[[3]], beta = brbeta[3], fts = brfts1[[3]], n = brprnk[3], tnow = tnow1, n0gridlen = 2000)
+popr1P <- poprRluck(prprtvec, brpr[[4]], beta = brbeta[4], fts = brfts1[[4]], n = brprnk[4], tnow = tnow1, n0gridlen = 2000)
 popr1df <- rbind(data.frame(prprC, Part = "C", Item = "Prior"), data.frame(popr1C, Part = "C", Item = "Posterior"),
                  data.frame(prprH, Part = "H", Item = "Prior"), data.frame(popr1H, Part = "H", Item = "Posterior"),
                  data.frame(prprM, Part = "M", Item = "Prior"), data.frame(popr1M, Part = "M", Item = "Posterior"),
@@ -99,7 +103,8 @@ fig5a <- ggplot(popr1df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   geom_line(aes(y = lower, group = Item, colour = Item)) + 
   geom_line(aes(y = upper, group = Item, colour = Item)) + 
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
-fig5a # now P seems fine???
+fig5a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
+
 pdf("fig5a.pdf", width=8, height=6)
 fig5a
 dev.off()
@@ -131,10 +136,10 @@ brfts2 <- list(c(1, 2), NULL, NULL, c(0.5, 1))
 tnow2 <- 2
 
 # components posterior # CHMP
-popr2C <- poprRluck(prprtvec, brpr[[1]], beta = brbeta[1], fts = brfts2[[1]], n = 1, tnow = tnow2)
-popr2H <- poprRluck(prprtvec, brpr[[2]], beta = brbeta[2], fts = brfts2[[2]], n = 1, tnow = tnow2)
-popr2M <- poprRluck(prprtvec, brpr[[3]], beta = brbeta[3], fts = brfts2[[3]], n = 1, tnow = tnow2)
-popr2P <- poprRluck(prprtvec, brpr[[4]], beta = brbeta[4], fts = brfts2[[4]], n = 1, tnow = tnow2)
+popr2C <- poprRluck(prprtvec, brpr[[1]], beta = brbeta[1], fts = brfts2[[1]], n = brprnk[1], tnow = tnow2, n0gridlen = 2000)
+popr2H <- poprRluck(prprtvec, brpr[[2]], beta = brbeta[2], fts = brfts2[[2]], n = brprnk[2], tnow = tnow2, n0gridlen = 2000)
+popr2M <- poprRluck(prprtvec, brpr[[3]], beta = brbeta[3], fts = brfts2[[3]], n = brprnk[3], tnow = tnow2, n0gridlen = 2000)
+popr2P <- poprRluck(prprtvec, brpr[[4]], beta = brbeta[4], fts = brfts2[[4]], n = brprnk[4], tnow = tnow2, n0gridlen = 2000)
 popr2df <- rbind(data.frame(prprC, Part = "C", Item = "Prior"), data.frame(popr2C, Part = "C", Item = "Posterior"),
                  data.frame(prprH, Part = "H", Item = "Prior"), data.frame(popr2H, Part = "H", Item = "Posterior"),
                  data.frame(prprM, Part = "M", Item = "Prior"), data.frame(popr2M, Part = "M", Item = "Posterior"),
@@ -148,7 +153,7 @@ fig6a <- ggplot(popr2df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   geom_line(aes(y = lower, group = Item, colour = Item)) + 
   geom_line(aes(y = upper, group = Item, colour = Item)) + 
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
-fig6a # here no problems with P!
+fig6a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 pdf("fig6a.pdf", width=8, height=6)
 fig6a
 dev.off()
@@ -180,10 +185,10 @@ brfts3 <- list(c(11, 12), NULL, NULL, c(8, 9))
 tnow3 <- 12
 
 # components posterior # CHMP
-popr3C <- poprRluck(prprtvec, brpr[[1]], beta = brbeta[1], fts = brfts3[[1]], n = 1, tnow = tnow3)
-popr3H <- poprRluck(prprtvec, brpr[[2]], beta = brbeta[2], fts = brfts3[[2]], n = 1, tnow = tnow3)
-popr3M <- poprRluck(prprtvec, brpr[[3]], beta = brbeta[3], fts = brfts3[[3]], n = 1, tnow = tnow3)
-popr3P <- poprRluck(prprtvec, brpr[[4]], beta = brbeta[4], fts = brfts3[[4]], n = 1, tnow = tnow3)
+popr3C <- poprRluck(prprtvec, brpr[[1]], beta = brbeta[1], fts = brfts3[[1]], n = brprnk[1], tnow = tnow3, n0gridlen = 2000)
+popr3H <- poprRluck(prprtvec, brpr[[2]], beta = brbeta[2], fts = brfts3[[2]], n = brprnk[2], tnow = tnow3, n0gridlen = 2000)
+popr3M <- poprRluck(prprtvec, brpr[[3]], beta = brbeta[3], fts = brfts3[[3]], n = brprnk[3], tnow = tnow3, n0gridlen = 2000)
+popr3P <- poprRluck(prprtvec, brpr[[4]], beta = brbeta[4], fts = brfts3[[4]], n = brprnk[4], tnow = tnow3, n0gridlen = 2000)
 popr3df <- rbind(data.frame(prprC, Part = "C", Item = "Prior"), data.frame(popr3C, Part = "C", Item = "Posterior"),
                  data.frame(prprH, Part = "H", Item = "Prior"), data.frame(popr3H, Part = "H", Item = "Posterior"),
                  data.frame(prprM, Part = "M", Item = "Prior"), data.frame(popr3M, Part = "M", Item = "Posterior"),
@@ -197,7 +202,7 @@ fig7a <- ggplot(popr3df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   geom_line(aes(y = lower, group = Item, colour = Item)) + 
   geom_line(aes(y = upper, group = Item, colour = Item)) + 
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
-fig7a # strange that P is not further to the right...
+fig7a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 pdf("fig7a.pdf", width=8, height=6)
 fig7a
 dev.off()
