@@ -260,6 +260,8 @@ but there is some information about failure times for the components the system 
 The proposed method allows to analyse systems of arbitrary system structures, %layout of components,
 i.e., any combination and nesting of series, parallel, k-out-of-n, or bridge-type arrangements,
 by use of the survival signature \cite{2012:survsign}.
+In doing so, the present paper extends similar previous work
+which focused on a simple parallel system with homogeneous components \cite{2015:walter}.
 In this paper, we assume that components can be divided into $K$ different groups,
 and components within each group $k$ ($k=1, \ldots, K$) can be assumed to be exchangeable,
 i.e., to follow the same failure time distribution.
@@ -339,25 +341,10 @@ If a prior based on component test data is used,
 such prior-data conflict sensitivity furthermore allows to uncover a conflict between
 current observations in the running system and past observations from component tests.
 
-
-This work extends \ldots ***
-
-***general methods (sets of conjugate priors, survival signature)
-can be used with other parametric component lifetime distributions
-that form a canonical exponential family
-(see, e.g., \citeNP[p.~202 and 272f]{2000:bernardosmith}, or \citeNP[p.~8]{diss}),
-such that conjugate prior can be constructed***
-
-***We study the effect of surprisingly early or late component failures,
-%on the system reliability prediction,
-showing that observations in conflict to prior assumptions
-indeed lead to more cautious system reliability predictions.***
-
-  
 The paper is organized as follows.
-In Section~\ref{sec:weibull}, we describe a Bayesian analysis for Weibull component lifetimes
-with fixed shape parameter
-and illustrate the issue of prior-data conflict.
+In Section~\ref{sec:weibull}, a Bayesian analysis for Weibull component lifetimes
+with fixed shape parameter is describe,
+illustrating the issue of prior-data conflict.
 Section~\ref{sec:modforsurpr} then details the use of sets of priors
 for the scale parameter $\lambda_k$ of the Weibull distribution,
 showing how this mitigates the prior-data conflict issue for $\lambda_k$.
@@ -371,15 +358,18 @@ for a running system based on sets of priors for $\lambda_k$.
 %are obtained by efficiently optimizing over the parameter sets that define the sets of priors.
 Section~\ref{sec:elicitation} discusses elicitation,
 by giving guidelines on how to choose prior parameter bounds
-that reflect expert information on components;
-Section~\ref{sec:examples} contains examples illustrating the merits of our method.
-Section~\ref{sec:concluding} concludes the paper by *** 
-***
+that reflect expert information on components.
+Section~\ref{sec:examples} contains examples illustrating the merits of our method,
+by studying the effect of surprisingly early or late component failures,
+showing that observations in conflict to prior assumptions
+indeed lead to more cautious system reliability predictions.
+Section~\ref{sec:concluding} concludes the paper by summarizing results
+and indicating avenues for further research.
 
 \section{Bayesian Analysis of Weibull Lifetimes}
 \label{sec:weibull}
 
-We consider a system with components of $k=1,\ldots,K$ different types;
+Consider a system with components of $k=1,\ldots,K$ different types;
 for each type $k$, there are $n_k$ exchangeable components in the system.
 For each type $k$ component, we assume for its lifetime $T_i^k$ ($i=1,\ldots,n_k$, $k = 1, \ldots, K$)
 a Weibull distribution with fixed shape parameter $\beta_k > 0$,
@@ -408,7 +398,7 @@ The scale parameter $\lambda_k$ can be interpreted through the relation
 \end{align}
 \end{linenomath*}
 For encoding expert knowledge about the reliability of the components,
-we need to assign a prior distribution over the scale parameter $\lambda_k$.
+one needs to assign a prior distribution over the scale parameter $\lambda_k$.
 A convenient choice is to use the inverse Gamma distribution,
 commonly parametrized in terms of the hyperparameters $a_k > 0$ and $b_k > 0$:
 %Conjugate prior is $\lambda_k \sim \ig(a_k,b_k)$:
@@ -497,15 +487,16 @@ the posterior cdf is shifted halfway towards the values for $\lambda$
 that the two observations suggest
 (the ML estimator for $\lambda$ would be $2.5$),
 and is steeper than the prior (so the pdf is more pointed),
-thus conveying a false sense of certainty about $\lambda$.%
-\footnote{This is a general problem in Bayesian analysis with canonical conjugate priors.
-For such priors, the same update formula \eqref{eq:ig-update} applies,
-and so conflict is averaged out, for details see \citeN{Walter2009a} and \citeN[\S 3.1.4 and \S A.1.2]{diss}.}
+thus conveying a false sense of certainty about $\lambda$.
 We would obtain almost the same %values of $\nfun{2}$ and $\yfun{2}$, and so the same 
 posterior distribution
 if we had assumed the mean component lifetime to be 7 weeks (so $\yz = 62.39$),
 and observed lifetimes $t_1 = 6$, $t_2 = 7$ in line with our expectations.
 It seems unreasonable to make the same probability statements on component lifetimes in these two fundamentally different scenarios.
+
+Note that this is a general problem in Bayesian analysis with canonical conjugate priors.
+For such priors, the same update formula \eqref{eq:ig-update} applies,
+and so conflict is averaged out, for details see \citeN{Walter2009a} and \citeN[\S 3.1.4 and \S A.1.2]{diss}.
 %
 %\iffalse
 \begin{figure}
@@ -565,12 +556,12 @@ and hence reflecting prior-data conflict.
 Continuing the example from Section~\ref{sec:weibull} and Figure~\ref{fig:weibull-pdc},
 assume now for the mean component lifetimes the range 9 to 11 weeks,
 this corresponds to $[\yzl,\yzu] = [103.13, 154.06]$.
-We also choose $[\nzl,\nzu] =[2, 5]$,
-so we value our prior information as equivalent to having seen two to five observations.
+Choosing $[\nzl,\nzu] =[2, 5]$
+means to value this information on mean component lifetimes as equivalent to having seen two to five observations.
 Compare now the set of posteriors obtained from observing
 $t_1 = 1$, $t_2 = 2$ (as before), see Figure~\ref{fig:setofpost-pdc-nopdc} (left),
 and $t_1 = 10$, $t_2 = 11$, see Figure~\ref{fig:setofpost-pdc-nopdc} (right).
-We now have a clear difference between the two scenarios of
+There is now a clear difference between the two scenarios of
 observations in line with expectations and observations in conflict.
 In the prior-data conflict case, the set of posteriors (blue)
 is shifted towards the left, but has about the same size as the set of priors (yellow),
@@ -599,7 +590,7 @@ where the censoring process is independent of the failure process.
 \section{Robust Reliability for Complex Systems via the Survival Signature}
 \label{sec:robrel}
 
-We now consider a system of arbitrary layout,
+Consider now a system of arbitrary layout,
 consisting of components of $K$ types.
 This system is observed until time $\tnow$,
 leading to censored observation of lifetimes of components within the system,
@@ -749,12 +740,12 @@ This posterior predictive distribution is obtained as
 P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})}\hspace*{5ex} \nonumber\\  %
  &= { n_k - e_k \choose l_k} \int \big[P(T^k >    t \mid T^k > \tnow, \lambda_k)\big]^{l_k} \times \nonumber\\ & \hspace*{17ex}
                                   \big[P(T^k \leq t \mid T^k > \tnow, \lambda_k)\big]^{n_k - e_k - l_k}
-    f(\lambda_k\mid\nkz,\ykz,\vec{t}^k_{e_k;n_k}) \dd \lambda_k
+    f(\lambda_k\mid\nkz,\ykz,\vec{t}^k_{e_k;n_k}) \dd \lambda_k\,.
 \label{eq:postpredtnow}
 \end{align}
 \end{linenomath*}
 %
-Now, by the Weibull assumption \eqref{eq:weibullcdf}, we have
+Now, by the Weibull assumption \eqref{eq:weibullcdf}, one has
 \begin{linenomath*}
 \begin{align}
 P(T^k \leq t \mid T^k > \tnow, \lambda_k)
@@ -765,7 +756,7 @@ P(T^k \leq t \mid T^k > \tnow, \lambda_k)
 \end{align}
 \end{linenomath*}
 %
-With this and the posterior \eqref{eq:ig-update-alpha} substituted into \eqref{eq:postpredtnow}, we get
+With this and the posterior \eqref{eq:ig-update-alpha} substituted into \eqref{eq:postpredtnow}, this gives
 \begin{linenomath*}
 \begin{align}
 \lefteqn{P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})}\hspace*{5ex} \nonumber\\
@@ -781,7 +772,7 @@ With this and the posterior \eqref{eq:ig-update-alpha} substituted into \eqref{e
 %
 The terms remaining under the integral form the core of an inverse gamma distribution \eqref{eq:ig-def}
 with parameters $\nkn + 1$ and $\nkn\ykn + (l_k + j) (t^{\beta_k} - (\tnow)^{\beta_k}))$,
-allowing us to solve the integral using the corresponding normalization constant.
+allowing to solve the integral using the corresponding normalization constant.
 We thus have, for $l_k \in \{0,1,\ldots,n_k-e_k\}$,
 \begin{linenomath*}
 \begin{align}
@@ -819,14 +810,14 @@ F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k}) = P(C^k_t \leq l_k \mid \nkz,\ykz,\vec
 \label{sec:optimize}
 
 Together with \eqref{eq:postpred-priorparams},
-\eqref{eq:sysrel-survsign} allows us to calculate the system reliability $\Rsys(t\mid t>\tnow)$
+\eqref{eq:sysrel-survsign} allows to calculate the system reliability $\Rsys(t\mid t>\tnow)$
 for fixed prior parameters $(\nkz, \ykz)$, $k=1, \ldots, K$.
 In Section~\ref{sec:modforsurpr}, we argued for using sets of priors $\MZ$,
 which allow for vague and incomplete prior knowledge, and provide prior-data conflict sensitivity.
 %
 We will thus use, for each component type,
 a set of priors $\MkZ$ defined by varying $(\nkz,\ykz)$ in a prior parameter set $\PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$,
-and we are interested in the bounds
+and the objective is to obtain the bounds
 %This leads to a set of system reliability functions with the bounds
 \begin{linenomath*}
 \begin{align}
@@ -836,7 +827,7 @@ and we are interested in the bounds
 \label{eq:ursysdef}
 \end{align}
 \end{linenomath*}
-where we surpress in notation that $\lRsys(t \mid t > \tnow)$ and $\uRsys(t \mid t > \tnow)$
+where we suppress in notation that $\lRsys(t \mid t > \tnow)$ and $\uRsys(t \mid t > \tnow)$
 depend on prior parameter sets and data.
 
 \eqref{eq:lrsysdef} and \eqref{eq:ursysdef} seem to suggest that
@@ -858,15 +849,15 @@ which in turn increases the probability that many components survive until time 
 and with it, decreases the propability of few or no components surviving,
 so in total giving low probability weight for low values of $l_k$,
 and high probability weight for high values of $l_k$. 
-We therefore conclude that, for any fixed value of $\nkz$,
+Therefore, for any fixed value of $\nkz$, 
 the lower bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzu$, and
 the upper bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzl$.
-
+%
 %***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
 %I have it for inverse gamma posterior $f(\lambda_k\mid \nkz,\ykz, \vec{t}^k_{e_k;n_k})$,
 %but not for posterior predictive***
 %
-However, there is no corresponding reasoning for $\nkz$,
+There is however no corresponding result for $\nkz$,
 such that different values of $\nkz$ may minimize (or maximize) $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ at different $l_k$'s.
 Therefore, the $\nkz$ values for lower and upper system reliability bounds are obtained by numeric optimization.
 %
@@ -890,7 +881,7 @@ We therefore resort to numerical optimization of \eqref{eq:25} over $\{\nkz, k=1
 to obtain the lower bound for $P(\Tsys > t\mid\{\nkz,\ykz, \mbf{t}^k_{e_k;n_k}\}_{k=1}^K)$.
 \fi %---------------------------
 
-Writing out \eqref{eq:sysrel-survsign}, we get
+Writing out \eqref{eq:sysrel-survsign}, one obtains
 \begin{linenomath*}
 \begin{align}
 \lRsys(t \mid t > \tnow)
@@ -924,10 +915,10 @@ summation terms for which $\Phi(l_1,\ldots,l_K) > 0$.
 \end{linenomath*}
 \fi %---------------------------
 
-We have implemented the method in \textsf{R},
+We have implemented the method in the statistical computing environment \textsf{R} \cite{R},
 using box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim},
-and pan to release a package containing the code to reproduce all results and figures
-for the examples in Section~\ref{sec:examples}.
+and intend to release a package containing functions and code to reproduce all results and figures
+for the examples in Section~\ref{sec:examples} below.
 
 
 \section{Elicitation of prior parameter sets}
@@ -935,13 +926,13 @@ for the examples in Section~\ref{sec:examples}.
 
 To represent expert knowledge on component failure times
 through bounds for $\ykz$ and $\nkz$,
-we can refer to the interpretations as given in Section~\ref{sec:weibull}:
+one can refer to the interpretations as given in Section~\ref{sec:weibull}:
 $\ykz$ is the prior expected value of $\lambda_k$,
 where $\lambda_k$ is linked to expected component lifetimes through \eqref{eq:lambdainterpret}.
-$\nkz$ can be seen as pseudocount, indicating how strong expert knwoledge is trusted
+$\nkz$ can be seen as pseudocount, indicating how strong expert knowledge is trusted
 in comparison to a sample of size $n$.
-Our approach allows the expert to give ranges $[\ykzl, \ykzu]$ and $[\nkzl, \nkzu]$
-instead of forcing a precise answer.
+Crucially, the approach allows the expert to give ranges $[\ykzl, \ykzu]$ and $[\nkzl, \nkzu]$
+instead of requiring a precise answer.
 
 It is also possible to directly link $\nkz$ and $\ykz$
 to observed lifetimes using a prior predictive distribution.
@@ -1049,7 +1040,7 @@ with those components marked that we assume to fail in the three scenarios.}
 \label{sec:examples}
 
 %***brake system from ijar paper, Fig.~\ref{fig:brakesys-layout}
-As illustrative example, we consider a simplified automotive brake system with four types of component.
+As illustrative example, consider a simplified automotive brake system with four types of component.
 The master brake cylinder (M) activates all four wheel brake cylinders (C1 -- C4),
 which in turn actuate a braking pad assembly each (P1 -- P4).
 The hand brake mechanism (H) goes directly to the brake pad assemblies P3 and P4;
@@ -1080,13 +1071,13 @@ M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\
 \label{tab:brake-survsign}
 \end{table}
 
-We will use same prior setting (described in Section~\ref{sec:ex-prior})
-and combine it with three different data scenarios,
-where we observe failure times in accordance with prior expectations in the first case (Section~\ref{sec:ex-case1}),
+A fixed prior setting, described in Section~\ref{sec:ex-prior},
+will be combined with three different data scenarios,
+where one observes failure times in accordance with prior expectations in the first case (Section~\ref{sec:ex-case1}),
 surprisingly early failures in the second case (Section~\ref{sec:ex-case2}), and
 surprisingly late failures in the third case (Section~\ref{sec:ex-case3}).
-In each case, we assume that C2, C3, P2 and P3 fail, only varying the failure times,
-and study the effect of learning about these failures on the component level.
+In each case, it is assumed that C2, C3, P2 and P3 fail, only the failure times are varied,
+investigating the effect of learning about these failures on the component level.
 %and for the running system.
 Effects on posterior reliability bounds for the running system
 are then discussed for all three cases in Section~\ref{sec:ex-sysrel}.
@@ -1094,7 +1085,7 @@ are then discussed for all three cases in Section~\ref{sec:ex-sysrel}.
 \subsection{Prior assumptions}
 \label{sec:ex-prior}
 
-The prior assumptions, which we can imagine to be determined by an expert,
+The prior assumptions, which one can imagine to be determined by an expert,
 or by a combination of expert knowledge and component test data,
 are given by the prior parameter sets $\PkZ$, $k=\text{M}, \text{H}, \text{C}, \text{P}$,
 as described in Table~\ref{tab:priorparamsets}.
@@ -1135,7 +1126,7 @@ For example, the prior probability of the system to survive until time $10$ is b
 \begin{figure}
 \includegraphics[width=\textwidth]{fig4}
 \caption{Sets of prior predictive reliability functions for the four component types,
-illustrating the choice of prior parameter sets $\PkZ$.}
+illustrating the choice of prior parameter sets $\PkZ$, $k=\text{M}, \text{H}, \text{C}, \text{P}$.}
 \label{fig:brake-comppriors}
 \end{figure}
 
@@ -1147,7 +1138,7 @@ In the first case, we observe $t_1^\text{C} = 6$, $t_2^\text{C} = 7$, $t_1^\text
 and observe the running system until $\tnow = 8$,
 i.e., $t_1^\text{M} = t_1^\text{H} = t_3^\text{C} = t_4^\text{C} = t_3^\text{P} = t_4^\text{P} = 8^+$.
 %***Notation as ordered, not to component numbers***
-(Note that we number component failure times by order, not by component number in the system layout.)
+(Note that component failure times are numbered by order, not by component number in the system layout.)
 These observations correspond more or less to prior expectations,
 and the corresponding posterior predictive component distributions are given in Figure~\ref{fig:comppost-1}.
 In analogue to Figure~\ref{fig:brake-comppriors},
@@ -1187,13 +1178,13 @@ for surprisingly early failures (case~2).}
 \label{fig:comppost-2}
 \end{figure}
 %
-Having observed the system only until $t = 2$, our data is not very informative,
+Having observed the system only until $t = 2$, the data are not very informative,
 such that prior and posterior predictive reliability bounds are very similar.
 For C, the effect of the early failures is however still visible,
 and posterior imprecision, i.e., the range between lower and upper posterior bound, is notably larger
 as compared to prior imprecision, and substantially larger that posterior imprecision in case~1.
 The effect for P is less pronounced,
-mainly because observing $\vec{t}^\text{P} = (0.25, 0.5, 2^+, 2^+)$ for P is not as extreme
+mainly because observing $\vec{t}^\text{P} = (0.25, 0.5, 2^+, 2^+)$ for P is less extreme
 as observing $\vec{t}^\text{C} = (1, 2, 2^+, 2^+)$ for C.
 
 \subsection{Case 3: surprisingly late failure times}
@@ -1212,12 +1203,12 @@ for surprisingly late failures (case~3).}
 \end{figure}
 %
 Having observed the system for a much longer time than in case 2,
-our data is much more informative,
+the data contain now much more information,
 resulting in considerable differences between prior and posterior bounds. %predictive reliability
 The effect of these surprisingly late failures is most prominent for P,
 with a set considerably shifted to the right and having very wide posterior bounds.
 The posterior set for C also indicates that,
-after having seen these late failures, we expect type C components to fail much later.
+after having seen these late failures, one expects type C components to fail much later.
 This effect is also visible for M and H,
 but is weaker for them as there is only one component of each in the system.
 
@@ -1235,7 +1226,7 @@ Figure~\ref{fig:brake-sysrels} depicts the set of prior system reliability funct
 together with the sets of posterior system reliability function for the three cases,
 on a scale of elapsed time since system startup.
 Due to this time scale, posterior system reliability is 1 at $\tnow$,
-as we know that the system has survived until $\tnow = 8, 2, 12$ in each of the three cases.
+as it is known that the system has survived until $\tnow = 8, 2, 12$ in case 1,2,3, respectively.
 For all three cases, the posterior bounds drop faster after $\tnow$ than the prior bounds drop after $t = 0$
 since the components in the system have aged until $\tnow$ and so are expected to fail sooner.
 In the case of surprisingly early failures, posterior bounds are mostly within prior bounds,
@@ -1254,11 +1245,11 @@ This most visible in Figure~\ref{fig:brake-sysrels-imprecision},
 which shows $\uRsys(t) - \lRsys(t)$, the difference between upper and lower bound
 of prior and posterior system reliability.
 The left panel shows imprecision on the scale of elapsed time since system startup like in Figure~\ref{fig:brake-sysrels};
-the right panel instead on the scale of prospective time,
+the right panel shows imprecision on the scale of prospective time instead,
 indicating how far in the future periods are for which estimation of system reliability is most uncertain.
-We see that posterior imprecision is indeed considerably lower in case~1,
-where we had observed failures more or less like expected.
-On a prospective timescale, we see that periods of heightened uncertainty are closer to the present for the posteriors,
+Posterior imprecision is indeed considerably lower in case~1,
+where failure times were more or less like expected.
+On the prospective timescale, one can see that periods of heightened uncertainty are closer to the present for the posteriors,
 while uncertainty is considerably reduced for periods further in the future.
 %This has interesting indications for maintenance planning,
 %where uncertainty about system failure in the near future
@@ -1286,7 +1277,7 @@ We believe an analyst is free to reconsider any aspect of a model
 (of which the choice of prior can be seen to form a part) after seeing the data,
 and so may use our method only for becoming aware of a conflict between prior and data.
 
-The robust Bayesian setting we employed provides many further modelling opportunities
+The employed robust Bayesian setting provides many further modelling opportunities
 beyond the explicit reaction to prior-data conflict.
 These opportunities have not yet been explored and
 provide a wide field for further research.
@@ -1295,17 +1286,26 @@ extending the present model to allow also for an appropriate reflection of very 
 \cite{ipmu2016}.
 
 There are many aspects to further develop in our analysis and modeling.
-Straightforward to implement is, e.g., the analysis of the effect of replacing failed components
+The general approaches used in this paper,
+namely the use of sets of conjugate priors for component lifetime models
+and the survival signature to calculate the system reliability
+can be used with other parametric component lifetime distributions
+that form a canonical exponential family,
+since for such distributions, a canonical conjugate prior
+using the same canonical parameters $\nz$ and $\yz$ can be constructed,
+for details see, e.g., \citeN[p.~202 and 272f]{2000:bernardosmith}, or \citeN[p.~8]{diss}.
+%
+Likewise straightforward to implement is, e.g., the analysis of the effect of replacing failed components
 in the system on system reliability bounds. %the reliability quantification $[\lRsys(t \mid T > \tnow), \uRsys(t \mid T > \tnow)]$.
 Criteria for the trade-off between the cost of replacement and the gain in reliability
 would have to be adapted for the interval output of our model,
 leading to very interesting research questions.
-%
+
 To estimate the shape parameters $\beta_k$ together with the scale parameters $\lambda_k$,
 one could follow standard Bayesian approaches and use a finite discrete distribution for $\beta_k$.
 Developing this together with suitable sets of priors for $\lambda_k$,
 in particular to show the effect of prior-data conflict, is another interesting challenge for future research.
-%
+
 Another further important aspect in system reliability we have not accounted for yet
 is the possibility of common-cause failures,
 i.e., failure events where several components fail at the same time due to a shared or common root cause.
