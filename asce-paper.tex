@@ -257,22 +257,22 @@ decisions about, e.g., scheduling of maintenance work can be made.
 Often, there is no failure data for the system itself
 (e.g., if the system is a prototype, or the system is used under unique circumstances),
 but there is some information about failure times for the components the system is made of.
-We are able to analyse systems of arbitrary system structures, %layout of components,
+The proposed method allows to analyse systems of arbitrary system structures, %layout of components,
 i.e., any combination and nesting of series, parallel, k-out-of-n, or bridge-type arrangements,
 by use of the survival signature \cite{2012:survsign}.
 In this paper, we assume that components can be divided into $K$ different groups,
 and components within each group $k$ ($k=1, \ldots, K$) can be assumed to be exchangeable,
 i.e., to follow the same failure time distribution.
-We denote components of group $k$ as \emph{type $k$ components},
-and assume independence between component types,
-such that failure times of components of different types are independent.
-We assume that type $k$ component lifetimes $T_i^k$ ($i = 1, \ldots, n_k$)
-are Weibull distributed with type-specific parameters,
+Components of group $k$ are denoted as \emph{type $k$ components},
+and are assumed to be independent from components of other types.
+%such that failure times of components of different types are independent.
+Type $k$ component lifetimes $T_i^k$ ($i = 1, \ldots, n_k$)
+are assumed as Weibull distributed with type-specific parameters,
 where the shape parameter $\beta_k$ is known
 and the scale parameter $\lambda_k$ is unknown.
 
 Focusing on a running system,
-we assume that our observations consist solely of the failure times of components in this system up to time $\tnow$,
+we assume that observations consist solely of the failure times of components in this system up to time $\tnow$,
 such that the failure times of components that have not failed by $\tnow$ are right-censored,
 and calculate $\Rsys(t \mid t > \tnow) = P(\Tsys \geq t \mid t > \tnow)$,
 which can be used to determine the remaining useful life of the system
@@ -283,9 +283,9 @@ The Bayesian approach allows to base estimation of the component failure distrib
 on both data and further knowledge not given by the data,
 the latter usually provided in the form of expert knowledge.
 This knowledge is encoded in form of a so-called prior distribution,
-which here, as we assume the shape parameter $\beta_k$ to be known,
+which here, as the shape parameter $\beta_k$ is assumed to be known,
 is a distribution on the scale parameter $\lambda_k$. %of the component lifetime distribution.
-Expert knowledge is especially important when there is very few data on the components (like in our scenario),
+Expert knowledge is especially important when there is very few data on the components, %(like in our scenario),
 as only with its help meaningful estimates for the system reliability can be made.
 %
 Due to the iterative nature of the Bayesian framework,
@@ -304,8 +304,8 @@ This idea has been explored in systematic sensitivity analysis, or robust Bayesi
 (for an overview on this approach, see, e.g.,
 \citeNP{1994:berger} or \citeNP{2000:rios}). %\citeNP{2005:ruggeri}, \citeNP{2000:bergerinsuaruggeri}
 
-The work we present here can be seen as belonging to the robust Bayesian approach,
-as our work uses sets of priors. However, our focus and interpretation is slightly different,
+The work presented here can be seen as belonging to the robust Bayesian approach
+since it uses sets of priors. However, our focus and interpretation is slightly different,
 as we consider the result of our procedure, sets of reliability functions, as the proper result,
 while a robust Bayesian would base his analyses on a single reliability function from the set
 in case (s)he was able to conclude that quantities of interest are not `too sensitive' to the choice of prior.
@@ -313,25 +313,25 @@ In contrast, our viewpoint is rooted in the theory of imprecise or interval prob
 where sets of distributions are used to express the precision of probability statements themselves:
 the smaller the set, the more precise the probability statement.
 Indeed, the system reliability function $\Rsys(t)$ is a collection of probability statements,
-and a small set for $\Rsys(t)$ will indicate that we can quantify the reliability of the system quite precisely,
-while a large set will indicate that our knowledge about $\Tsys$ is rather shaky.
+and a small set for $\Rsys(t)$ will indicate that the reliability of the system can be can quantified quite precisely,
+while a large set will indicate that available knowledge about $\Tsys$ is rather shaky.
 %
-In line with imprecise or interval probability methods, we will thus have, for each $t$,
+In line with imprecise or interval probability methods, the method provides, for each $t$,
 a lower reliability $\lRsys(t) = \ul{P}(T_\text{sys} \geq t)$,
 and an upper reliability $\uRsys(t) = \ol{P}(T_\text{sys} \geq t)$.
-We will explain in Sections~\ref{sec:modforsurpr} and \ref{sec:robrel} how these bounds are obtained
+Sections~\ref{sec:modforsurpr} and \ref{sec:robrel} will explain how these bounds are obtained
 based on sets of prior distributions on the scale parameters of the component lifetime distributions.
 
-The central merit of our method is that it adequately reflects prior-data conflict
+The central merit of the proposed method is that it adequately reflects prior-data conflict
 (see, e.g., \citeNP{2006:evans}),
 i.e.\ the conflict that can arise between prior assumptions on component lifetimes
 and observed behaviour of components in the system under study.
-As we will show in Section~\ref{sec:weibull}, when taking the standard choice of a conjugate prior,
+As will be shown in Section~\ref{sec:weibull}, when taking the standard choice of a conjugate prior,
 prior-data conflict is ignored, as the spread of the posterior distribution does not increase in case of such a conflict,
 ultimately conveying a false sense of certainty
-by communicating that we can quantify the reliability of a system quite precisely when in fact we can not.
+by communicating that the reliability of a system can be quantified quite precisely when in fact it can not.
 %
-In contrast, our method will indicate prior-data conflict by wider bounds for $\Rsys(t)$.
+In contrast, the proposed method will indicate prior-data conflict by wider bounds for $\Rsys(t)$.
 This behaviour is obtained by a specific choice for the set of priors (see \citeNP{Walter2009a} and \citeNP{diss} \S 3.1.4)
 which leads to larger sets of posterior distributions when prior knowledge and data are in conflict
 (see Section~\ref{sec:modforsurpr} for more details).
