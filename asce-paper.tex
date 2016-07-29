@@ -218,10 +218,10 @@ Models based on conjugate priors can be insensitive to prior-data conflict,
 in the sense that the spread of the posterior distribution does not increase in case of such a conflict,
 thus conveying a false sense of certainty.
 %
-We present an approach to mitigate this issue, by considering sets of prior distributions
+An approach to mitigate this issue is presented, by considering sets of prior distributions
 to model limited knowledge on Weibull distributed component lifetimes,
 treating systems with arbitary layout using the survival signature.
-Our approach can be seen as a robust Bayesian procedure or imprecise probability method
+This approach can be seen as a robust Bayesian procedure or imprecise probability method
 that reflects surprisingly early or late component failures
 by wider system reliability bounds.
 %We show how surprisingly early or late component failures
@@ -862,10 +862,10 @@ We therefore conclude that, for any fixed value of $\nkz$,
 the lower bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzu$, and
 the upper bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzl$.
 
-***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
-I have it for inverse gamma posterior $f(\lambda_k\mid \nkz,\ykz, \vec{t}^k_{e_k;n_k})$,
-but not for posterior predictive***
-
+%***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
+%I have it for inverse gamma posterior $f(\lambda_k\mid \nkz,\ykz, \vec{t}^k_{e_k;n_k})$,
+%but not for posterior predictive***
+%
 However, there is no corresponding reasoning for $\nkz$,
 such that different values of $\nkz$ may minimize (or maximize) $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ at different $l_k$'s.
 Therefore, the $\nkz$ values for lower and upper system reliability bounds are obtained by numeric optimization.
@@ -897,6 +897,7 @@ Writing out \eqref{eq:sysrel-survsign}, we get
  &= \min_{\PZi{1},\ldots,\PZi{K}} \Rsys\big(t \mid t > \tnow, \cup_{k=1}^K \{\PkZ, \vec{t}^k_{e_k;n_k}\}\big) \nonumber\\
  &= \min_{\substack{\nkzfun{1} \in \left[\nkzlfun{1}, \nkzufun{1}\right]\\ \vdots\\ \nkzfun{K} \in \left[\nkzlfun{K}, \nkzufun{K}\right]}}
     \sum_{l_1=0}^{n_1-e_1} \cdots \sum_{l_K=0}^{n_K-e_K} \Phi(l_1,\ldots,l_K) \prod_{k=1}^K P(C^k_t = l_k\mid\nkz,\ykzl, \mbf{t}^k_{e_k;n_k})\,,
+\label{eq:sysrel-optim-n0}
 \end{align}
 \end{linenomath*}
 such that a $K$-dimensional box-constraint optimization is needed to obtain $\lRsys(t \mid t > \tnow)$.
@@ -1265,14 +1266,71 @@ while uncertainty is considerably reduced for periods further in the future.
 \section{Concluding Remarks}
 \label{sec:concluding}
 
-***if we would also wish to learn about the shape pm, we could follow
-standard Bayesian approaches and use a finite discrete distribution for beta - developing this together
-with suitable sets of priors for lambda, in particular to show the effect of prior-data conflict, is an interesting
-challenge for future research.
+In this paper we presented a robust Bayesian approach to reliability estimation for systems of arbitrary layout,
+and showed how the use of sets of prior distributions results in increased imprecision,
+i.e., more cautious probability statements, in case of prior-data conflict (cases~2 and 3 in Section~\ref{sec:examples}),
+while giving more precise reliability bounds when prior and data are in agreement (case~1 in Section~\ref{sec:examples}).
+The parameters through which prior information is encoded have a clear interpretation
+and are thus easily elicited, either directly or with help of the prior predictive \eqref{eq:tpriopred}.
+Calculation of lower and upper predictive system reliability bounds is tractable,
+requiring only a simple $K$-dimensional box-constrained optimization in Equation~\eqref{eq:sysrel-optim-n0}.
 
-***acknowledgements
+We think that increased imprecision is an appropriate tool for mirroring prior-data conflict
+when considering sets of priors as is done in both the robust Bayesian and imprecise probability framework.
+We want to emphazise, however, that this tool may be useful already
+for just highlighting `conflict' between multiple information sources,
+and that we do not think that the resulting set of posteriors,
+although it can form a meaningful basis, must necessarily be used
+for all consequential inferences, as a strict Bayesian would posit.
+We believe an analyst is free to reconsider any aspect of a model
+(of which the choice of prior can be seen to form a part) after seeing the data,
+and so may use our method only for becoming aware of a conflict between prior and data.
 
-\pagebreak
+The robust Bayesian setting we employed provides many further modelling opportunities
+beyond the explicit reaction to prior-data conflict.
+These opportunities have not yet been explored and
+provide a wide field for further research.
+An example is our currently ongoing investigation into
+extending the present model to allow also for an appropriate reflection of very strong agreement between prior and data
+\cite{ipmu2016}.
+
+There are many aspects to further develop in our analysis and modeling.
+Straightforward to implement is, e.g., the analysis of the effect of replacing failed components
+in the system on system reliability bounds. %the reliability quantification $[\lRsys(t \mid T > \tnow), \uRsys(t \mid T > \tnow)]$.
+Criteria for the trade-off between the cost of replacement and the gain in reliability
+would have to be adapted for the interval output of our model,
+leading to very interesting research questions.
+%
+To estimate the shape parameters $\beta_k$ together with the scale parameters $\lambda_k$,
+one could follow standard Bayesian approaches and use a finite discrete distribution for $\beta_k$.
+Developing this together with suitable sets of priors for $\lambda_k$,
+in particular to show the effect of prior-data conflict, is another interesting challenge for future research.
+%
+Another further important aspect in system reliability we have not accounted for yet
+is the possibility of common-cause failures,
+i.e., failure events where several components fail at the same time due to a shared or common root cause.
+This could be done by combining the common-cause failure model approaches
+of \citeN{Troffaes2014a} and \citeN{2015:coolen-commoncause}.
+
+On a more abstract level, the choice for the set of prior parameters
+(generating the set of prior component failure distributions) as $[\nkzl, \nkzu] \times [\ykzl, \ykzu]$
+has the advantage of allowing for easy elicitation and tractable inferences,
+but it may not be suitable to reflect certain kinds of prior knowledge.
+Also, as studied in \cite{Walter2011a} and \cite[\S 3.1]{diss},
+the shape of the prior parameter set has a crucial influence on model behaviour
+like the severity of prior-data conflict reaction.
+As noted in \cite[pp.~66f]{diss},
+more general prior parameter set shapes are possible in principle,
+but may be more difficult to elicit and make calculations more complex.
+
+
+\section*{Acknowledgements}
+
+Gero Walter was supported by the DINALOG project CAMPI
+(``Coordinated Advanced Maintenance and Logistics Planning for the Process Industries'').
+
+
+%\pagebreak
 %
 %
 % Now we start the appendices, with the new section name, "Appendix", and a 
