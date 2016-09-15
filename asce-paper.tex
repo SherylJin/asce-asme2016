@@ -350,7 +350,7 @@ current observations in the running system and past observations from component 
 
 The paper is organized as follows.
 In Section~\ref{sec:weibull}, a Bayesian analysis for Weibull component lifetimes
-with fixed shape parameter is describe,
+with fixed shape parameter is described,
 illustrating the issue of prior-data conflict.
 Section~\ref{sec:modforsurpr} then details the use of sets of priors
 for the scale parameter $\lambda_k$ of the Weibull distribution,
@@ -465,7 +465,7 @@ We thus have
 %In terms of canonical parameters $\nkz$ and $\ykz$, we assume $\lambda_k \mid \nkz,\ykz \sim \ig(\nkz + 1, \nkz\ykz)$.
 From the simple update rule \eqref{eq:ig-update}, we see that
 $\yn$ is a weighted average of the prior parameter $\yz$ and the maximum likelihood (ML) estimator $\taut/n$,
-with weights $\nz$ and $n$, respectively.
+with weights proportional to $\nz$ and $n$, respectively.
 $\nz$ can thus be interpreted as a prior strength or pseudocount,
 indicating how much our prior guess should weigh against the $n$ observations.
 Furthermore, $\V[\lambda\mid\nz,\yz] = (\yz)^2 / (1 - 1/\nz)$,
@@ -1295,7 +1295,7 @@ extending the present model to allow also for an appropriate reflection of very 
 There are many aspects to further develop in our analysis and modeling.
 The general approaches used in this paper,
 namely the use of sets of conjugate priors for component lifetime models
-and the survival signature to calculate the system reliability
+and the survival signature to calculate the system reliability,
 can be used with other parametric component lifetime distributions
 that form a canonical exponential family,
 since for such distributions, a canonical conjugate prior
