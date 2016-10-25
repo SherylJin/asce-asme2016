@@ -65,7 +65,7 @@ postpredC <- function(n0y0, beta, n, fts, tnow, t, l, prior = FALSE){
     stop("l can be at most n-e")
   nn <- n0y0[1] + e
   if(!prior)
-    nnyn <- n0y0[1]*n0y0[2] + (n-e)*tnow + sum(fts^beta)
+    nnyn <- n0y0[1]*n0y0[2] + (n-e)*(tnow^beta) + sum(fts^beta)
   else
     nnyn <- n0y0[1]*n0y0[2]
   j <- seq(0, n-e-l)
