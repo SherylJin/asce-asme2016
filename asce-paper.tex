@@ -349,6 +349,18 @@ If a prior based on component test data is used,
 such prior-data conflict sensitivity furthermore allows to uncover a conflict between
 current observations in the running system and past observations from component tests.
 
+The topic of prior-data conflict or agreement has of course received attention within the precise Bayesian statistics framework.
+For example, \citeN{2008:bousquet} proposed a method for diagnostics of agreement or disagreement between the prior and data,
+based on a ratio of Kullback-Leibler divergences.
+\citeN{2012:ohagan-pericchi} propose the use of heavy-tailed distributions which,
+in case of conflict between multiple sources of prior information,
+typically provide more weight to one or more of these, when combined with the data,
+than would happen with more commonly used prior distributions.
+While such approaches have some interesting features, e.g. through the quantification of level of disagreement,
+they do not resolve the fundamental issue commented on here,
+namely that the end result of the Bayesian inference remains a single-valued probability
+which is a weighted average of the prior and data inputs.
+
 The paper is organized as follows.
 In Section~\ref{sec:weibull}, a Bayesian analysis for Weibull component lifetimes
 with fixed shape parameter is described,
@@ -1297,6 +1309,8 @@ provide a wide field for further research.
 An example is our currently ongoing investigation into
 extending the present model to allow also for an appropriate reflection of very strong agreement between prior and data
 \cite{ipmu2016}.
+
+***(we could add something more, e.g. that it is interesting for future research to investigate measures of prior-data conflict based on imprecise probabilistic inference or so, perhaps in the concluding remarks section, but I am not sure if that is really needed)***
 
 There are many aspects to further develop in our analysis and modeling.
 The general approaches used in this paper,

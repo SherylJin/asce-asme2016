@@ -231,13 +231,14 @@ However, the authors might want to consider to comment about:
 
 \smallskip
 
-\empħ{We discuss our changes related to existing and traditional approaches in the answers to Reviewer 2's comments below.}
+\emph{We discuss our changes related to existing and traditional approaches in the answers to Reviewer 2's comments below.}
 
 \item are any numerical approaches that can be used to perform system reliability based on the survival signature
 or consider arbitrary distributions for the component failure time?
+
 \smallskip
 
-\empħ{We are not sure if we have understood this comment well.
+\emph{We are not sure if we have understood this comment well.
 The survival signature allows to calculate the system reliability for arbitrary component lifetime distributions,
 as is clear from Equation~(13), this is explained in detail in the cited reference (Coolen and Coolen-Maturi 2012).
 We have added a sentence to emphasize this fact.}
@@ -246,6 +247,54 @@ We have added a sentence to emphasize this fact.}
 Furthermore, at page 15 the authors make a statement that this method has been implemented in R
 and it is intended to be released as a package. Is the code already available? 
 
+\smallskip
+
+\emph{Yes, it was our intention to provide an \textsf{R} package when we submitted the manuscript.
+A package for calculating survival signatures called \texttt{ReliabilityTheory} is available,
+but for other computations, we were not able to provide a package yet. %Unfortunately, the first author's ***
+However, well-commented code for all computations and fugures is available upon request,
+and is also in the github repository
+\texttt{http://www.github.com/geeeero/asce-asme2016}.***}
+
+
 \section*{Reviewer 2}
+
+The paper is well written and interesting enough.
+Nonetheless, the products of research are not really new in the fields of Bayesian analysis and reliability analysis.
+In my view, there is a deep lack of bibliographical review,
+and the subject is not sufficiently argued by a detailed case-study
+(typically, there is no real expert information for the case-study considered, and the authors make purely subjective assumptions).
+The Weibull distribution (which is in fact simplified to the Weibull one) is clearly very usual,
+and the conjugate priors and virtual data are usual tools.
+The authors do not detail formally what is a prior-data conflict, while several definitions exist.
+
+\smallskip
+
+\emph{There are several issues here:}
+\begin{enumerate}
+\item \emph{Contrary to the reviewer's suggestion, the work presented in this paper is novel.
+First, prior-data conflict within imprecise probability has not yet been presented within a reliability context.
+Secondly, the combination of imprecise probability methods that can reflect prior data conflict with the survival signature,
+enabling far more large-scale applications than without the use of the survival signature, is novel.}
+\item \emph{Deep lack of bibliographic review:
+there is very little work thus far on imprecise probability methods for prior data conflict, indeed we have referred to it.
+However, as is also clear from the reviewer's later comments,
+the suggestion is probably to extend on literature for prior data conflict in PRECISE Bayesian analysis.
+The paper already contained a clear argument on why precise probabilistic (Bayesian) methods struggle to reflect,
+and deal with, prior-data conflict, while imprecise methods, as shown, can do so in an intuitively attractive way,
+namely by increasing imprecision for an event of interest.
+Nevertheless, the reviewer has pointed us to some interesting papers, for which we are grateful.
+We have included a brief mentioning of two of the suggested papers,
+Bousquet (2008) and O'Hagan and Perrichi (2012), in the introductory section.}
+\item \emph{Detail (or define?) what a prior-data conflict is:
+A formal definition of prior-data conflict for our imprecise probability approach is given in Walter and Augustin (2009, Definition~6). 
+Our approach departs from precise Bayesian methods for identifying prior-data conflict (or agreement)
+by *** ***
+Frank: this is a somewhat interesting point.
+In our case, it effectively is SHOWN by the method when increased imprecision occurs
+which I think is far more attractive than one of the many possible `definitions'. But perhaps adding a sentence to the end section (as suggested just above) about possible further research into this may be good.}
+\end{enumerate}
+
+
 
 \end{document}
