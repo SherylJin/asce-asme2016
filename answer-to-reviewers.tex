@@ -1,5 +1,5 @@
-\documentclass[Journal,SectionNumbers,InsideFigs]{ascelike}
-%\documentclass[Journal,SectionNumbers,SingleSpace,InsideFigs]{ascelike}
+%\documentclass[Journal,SectionNumbers,InsideFigs]{ascelike}
+\documentclass[Journal,SectionNumbers,SingleSpace,InsideFigs]{ascelike}
 
 %\usepackage{subfigure}
 %\usepackage{epsfig}
@@ -212,9 +212,40 @@ Our answers are interlaced and typeset in \emph{italic}.
 \end{abstract}
 
 
-\section{Reviewer 1}
+\section*{Reviewer 1}
 
+The authors presented an approach to mitigate the issue of prior-data conflict.
+The idea is to consider sets of prior distributions to model limited knowledge on Weibull distributed component lifetimes,
+and then to model the systems with arbitrary layout using the survival signature.
+As mentioned by the authors the calculation of lower and upper predictive system reliability bounds is tractable.
 
-\section{Reviewer 2}
+\smallskip
+
+\emph{***Drop notion of `mitigate', replace with `highlight' / etc? (appears in abstract and end of introduction only) ***\\
+We present a method that explicitly shows, through imprecision in the inferences, when prior and data vary substantially.}
+
+The manuscript is well written, clear and complete. The manuscript is ready to be published.
+However, the authors might want to consider to comment about:
+\begin{enumerate}
+\item how this approach performs compared with existing and traditional approaches
+
+\smallskip
+
+\empħ{We discuss our changes related to existing and traditional approaches in the answers to Reviewer 2's comments below.}
+
+\item are any numerical approaches that can be used to perform system reliability based on the survival signature
+or consider arbitrary distributions for the component failure time?
+\smallskip
+
+\empħ{We are not sure if we have understood this comment well.
+The survival signature allows to calculate the system reliability for arbitrary component lifetime distributions,
+as is clear from Equation~(13), this is explained in detail in the cited reference (Coolen and Coolen-Maturi 2012).
+We have added a sentence to emphasize this fact.}
+\end{enumerate}
+
+Furthermore, at page 15 the authors make a statement that this method has been implemented in R
+and it is intended to be released as a package. Is the code already available? 
+
+\section*{Reviewer 2}
 
 \end{document}

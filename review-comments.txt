@@ -5,7 +5,10 @@ This is just a boring job that should be reasonable to do. An alternative is to 
 format and say you will do all that if accepted, in particular sending a copyright transfer agreement
 is silly before formal acceptance.
 
-Editor's comments:
+Editor’s comments:
+
+The reviewers agree on the fact that the paper is clearly written and suitable for publication in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems. However, Reviewer #2 in particular raises concerns about a lack of sufficient bibliographical review. The authors are encouraged to complement their paper with more details on how their approach compare to existing ones (especially by defining more precisely prior-data conflicts) and by possibly apply their method to a more realistic case study.
+
 We are asked, encouraged (so not extremely strictly), to explain a bit more how our work compares
 to existing ones, more about this under Rev2. A `more realistic case study' is suggested with `possibly'
 in the sentence, so we can get away with this (see also under Rev2). The editor takes a positive view and clearly is careful on suggesting changes.

@@ -223,7 +223,7 @@ Models based on conjugate priors can be insensitive to prior-data conflict,
 in the sense that the spread of the posterior distribution does not increase in case of such a conflict,
 thus conveying a false sense of certainty.
 %
-An approach to mitigate this issue is presented, by considering sets of prior distributions
+An approach to mitigate/highlight*** this issue is presented, by considering sets of prior distributions
 to model limited knowledge on Weibull distributed component lifetimes,
 treating systems with arbitrary layout using the survival signature.
 This approach can be seen as a robust Bayesian procedure or imprecise probability method
@@ -355,7 +355,7 @@ with fixed shape parameter is described,
 illustrating the issue of prior-data conflict.
 Section~\ref{sec:modforsurpr} then details the use of sets of priors
 for the scale parameter $\lambda_k$ of the Weibull distribution,
-showing how this mitigates the prior-data conflict issue for $\lambda_k$.
+showing how this mitigates / highlights*** the prior-data conflict issue for $\lambda_k$.
 Section~\ref{sec:robrel} then develops a method to calculate system reliability bounds
 for a running system based on sets of priors for $\lambda_k$. 
 %To this end, Bayesian estimation of $\lambda_k$ under right-censored observations is covered in Section~\ref{sec:lambdawithcens},
@@ -715,8 +715,12 @@ P(\Tsys > t) &= \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} P(\Tsys > t \mid C^
 \end{linenomath*}
 where $P(C^k_t = l_k)$ is the (predictive) probability that exactly $l_k$ components of type $k$ function at time $t$,
 and the last equality holds as we assume that components of different types are independent.
+Equation~\ref{eq:sysrel-survsign} shows that the survival signature allows to calculate the system reliability $P(\Tsys > t)$
+for arbitrary component failure time distributions,
+as the probabilities $P(C^k_t = l_k)$ can be determined from any failure time distribution.
 Note that for coherent systems,
 the survival signature $\Phi(l_1,\ldots,l_K)$ is non-decreasing in each $l_k$.
+
 %
 %A priori, we have, for $l_k = 0,1,\ldots, n_k$,
 %\begin{linenomath*}
