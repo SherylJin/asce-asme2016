@@ -1,0 +1,35 @@
+Dear Dr Walter,
+
+Your Technical Paper, listed above, has completed a review for publication in ASCE's ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems, Part A: Civil Engineering. The editor's decision was to Revise for Re-Review (Technical Paper) and has requested that a revised manuscript be prepared based on the reviewers' evaluations (shown at the end of this email) and submitted for re-review by 05/24/2017.
+
+You can view any reviewers' attachments by opening the attachments on this email OR by clicking on this link to see them in the system: . Please note, this link will only work one time. 
+
+When preparing the revised manuscript in accordance with the reviewers' concerns and suggestions, be sure to address the following additional corrections:
+
+                        1.      Section numbers.  Remove section numbers from headings—use word headings only.  Remove section number references from text.
+ 
+2.      Upload your revised manuscript text in a double-spaced, single-column format in Microsoft Word or LaTex. For information about working with Overleaf/ASCE’s LaTeX template, please see: https://www.overleaf.com/help. You may access the ASCE template here: https://www.overleaf.com/latex/templates/template-for-preparing-your-submission-to-the-american-society-of-civil-engineers-asce/pbwcqsvndpty#.Vz8K-_lVhBc
+
+3.      Remove the figures from your manuscript text and upload them separately (one figure per file) in TIFF, EPS or PDF format.  If uploading PDF figure files, please check to make sure the fonts are embedded (see http://ascelibrary.org/userimages/ContentEditor/1413213918402/ASCE%20PDF%20Figure%20Tool.zip for instructions for PDF figures).  Also, please make sure to reference the figure number in each file name.
+
+4.      Embedded Tables.  Please remove tables from within the text of your paper and place at the end of your paper after the references and figure captions list. If you upload them separately, please make sure they are uploaded in Microsoft Word/LaTex format. Each table should appear on a separate page.
+
+5.      Please provide a double-spaced list of figure captions on a separate page. Do not remove the figure captions from the figures.
+
+6.      *Please print out, sign, scan and upload a copy of our Copyright Transfer Agreement which can be found at: http://ascelibrary.org/userimages/ContentEditor/1412622184009/ASCE%20Authorship%20originality%20and%20CTA%20form.pdf
+
+
+Please submit the revised manuscript and a detailed response to the reviewers' criticisms by logging onto the Editorial Management system at http://jrnrueng.edmgr.com/ and clicking on the "Submissions Needing Revision" link.
+
+For your convenience, there is a calendar entry item attached that works with electronic calendars in the iCalendar format (e.g. Outlook, iCal, Google).   To use, click to open the attachment, and then save it to your calendar.
+
+Be advised that the editor may request further revision or decline your revised version if all of the reviewers' comments have not been adequately addressed.
+
+Comments from the Editor and Reviewers can be found below.
+
+We look forward to receiving your revised manuscript.
+
+Sincerely,
+
+LaTarsha Pough
+Editorial Coordinator

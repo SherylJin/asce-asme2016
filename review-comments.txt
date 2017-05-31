@@ -1,0 +1,126 @@
+
+
+The first part of the email is all about getting the paper in the format they want for the journal.
+This is just a boring job that should be reasonable to do. An alternative is to send it in current
+format and say you will do all that if accepted, in particular sending a copyright transfer agreement
+is silly before formal acceptance.
+
+Editor's comments:
+We are asked, encouraged (so not extremely strictly), to explain a bit more how our work compares
+to existing ones, more about this under Rev2. A `more realistic case study' is suggested with `possibly'
+in the sentence, so we can get away with this (see also under Rev2). The editor takes a positive view and clearly is careful on suggesting changes.
+
+Rev1:
+First sentence: we do not `mitigate the issue of prior data conflict', if I understand `mitigate' well.
+We just present a method that explicitly shows, through imprecision in the inferences, when prior and data vary substantially. Then there are 2 suggestions. First compare with existing approaches, this is addressed for Rev2 later. I do not understand the second starred comment at all. What is `perform system reliability'? We can add somewhere a bit clearer that the approach using surv sign can be used with any lifetime distribution, for members of the exponential family we have the specific results on prior data conflict.
+The reviewer also asks about the R statement. The status wrt R may need some clarification, Louis' package is available but I assume that there will not be a package on the prior-data conflict part?
+
+
+Rev2:
+We should include references to the two attached papers. I will send further comments and suggestions later (probably tonight).
+
+
+Reviewer #2: The paper is well written and interesting enough. Nonetheless, the products of research are not really new in the fields of Bayesian analysis and reliability analysis. In my view, there is a deep lack of bibliographical review, and the subject is not sufficiently argued by a detailed case-study (typically, there is no real expert information for the case-study considered, and the authors make purely subjective assumptions).  The Weibull distribution (which is in fact simplified to the Weibull one) is clearly very usual, and the conjugate priors and virtual data are usual tools. The authors do not detail formally what is a prior-data conflict, while several definitions exist.
+
+
+Response: There are several issues here:
+
+1. Contrary to the reviewer's suggestion, the work presented in this paper is novel. First, prior data conflict within imprecise probability has not yet been presented within a reliability context. Secondly, the combination of imprecise probability methods that can reflect prior data conflict with the survival signature, enabling far more large-scale applications than without the use of the survival signature, is novel.
+
+2. Deep lack of bibliographic review: there is very little work thus far on imprecise probability methods for prior data conflict, indeed we have referred to it. However, as is also clear from the reviewer's later comments, the suggestion is probably to extend on literature for prior data conflict in PRECISE Bayesian analysis. The paper already contained a clear argument on why precise probabilistic (Bayesian) methods struggle to reflect, and deal with, prior data conflict, while imprecise methods, as shown, can do so in an intuitively attractive way, namely by increasing imprecision for an event of interest. Nevertheless, the reviewer has pointed us to some interesting papers, for which we are grateful. We have included a brief mentioning of two of the suggested papers, Bousquet (2008) and O'Hagan and Perrichi (2012), in the introductory section.
+
+I propose the following additions to the paper: perhaps best at the end of the penultimate paragraph of Section 1 (feel free to change or place elsewhere)
+
+The topic of prior-data conflict or agreement has of course received attention within the precise Bayesian statistics framework. For example, Bousquet (2008) proposed a method for diagnostics of agreement or disagreement between the prior and data, based on a ratio of Kullback-Leibler divergences. O'Hagan and Perrichi (2012) propose the use of heavy-tailed distributions which, in case of conflict between multiple sources of prior information, typically provide more weight to one or more of these, when combined with the data, then would happen with more commonly used prior distributions. While such approaches have some interesting features, e.g. through the quantification of level of disagreement, they do not resolve the fundamental issue commented on here, namely that the end result of the Bayesian inference remains a single-valued probability which is a weighted average of the prior and data inputs.
+
+(we could add something more, e.g. that it is interesting for future research to investigate measures of prior-data conflict based on imprecise probabilistic inference or so, perhaps in the concluding remarks section, but I am not sure if that is really needed)
+
+3. Detail (? define?) what a prior data conflict is: this is a somewhat interesting point. In our case, it effectively is SHOWN by the method when increased imprecision occurs, which I think is far more attractive than one of the many possible `definitions'. But perhaps adding a sentence to the end section (as suggested just above) about possible further research into this may be good.
+
+
+
+
+The main advantage of this article is that it clearly presents Bayesian robustness (except the decision-theoretical part, which is a bit prejudicial), which can be valuable for engineers. Therefore the authors should provide, in my view, a more detailed presentation of prior-data conflicts, provide more details about the reality of their case-study and go to the final applicability of their methodology. A very good point is the production of a software package, but no detail is given about the name and the availability.
+
+
+Response: I do not really understand the `except' bit of the first sentence. The main issue here, to be mentioned in the response, is that we do NOT present a case study, and indeed make this already very clear in the text. We mention explicitly `examples illustrating' at the end of Sect 1, and at the start of Section 6, and at the start of 6.1 it is clear that these are not really elicited expert opinions. So I do not really see the confusion here. With regard to software package see my earlier question wrt Rev1.
+
+
+
+-----------------------------------
+Here are some comments on the text
+-----------------------------------
+
+Abstract : the term "straightforward" is to be relaxed, since prior elicitation is clearly not easy to conduct in practice. This sentence is contradictory with l. 52, for instance. I suspect that the authors are too optimistic since the Weibull case with a known shape parameter is very simplistic.
+
+R: replace straightforward in line 3 of the abstract by `possible' or similar?
+
+
+
+
+L. 32 ; could you define formally what is a "survival signature" ?
+
+
+R: this is silly and shows the reviewer has not really read the paper well I think... The definition and explanation of THE survival signature is given in Section 4.2.
+
+
+
+L. 40 and following. Actually, up to a given parameterisation, all models are exponential since the shape parameters are known. According to my experience, this situation appears scarcely. This is the first reason why I have doubts on the reality of the motivating case-study (this motivation could besides appear within the Abtract). The authors could have a fair description of their model by noticing it.
+
+R: It is NOT a case study... the example is chosen to highlight the approach through a simple model, that can be widely understood. It being simple does not mean it is not relevant! Of course, more complicated models will be of interest for later research building on this, in particular towards larger real world applications, but the system failure time distribution here is already quite complex as we only make the model assumption at component level.
+
+
+
+p.6 ; it is more traditional to use the Gamma prior for 1/lambda rather than the inverse Gamma prior on lambda. The reason is that the virtual size n(0) can be in fact equal to a (and not a-1), since it should be possible to have a<1 and get a proper prior (typically, an expert information could be considered as providing as much information as 1/2 real observation). I am not convinced by the choice n(0)=a-1. Besides, a clearer interpretation of the conjugate prior (for all models allowing conjugate priors) is the virtual data posterior prior (using an original noninformative Jeffreys prior). See [1] for details and reference therein.
+
+
+R: parametrisation is chosen in order to facilitate the novel prior-data conflict method in the imprecise probabilistic approach. We can allow very small weight of the expert judgements but this would not illustrate (strong) prior data conflict well: in order to have prior-data conflict one needs pretty informative priors. I don't think we need to expand on the non-informative case as that is explicitly not of interest here.
+
+
+p.7 I understand the comparison made by the authors about the prior-data conflict. But it can be explained uniquely in terms of posterior sensitivity to a very small amount of virtual (hypothetical) or real data. In fact, this is a bit unfair in my view to examine the prior impact alone, then the prior and data impact through the posterior, for data which are not sampled by fixed ....as other prior guesses.
+I think that the authors should read more deeeply the literature dedicated to prior-data conflict (not only the paper by Evans & Moshonov, but others [2,3]) and summarize their conclusions : the conflict can be detected on the sample space, or in the parameter space. In the first solution (chosen by Evans & Moshonov), a conflict can be not  detected when the dimension increases, because of the possible presence of ancillary statistics. Since the authors are working only on a very simplified class of models, for which the statistics are exhaustive, this problem remains underlying.  Furthermore,  a large part of the literature is dedicated to create priors that lead to robust conclusion in the sense a conflict is removed [4]. In [3], the symmetric notion of prior-data agreement examines the case of non-conjugate Weibull models, and it could give ideas to the authors for improving this part of the article (and possibly the conclusion about giving more flexibility to priors ; it
+seems that the virtual size n(0) could be a useful calibration lever, to modulate for removing a possible conflict).
+.
+
+R: this all comes down again to what one can do within the precise framework, which remains limited - the authors have certainly read the literature well (see thesis Walter e.g.) but the reviewer seems to miss the key point: the IMPRECISE framework deals fundamentally different with information and prior-data conflict, and we claim and illustrate that this has advantages. Note (include in response:) that `modulating n(0) is NOT allowed in a careful (precise) Bayesian analysis': it would make the prior dependent on the data and as such go against the fundamental principles, although of course it is regularly done (e.g. `empirical Bayes') and it seems that researchers get away with this'. It must be emphasized that the method we present does not make the set of priors dependent on the data and as such is fundamentally sound from the (robust) Bayesian perspective.
+
+
+
+p.10 and Figure 2 : it could be interesting to see (graphically) the difference between the approach of the authors with a hierarchically Bayesian approach using uniform distributions between the bounds. I am not sure that the difference are really high.
+
+R: I do not think it would be that interesting to see any precise distribution in this plot, as it is all about the imprecision.
+
+
+L. 270. Place "Equations" before (19) and (20)
+
+R: yes, please do
+
+
+L. 293. Of which package do you talk? Other precisions from the submission?
+
+
+R: see comments wrt Rev1 earlier today
+
+
+
+L. 342. "One can imagine" is a bit surprising, since it tends to show that the considered case-study was not really examined using expert sollicitation. Could the authors give more détails about the questioning, or the assumptions made to admit that the results could very likely be arising from real experts?
+
+R: BUT IT IS CLEAR: it is an illustrating example, not a case study!
+
+
+
+Section 7. At the image of the full paper, this section is well written and interesting. But I think that the authors should be more precise when they talk about the (more reasonable) case of two-parameter Weibull distributions. There is a huge work on non-conjugate priors, and I think that the authors could refer to the work evoked hereinbefore, among others, to discuss the nature of what could be a good prior for such models.
+
+
+R: I would not add more as it is just concluding remarks, and we point out that future research would be needed where the usually used discrete priors would be a possible starting point. It is again about moving away from the dogma of precision, which seems to have been hard for the reviewer.
+
+
+------------
+References
+------------
+
+[1] Wolfson, Bousquet (2016). Elicitation. Wiley Stats Ref
+[2] Evans, Moshonov (2005). Checking for prior-data conflict with hierarchically specified priors. Tech. Rep. Toronto University.
+[3] Bousquet (2008). Diagnostics of prior-data agreement in applied Bayesian analysis. J. Applied Stat.
+[4] O'Hagan, Perrichi (2012). Bayesian heavy-tailed models and conflict resolution. Brazilian Journal of Probability and Statistics.
+
