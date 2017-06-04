@@ -214,7 +214,7 @@ E-mail: frank.coolen@durham.ac.uk.},
 In reliability engineering, data about failure events is often scarce.
 To arrive at meaningful estimates for the reliability of a system,
 it is therefore often necessary to also include expert information in the analysis,
-which is straightforward in the Bayesian approach by using an informative prior distribution.
+which is possible in the Bayesian approach by using an informative prior distribution.
 %
 A problem called prior-data conflict then can arise:
 observed data seem very surprising from the viewpoint of the prior,
@@ -854,7 +854,7 @@ and the objective is to obtain the bounds
 where we suppress in notation that $\lRsys(t \mid t > \tnow)$ and $\uRsys(t \mid t > \tnow)$
 depend on prior parameter sets and data.
 
-\eqref{eq:lrsysdef} and \eqref{eq:ursysdef} seem to suggest that
+Equations~\eqref{eq:lrsysdef} and \eqref{eq:ursysdef} seem to suggest that
 a full $2K$-dimensional box-constraint optimization is necessary,
 but this is not the case.
 Remember that $\Phi(l_1,\ldots,l_k)$ from \eqref{eq:sysrel-survsign} is non-decreasing in each of its arguments $l_1,\ldots,l_K$,
@@ -940,9 +940,9 @@ summation terms for which $\Phi(l_1,\ldots,l_K) > 0$.
 \fi %---------------------------
 
 We have implemented the method in the statistical computing environment \textsf{R} \cite{R},
-using box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim},
-and intend to release a package containing functions and code to reproduce all results and figures
-for the examples in Section~\ref{sec:examples} below.
+using box-constraint optimization via option \texttt{L-BFGS-B} of \texttt{optim}.
+Code for reproducing all results and figures for the examples in Section~\ref{sec:examples} below is available upon request.
+%and can also be found in the github repository \texttt{http://www.github.com/geeeero/asce-asme2016}.
 
 
 \section{Elicitation of prior parameter sets}
@@ -1309,8 +1309,10 @@ provide a wide field for further research.
 An example is our currently ongoing investigation into
 extending the present model to allow also for an appropriate reflection of very strong agreement between prior and data
 \cite{ipmu2016}.
-
-***(we could add something more, e.g. that it is interesting for future research to investigate measures of prior-data conflict based on imprecise probabilistic inference or so, perhaps in the concluding remarks section, but I am not sure if that is really needed)***
+Another interesting avenue for future research may be to
+investigate measures of prior-data conflict based on imprecise probabilistic inference.
+These measures could be based on changes in imprecision for certain key probabilities,
+like the system reliability at a prescribed mission time.
 
 There are many aspects to further develop in our analysis and modeling.
 The general approaches used in this paper,
