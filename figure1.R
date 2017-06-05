@@ -42,7 +42,9 @@ fig1 <- ggplot(fig1df, aes(x=x)) + geom_line(aes(y=y, group=p, colour=p)) + ylim
 #setEPS()
 #postscript("fig1.eps",width=5,height=3)
 pdf("fig1.pdf",width=6,height=3)
+showtext.begin()
 fig1
+showtext.end()
 dev.off()
 
 #

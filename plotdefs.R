@@ -9,7 +9,21 @@ ijarcols <- c("#b2df8a", "#1f78b4")
 ijarcol <- scale_colour_manual(values = ijarcols)
 ijarfill <- scale_fill_manual(values = ijarcols)
 
-library(extrafont)
+#library(extrafont) # has problems with transparency in figures
 #font_import()
-loadfonts()
+#loadfonts()
+
+#install.packages("showtext")
+#library(showtext)
+#old = setwd(tempdir())
+#download.file("http://downloads.sourceforge.net/project/cm-unicode/cm-unicode/0.7.0/cm-unicode-0.7.0-ttf.tar.xz",
+#              "cm-unicode-0.7.0-ttf.tar.xz")
+#untar("cm-unicode-0.7.0-ttf.tar.xz", compressed = "xz")
+#setwd("cm-unicode-0.7.0")
+#font.add("CM Roman",
+#         regular = "cmunrm.ttf",
+#         italic = "cmunti.ttf",
+#         symbol = "cmunti.ttf")
+#setwd(old)
+
 #

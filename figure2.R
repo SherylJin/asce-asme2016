@@ -47,8 +47,8 @@ weidf <- function(prior, data, tvec){
                            levels = c("Prior", "Posterior")))
 }
 
-fig2data2 <- weidf(forfig2, data2, tvec)
-fig2data3 <- weidf(forfig2, data3, tvec)
+fig2data2 <- weidf(forfig2, data2, lvec)
+fig2data3 <- weidf(forfig2, data3, lvec)
 fig2df <- rbind(data.frame(fig2data2, Panel = "Surprising Observations"),
                 data.frame(fig2data3, Panel = "Unsurprising Observations"))
 
@@ -61,7 +61,9 @@ fig2 <- ggplot(fig2df, aes(x = l)) + theme_bw() + ijarcol + ijarfill + ylim(0, 1
 #setEPS()
 #postscript("fig2.eps",width=8,height=3)
 pdf("fig2.pdf", width=8, height=3)
+showtext.begin()
 fig2
+showtext.end()
 dev.off()
 
 

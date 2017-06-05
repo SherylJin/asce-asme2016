@@ -74,9 +74,11 @@ fig4 # warnings refer to the four instances which have been rounded down to 1, b
 #setEPS()
 #postscript("fig4.eps",width=8,height=6)
 pdf("fig4.pdf", width=8, height=6)
+showtext.begin()
 fig4
+showtext.end()
 dev.off()
-#embed_fonts("fig4.pdf")
+#embed_fonts("fig4.pdf") # has problems with transparency
 
 # data 1: fitting failure times ---------------------------------------------------------------- #
 brfts1 <- list(c(6, 7), NULL, NULL, c(3, 4))
@@ -106,7 +108,9 @@ fig5a <- ggplot(popr1df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
 fig5a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 
 pdf("fig5a.pdf", width=8, height=6)
+showtext.begin()
 fig5a
+showtext.end()
 dev.off()
 
 # posterior system reliability function at tnow = 8
@@ -154,8 +158,11 @@ fig6a <- ggplot(popr2df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   geom_line(aes(y = upper, group = Item, colour = Item)) + 
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig6a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
+
 pdf("fig6a.pdf", width=8, height=6)
+showtext.begin()
 fig6a
+showtext.end()
 dev.off()
 
 # posterior system reliability function at tnow = 2
@@ -203,8 +210,11 @@ fig7a <- ggplot(popr3df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   geom_line(aes(y = upper, group = Item, colour = Item)) + 
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig7a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
+
 pdf("fig7a.pdf", width=8, height=6)
+showtext.begin()
 fig7a
+showtext.end()
 dev.off()
 
 # posterior system reliability function at tnow = 12
@@ -249,7 +259,9 @@ fig8
 #setEPS()
 #postscript("fig8.eps",width=8,height=6)
 pdf("fig8.pdf", width=8, height=6)
+showtext.begin()
 fig8
+showtext.end()
 dev.off()
 
 # plot of sysrel prior / posterior imprecision
@@ -276,10 +288,12 @@ fig9 <- ggplot(br5df, aes(x = tvec)) + theme_bw() + ylim(0, 1) + ijarcol + right
   facet_wrap(~Panel2, nrow=1) + xlab(expression(t)) + ylab(bquote(bar(R)[sys](t) - ~underline(R)[sys](t)))
 fig9
 
-setEPS()
-postscript("fig9.eps",width=8,height=3)
-#pdf("fig9.pdf", width=8, height=3)
+#setEPS()
+#postscript("fig9.eps",width=8,height=3)
+pdf("fig9.pdf", width=8, height=3)
+showtext.begin()
 fig9
+showtext.end()
 dev.off()
 
 
