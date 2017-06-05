@@ -9,4 +9,7 @@ ijarcols <- c("#b2df8a", "#1f78b4")
 ijarcol <- scale_colour_manual(values = ijarcols)
 ijarfill <- scale_fill_manual(values = ijarcols)
 
+library(extrafont)
+#font_import()
+loadfonts()
 #

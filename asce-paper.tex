@@ -1,22 +1,25 @@
-\documentclass[Journal,SectionNumbers,InsideFigs]{ascelike}
-%\documentclass[Journal,SectionNumbers,SingleSpace,InsideFigs]{ascelike}
+\documentclass[Journal,letterpaper]{ascelike-new}
+%\documentclass[Journal,SectionNumbers,InsideFigs]{ascelike}
+%% Please choose the appropriate document class option:
+% "Journal" produces double-spaced manuscripts for ASCE journals.
+% "NewProceedings" produces single-spaced manuscripts for ASCE conference proceedings.
+% "Proceedings" produces older-style single-spaced manuscripts for ASCE conference proceedings. 
+%
+%% For more details and options, please see the notes in the ascelike-new.cls file.
 
-%\usepackage{subfigure}
-%\usepackage{epsfig}
-%\usepackage{timesmt}
-
+% Some useful packages...
 \usepackage[utf8]{inputenc}
 \usepackage[OT1]{fontenc}
+\usepackage{lmodern}
 \usepackage{graphicx}
 \usepackage[english]{babel}
-
+\usepackage[figurename=Fig.,labelfont=bf,labelsep=period]{caption}
+\usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{bm}
-
-\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{booktabs}
 \usepackage{url}
 \usepackage{tikz}
@@ -59,12 +62,12 @@
    decorations.footprints,%
    decorations.markings,%
    shadows}
+%\usepackage{lineno} % comment this out to get line number again
+\usepackage{newtxtext,newtxmath}
+%\usepackage[bookmarks]{hyperref}
+\usepackage[colorlinks=true,citecolor=red,linkcolor=black]{hyperref}
 
-\usepackage{lineno} % comment this out to get line number again
-%\usepackage{hyperref}
-\usepackage[bookmarks]{hyperref}
-%\usepackage[colorlinks=true,citecolor=red,linkcolor=black]{hyperref}
-
+% Shortcuts...
 \newcommand{\reals}{\mathbb{R}}
 \newcommand{\posreals}{\reals_{>0}}
 \newcommand{\posrealszero}{\reals_{\ge 0}}
@@ -168,7 +171,6 @@
 \def\PkN{\Pi\un_k}
 \newcommand{\PZi}[1]{\Pi\uz_{#1}}
 
-
 \def\tnow{t_\text{now}}
 \def\tpnow{t^+_\text{now}}
 
@@ -176,40 +178,30 @@
 
 \newtheorem{example}{Example}
 
-\allowdisplaybreaks
-
-
+%\allowdisplaybreaks
+%
+% Please add the first author's last name here for the footer:
+\NameTag{Walter, \today}
+% Note that this is not displayed if the NoPageNumbers option is used
+% in the documentclass declaration.
+%
 \begin{document}
 \title{ROBUST BAYESIAN RELIABILITY FOR COMPLEX SYSTEMS UNDER PRIOR-DATA CONFLICT}
 
-\author{
-Gero Walter%
-\thanks{
-Postdoctoral Researcher,
+\author[1]{Gero Walter}
+\author[2]{Frank P.A. Coolen}
+
+\affil[1]{%
 School of Industrial Engineering,
 Eindhoven University of Technology, Eindhoven, The Netherlands.
-E-mail: g.m.walter@tue.nl. Corresponding author.},
-\ Ph.D.
-\\
-and
-Frank P.A. Coolen%
-\thanks{
-Professor,
+E-mail: g.m.walter@tue.nl.}
+\affil[2]{%
 Department of Mathematical Sciences,
 Durham University, Durham, United Kingdom.
-E-mail: frank.coolen@durham.ac.uk.},
-\ Ph.D.
-}
+E-mail: frank.coolen@durham.ac.uk.}
 
 \maketitle
 
-%Invited for special issue ``The treatment of uncertainty in risk and reliability modelling and decision making''
-%(special issue code SI022A), guest editors Luca Podolfillini, Bruno Sudret, Enrico Zio,
-%in ASCE-ASME Journal of Risk and Uncertainty in Engineering Systems: Part A (Civil Engineering)
-%
-%***``For most ASCE journals, the maximum number of words and word-equivalents is 10,000 for technical papers''
-%***Abstract must be 150--175 words long (this has 175), may not contain references or mathematics.
-%
 \begin{abstract}
 In reliability engineering, data about failure events is often scarce.
 To arrive at meaningful estimates for the reliability of a system,
@@ -223,24 +215,15 @@ Models based on conjugate priors can be insensitive to prior-data conflict,
 in the sense that the spread of the posterior distribution does not increase in case of such a conflict,
 thus conveying a false sense of certainty.
 %
-An approach to mitigate/highlight*** this issue is presented, by considering sets of prior distributions
+An approach to highlight this issue is presented, by considering sets of prior distributions
 to model limited knowledge on Weibull distributed component lifetimes,
 treating systems with arbitrary layout using the survival signature.
 This approach can be seen as a robust Bayesian procedure or imprecise probability method
 that reflects surprisingly early or late component failures
 by wider system reliability bounds.
-%We show how surprisingly early or late component failures
-%result in wider system reliability bounds.
-%
-%and study how surprisingly early or late component failures
-%affect the prediction of the reliability of a system with arbitrary layout,
-%making use of survival signature to characterise the system under study.
-%Our approach can be seen as a robust Bayesian procedure or imprecise probability method
-%that appropriately reflects surprising data in the posterior system reliability function.
 \end{abstract}
-% by communicating that we can quantify the reliability of a system quite precisely when in fact we cannot.
 
-\KeyWords{System Reliability, Imprecise Probability, Survival Signature, Robust Bayesian Methods, Remaining Useful Life}
+%\KeyWords{System Reliability, Imprecise Probability, Survival Signature, Robust Bayesian Methods, Remaining Useful Life}
 
 
 \section{Introduction}
@@ -367,7 +350,7 @@ with fixed shape parameter is described,
 illustrating the issue of prior-data conflict.
 Section~\ref{sec:modforsurpr} then details the use of sets of priors
 for the scale parameter $\lambda_k$ of the Weibull distribution,
-showing how this mitigates / highlights*** the prior-data conflict issue for $\lambda_k$.
+showing how this highlights the prior-data conflict issue for $\lambda_k$.
 Section~\ref{sec:robrel} then develops a method to calculate system reliability bounds
 for a running system based on sets of priors for $\lambda_k$. 
 %To this end, Bayesian estimation of $\lambda_k$ under right-censored observations is covered in Section~\ref{sec:lambdawithcens},
@@ -1074,6 +1057,8 @@ with those components marked that we assume to fail in each of the three cases s
 The values for $\Phi \not\in \{0,1\}$ for the complete system are given in Table~\ref{tab:brake-survsign}.
 
 \begin{table}
+\caption{Survival signature values $\not\in \{0,1\}$ for the simplified automotive brake system depicted in Figure~\ref{fig:brakesys-layout}.}
+\label{tab:brake-survsign}
 \centering
 \begin{tabular}{cccclcccccl}
   \toprule
@@ -1084,15 +1069,16 @@ M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\
 1 & 0 & 1 & 3 & 0.75 & & 1 & 0 & 3 & 1 & 0.75 \\ 
 0 & 1 & 0 & 1 & 0.50 & & 1 & 1 & 0 & 1 & 0.50 \\ 
 0 & 1 & 0 & 2 & 0.83 & & 1 & 1 & 0 & 2 & 0.83 \\ 
-0 & 1 & 1 & 1 & 0.62 & & 1 & 1 & 1 & 1 & 0.62 \\ 
-0 & 1 & 1 & 2 & 0.92 & & 1 & 1 & 1 & 2 & 0.92 \\ 
-0 & 1 & 2 & 1 & 0.75 & & 1 & 1 & 2 & 1 & 0.75 \\ 
-0 & 1 & 2 & 2 & 0.97 & & 1 & 1 & 2 & 2 & 0.97 \\ 
-0 & 1 & 3 & 1 & 0.88 & & 1 & 1 & 3 & 1 & 0.88 \\ 
+0 & 1 & 1 & 1 & 0.50 & & 1 & 1 & 1 & 1 & 0.62 \\ 
+0 & 1 & 1 & 2 & 0.83 & & 1 & 1 & 1 & 2 & 0.92 \\ 
+0 & 1 & 2 & 1 & 0.50 & & 1 & 1 & 2 & 1 & 0.75 \\ 
+0 & 1 & 2 & 2 & 0.83 & & 1 & 1 & 2 & 2 & 0.97 \\ 
+0 & 1 & 3 & 1 & 0.50 & & 1 & 1 & 3 & 1 & 0.88 \\ 
+0 & 1 & 3 & 2 & 0.83 \\
+0 & 1 & 4 & 1 & 0.50 \\
+0 & 1 & 4 & 2 & 0.83 \\
    \bottomrule
 \end{tabular}
-\caption{Survival signature values $\not\in \{0,1\}$ for the simplified automotive brake system depicted in Figure~\ref{fig:brakesys-layout}.}
-\label{tab:brake-survsign}
 \end{table}
 
 A fixed prior setting, described in Section~\ref{sec:ex-prior},
@@ -1106,7 +1092,7 @@ investigating the effect of learning about these failures on the component level
 Effects on posterior reliability bounds for the running system
 are then discussed for all three cases in Section~\ref{sec:ex-sysrel}.
 
-\subsection{Prior assumptions}
+\subsection{Prior Assumptions}
 \label{sec:ex-prior}
 
 The prior assumptions, which one can imagine to be determined by an expert,
@@ -1121,6 +1107,8 @@ leading to $\ykzlfun{\text{M}} = 75.4$ and $\ykzufun{\text{M}} = 244.1$,
 and the expert considers his knowledge on these expected lifetime bounds
 as having the strength of at least 2 and at most 5 observations.  
 \begin{table}
+\caption{Prior parameter sets for the four component types.}
+\label{tab:priorparamsets}
 \centering
 \begin{tabular}{crrrrrrr}
   \toprule
@@ -1132,8 +1120,6 @@ C & $2  $ & $8$\rule{1.5ex}{0ex} & $10$\rule{1.5ex}{0ex} & $81.5$ & $127.3$ & $1
 P & $1.5$ & $3$\rule{1.5ex}{0ex} & $ 4$\rule{1.5ex}{0ex} & $ 6.1$ & $  9.3$ & $1$\rule{1ex}{0ex} & $10$\rule{1ex}{0ex} \\
   \bottomrule
 \end{tabular}
-\caption{Prior parameter sets for the four component types.}
-\label{tab:priorparamsets}
 \end{table}
 %For the prior parameter sets $\PZi{\text{M}}$
 
@@ -1155,7 +1141,7 @@ illustrating the choice of prior parameter sets $\PkZ$, $k=\text{M}, \text{H}, \
 \end{figure}
 
 
-\subsection{Case 1: failure times as expected}
+\subsection{Case 1: Failure Times as Expected}
 \label{sec:ex-case1}
 
 In the first case, we observe $t_1^\text{C} = 6$, $t_2^\text{C} = 7$, $t_1^\text{P} = 3$, $t_2^\text{P} = 4$,
@@ -1187,7 +1173,7 @@ The bounds for P have not narrowed as much;
 this is due to the two right-censored observations $t_3^\text{P} = t_4^\text{P} = 8^+$;
 from the viewpoint of the prior, surviving past time 8 is already quite unusual.
 
-\subsection{Case 2: surprisingly early failure times}
+\subsection{Case 2: Surprisingly Early Failure Times}
 \label{sec:ex-case2}
 
 For the second case, with $t_1^\text{C} = 1$, $t_2^\text{C} = 2$, $t_1^\text{P} = 0.25$, $t_2^\text{P} = 0.5$
@@ -1211,7 +1197,7 @@ The effect for P is less pronounced,
 mainly because observing $\vec{t}^\text{P} = (0.25, 0.5, 2^+, 2^+)$ for P is less extreme
 as observing $\vec{t}^\text{C} = (1, 2, 2^+, 2^+)$ for C.
 
-\subsection{Case 3: surprisingly late failure times}
+\subsection{Case 3: Surprisingly Late Failure Times}
 \label{sec:ex-case3}
 
 For the third case, we assume to observe surprisingly late failures,
@@ -1236,7 +1222,7 @@ after having seen these late failures, one expects type C components to fail muc
 This effect is also visible for M and H,
 but is weaker for them as there is only one component of each in the system.
 
-\subsection{Reliability bounds for the running system}
+\subsection{Reliability Bounds for the Running System}
 \label{sec:ex-sysrel}
 
 \begin{figure}

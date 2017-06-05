@@ -76,7 +76,7 @@ fig4 # warnings refer to the four instances which have been rounded down to 1, b
 pdf("fig4.pdf", width=8, height=6)
 fig4
 dev.off()
-
+#embed_fonts("fig4.pdf")
 
 # data 1: fitting failure times ---------------------------------------------------------------- #
 brfts1 <- list(c(6, 7), NULL, NULL, c(3, 4))
@@ -276,9 +276,9 @@ fig9 <- ggplot(br5df, aes(x = tvec)) + theme_bw() + ylim(0, 1) + ijarcol + right
   facet_wrap(~Panel2, nrow=1) + xlab(expression(t)) + ylab(bquote(bar(R)[sys](t) - ~underline(R)[sys](t)))
 fig9
 
-#setEPS()
-#postscript("fig9.eps",width=8,height=6)
-pdf("fig9.pdf", width=8, height=3)
+setEPS()
+postscript("fig9.eps",width=8,height=3)
+#pdf("fig9.pdf", width=8, height=3)
 fig9
 dev.off()
 
