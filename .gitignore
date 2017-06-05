@@ -162,3 +162,5 @@ TSWLatexianTemp*
 .Rproj.user
 .RData
 .Rhistory
+*.jpg
+template-preparing-submission.zip

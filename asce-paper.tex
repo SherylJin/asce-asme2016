@@ -295,7 +295,7 @@ i.e., studying the effect of different choices of prior distribution on the quan
 (in our case, the system reliability function, which, in Bayesian terms, is a posterior predictive distribution).
 This idea has been explored in systematic sensitivity analysis, or robust Bayesian methods
 (for an overview on this approach, see, e.g.,
-\citeNP{1994:berger} or \citeNP{2000:rios}). %\citeNP{2005:ruggeri}, \citeNP{2000:bergerinsuaruggeri}
+\citeNP{1994:berger} or \citeNP{2000:rios}). 
 
 The work presented here can be seen as belonging to the robust Bayesian approach
 since it uses sets of priors. However, our focus and interpretation is slightly different,
@@ -353,12 +353,6 @@ for the scale parameter $\lambda_k$ of the Weibull distribution,
 showing how this highlights the prior-data conflict issue for $\lambda_k$.
 Section~\ref{sec:robrel} then develops a method to calculate system reliability bounds
 for a running system based on sets of priors for $\lambda_k$. 
-%To this end, Bayesian estimation of $\lambda_k$ under right-censored observations is covered in Section~\ref{sec:lambdawithcens},
-%followed by a brief introduction to the survival signature (Section~\ref{sec:sysrelwithsurvsign}).
-%Section~\ref{sec:postpred} then details how gathered information on component lifetimes
-%is transfomed to the necessary form for use within the survival signature framework,
-%and Section~\ref{sec:optimize} explains how lower and upper bounds for $\Rsys(t \mid t > \tnow)$
-%are obtained by efficiently optimizing over the parameter sets that define the sets of priors.
 Section~\ref{sec:elicitation} discusses elicitation,
 by giving guidelines on how to choose prior parameter bounds
 that reflect expert information on components.
@@ -500,8 +494,7 @@ It seems unreasonable to make the same probability statements on component lifet
 Note that this is a general problem in Bayesian analysis with canonical conjugate priors.
 For such priors, the same update formula \eqref{eq:ig-update} applies,
 and so conflict is averaged out, for details see \citeN{Walter2009a} and \citeN[\S 3.1.4 and \S A.1.2]{diss}.
-%
-%\iffalse
+
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{fig1}
@@ -510,7 +503,6 @@ the conflict between prior assumptions and data is averaged out,
 with a more pointed posterior giving a false sense of certainty.}
 \label{fig:weibull-pdc}
 \end{figure}
-%\fi
 
 
 \section{Models reflecting surprising data}
@@ -518,7 +510,6 @@ with a more pointed posterior giving a false sense of certainty.}
 
 Despite this issue of ignoring prior-data conflict,
 the tractability of the update step
-%(the posterior is again a parametric distribution)
 is a very attractive feature of the conjugate setting.
 As was shown by \citeN{Walter2009a} (see also \citeNP{diss}, \S 3.1),
 it is possible to retain tractability and to have a meaningful reaction to prior-data conflict
@@ -632,9 +623,6 @@ We denote the corresponding vector of observations by
 \end{align}
 \end{linenomath*}
 where $t^+$ indicates a right-censored observation.
-%
-%***change to general right-censoring? So $n_k-e_k \to c_k$, $e_k+c_k=n_k$,
-%introduce sets of observed and censored?
 
 According to Bayes' rule, multiplying the prior density and the likelihood
 (which accounts for right-censored observations through the cdf terms)
@@ -697,7 +685,6 @@ it is defined as the probability for the event that the system functions
 given that precisely $l_k$ of its $n_k$ components of type $k$ function, for each $k\in \{1,\ldots,K\}$.
 Essentially, this creates a $K$-dimensional partition for the event $\Tsys > t$,
 such that $\Rsys(t) = P(\Tsys > t)$ can be calculated using the law of total probability,
-%System survival calculated by %(see Risk Analysis paper eq. (7))
 \begin{linenomath*}
 \begin{align}
 P(\Tsys > t) &= \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} P(\Tsys > t \mid C^1_t = l_1,\ldots, C^K_t = l_K)
@@ -716,17 +703,6 @@ as the probabilities $P(C^k_t = l_k)$ can be determined from any failure time di
 Note that for coherent systems,
 the survival signature $\Phi(l_1,\ldots,l_K)$ is non-decreasing in each $l_k$.
 
-%
-%A priori, we have, for $l_k = 0,1,\ldots, n_k$,
-%\begin{linenomath*}
-%\begin{align}
-%P(C^k_t = l_k\mid\nkz,\ykz)
-% &= { n_k \choose l_k} \int [F_k(t \mid\lambda_k)]^{n_k-l_k}
-%                        [1 - F_k(t \mid\lambda_k)]^{l_k} f_{\lambda_k}(\lambda_k\mid\nkz,\ykz) \dd \lambda_k
-%\end{align}
-%\end{linenomath*}
-%under the assumption that components of the same type are independent given $\lambda_k$.
-
 
 \subsection{Posterior Predictive Distribution}
 \label{sec:postpred}
@@ -739,7 +715,6 @@ are given by the posterior predictive distribution
 $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$, $l_k = 0, 1, \ldots, n_k-e_k$. %$k=1,\ldots, K$.
 (Remember that $e_k$ type $k$ components have failed by $\tnow$,
 such that there can be at most $n_k-e_k$ working components beyond time $\tnow$.)
-%(Should one work with the subsystem consisting only of the non-failed $n_k - e_k$ components?)\\
 This posterior predictive distribution is obtained as
 \begin{linenomath*}
 \begin{align}
@@ -804,13 +779,6 @@ F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k}) = P(C^k_t \leq l_k \mid \nkz,\ykz,\vec
 %F_{C^k_t}(l_k \mid \ldots) = P(C^k_t \leq l_k\mid\ldots) = \sum_{q=0}^{l_k} P(C^k_t = q\mid\ldots)\,,
 \end{align}
 \end{linenomath*}
-%Seen as function in $t$, we see that $t$ appears $n_k-e_k-l_k+1$ times,
-%once in each summand, in the denominator of the fraction powered to the $\nkn+1$,
-%and summands whith even $j$ are decreasing in $t$,
-%while summands whith odd $j$ are increasing in $t$.
-%Nevertheless, in total $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$
-%must be decreasing in $t$, as the remaining $n_k-e_k$ components continue to age,
-%and so the probability that $l_k$ of them remain operational must decrease.
 
 
 \subsection{Optimizing over Sets of Parameters}
@@ -846,9 +814,6 @@ then there is, for each component type $k$,
 a prior parameter pair in $\PkZ$ that minimizes system reliability, and
 a prior parameter pair in $\PkZ$ that maximizes system reliability,
 independently of the other component types. 
-%such that system reliability is
-%minimized by a distribution that gives most weight to low values of $l_k$, and
-%maximized by a distribution that gives most weight to high values of $l_k$.
 Indeed, stochastic dominance in $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ is provided for $\ykz$.
 To see this, note that $\ykz$ gives the mean expected lifetime for type $k$ components.
 Thus, higher values for $\ykz$ mean higher expected lifetimes for the components,
@@ -859,11 +824,6 @@ and high probability weight for high values of $l_k$.
 Therefore, for any fixed value of $\nkz$, 
 the lower bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzu$, and
 the upper bound of $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ for all $l_k$ is obtained with $\ykzl$.
-%
-%***need formal first-order stochastic dominance in $\ykz$ result for $P(C^k_t = l_k\mid\nkz,\ykz, \vec{t}^k_{e_k;n_k})$?
-%I have it for inverse gamma posterior $f(\lambda_k\mid \nkz,\ykz, \vec{t}^k_{e_k;n_k})$,
-%but not for posterior predictive***
-%
 There is however no corresponding result for $\nkz$,
 such that different values of $\nkz$ may minimize (or maximize) $F(l_k \mid \nkz,\ykz,\vec{t}^k_{e_k;n_k})$ at different $l_k$'s.
 Therefore, the $\nkz$ values for lower and upper system reliability bounds are obtained by numeric optimization.
@@ -1345,43 +1305,16 @@ Gero Walter was supported by the DINALOG project CAMPI
 (``Coordinated Advanced Maintenance and Logistics Planning for the Process Industries'').
 
 
-%\pagebreak
-%
+\pagebreak
 %
 % Now we start the appendices, with the new section name, "Appendix", and a 
 %  new counter, "I", "II", etc.
+\appendix
 %
-\appendix\label{section:references}
 %
-% Here's the first appendix, the list of references:
+% Here's the list of references:
 %
+% \label{section:references}
 \bibliography{refs}
 %
-%\cite{key}   produces citations with full author list and year 
-%\citeNP{key} produces citations with full author list and year, but without enclosing parentheses
-%\citeA{key}  produces citations with only the full author list
-%\citeN{key}  produces citations with the full author list and year, but
-%             which can be used as nouns in a sentence; no parentheses appear around
-%             the author names, but only around the year
-%\citeyear{key}   produces the year information only, within parentheses
-%\citeyearNP{key} produces the year information only
-%
-%
-% And now for some pretty impressive notation.  In this example, I have used
-%   the tabular environment to line up the columns in ASCE style.
-%   Note that this and all appendices (except the references) start with 
-%   the \section command
-%
-\iffalse
-\section{Notation}
-\emph{The following symbols are used in this paper:}%\par\vspace{0.10in}
-\nopagebreak
-\par
-\begin{tabular}{r  @{\hspace{1em}=\hspace{1em}}  l}
-$D$                    & pile diameter (m); \\
-$R$                    & distance (m);      and\\
-$C_{\mathrm{Oh\;no!}}$ & fudge factor.
-\end{tabular}
-\fi
-
 \end{document}
