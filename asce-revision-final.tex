@@ -521,24 +521,26 @@ where the censoring process is independent of the failure process.
 Consider now a system of arbitrary layout,
 consisting of components of $K$ types.
 This system is observed until time $\tnow$,
-leading to censored observation of lifetimes of components within the system,
-and we will explain in Section~\ref{sec:lambdawithcens}
+leading to censored observation of lifetimes of components within the system.
+We will first explain %in Section~\ref{sec:lambdawithcens}
 how the scale parameter $\lambda_k$ for component type $k$
-can be estimated in this situation.
+can be estimated in this situation;
 %
-Section~\ref{sec:sysrelwithsurvsign} describes then
+%Section~\ref{sec:sysrelwithsurvsign} describes then
+then we describe
 how the system reliability function can be efficiently obtained using the survival signature.
 %
-For this, we need the posterior predictive distribution
-of the number of components that function at times $t > \tnow$,
-which we will derive in Section~\ref{sec:postpred}.
+To use this approach, we need to derive the posterior predictive distribution
+of the number of components that function at times $t > \tnow$.
+%which we will derive in Section~\ref{sec:postpred}.
 %
-Finally, in Section~\ref{sec:optimize} we describe how
+%Finally, in Section~\ref{sec:optimize} we describe how
+Finally, we describe how
 the lower and upper bound for the system reliability function
 are obtained when prior parameters $(\nkz,\ykz)$
 vary in sets $\PkZ = [\nkzl,\nkzu] \times [\ykzl,\ykzu]$,
 defining sets $\MkZ$ of prior distributions over $\lambda_k$,
-as introduced in Section~\ref{sec:modforsurpr}.
+as introduced above. %in Section~\ref{sec:modforsurpr}.
 
 
 \subsection{Bayesian Estimation of Component Scale Parameter with Right-censored Lifetimes}
@@ -940,7 +942,6 @@ with those components marked that we assume to fail in the three scenarios.}
 \section{Examples}
 \label{sec:examples}
 
-%***brake system from ijar paper, Fig.~\ref{fig:brakesys-layout}
 As illustrative example, consider a simplified automotive brake system with four types of component.
 The master brake cylinder (M) activates all four wheel brake cylinders (C1 -- C4),
 which in turn actuate a braking pad assembly each (P1 -- P4).
@@ -975,16 +976,16 @@ M & H & C & P & $\Phi$ & \quad & M & H & C & P & $\Phi$\\
 \end{tabular}
 \end{table}
 
-A fixed prior setting, described in Section~\ref{sec:ex-prior},
+A fixed prior setting %, described in Section~\ref{sec:ex-prior},
 will be combined with three different data scenarios,
-where one observes failure times in accordance with prior expectations in the first case (Section~\ref{sec:ex-case1}),
-surprisingly early failures in the second case (Section~\ref{sec:ex-case2}), and
-surprisingly late failures in the third case (Section~\ref{sec:ex-case3}).
+where one observes failure times in accordance with prior expectations in the first case,
+%(Section~\ref{sec:ex-case1}),
+surprisingly early failures in the second case, and %(Section~\ref{sec:ex-case2}), and
+surprisingly late failures in the third case. %(Section~\ref{sec:ex-case3}).
 In each case, it is assumed that C2, C3, P2 and P3 fail, only the failure times are varied,
 investigating the effect of learning about these failures on the component level.
 %and for the running system.
-Effects on posterior reliability bounds for the running system
-are then discussed for all three cases in Section~\ref{sec:ex-sysrel}.
+We then discuss effects on posterior reliability bounds for the running system for all three cases.
 
 \subsection{Prior Assumptions}
 \label{sec:ex-prior}
@@ -1086,7 +1087,7 @@ Having observed the system only until $t = 2$, the data are not very informative
 such that prior and posterior predictive reliability bounds are very similar.
 For C, the effect of the early failures is however still visible,
 and posterior imprecision, i.e., the range between lower and upper posterior bound, is notably larger
-as compared to prior imprecision, and substantially larger that posterior imprecision in case~1.
+as compared to prior imprecision, and substantially larger than posterior imprecision in case~1.
 The effect for P is less pronounced,
 mainly because observing $\vec{t}^\text{P} = (0.25, 0.5, 2^+, 2^+)$ for P is less extreme
 as observing $\vec{t}^\text{C} = (1, 2, 2^+, 2^+)$ for C.
