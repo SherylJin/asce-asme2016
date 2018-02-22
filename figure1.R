@@ -47,4 +47,5 @@ fig1
 showtext.end()
 dev.off()
 
+#embedFonts("fig1.pdf")
 #

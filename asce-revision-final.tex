@@ -65,7 +65,8 @@
 %\usepackage{lineno} % comment this out to get line number again
 \usepackage{newtxtext,newtxmath}
 %\usepackage[bookmarks]{hyperref}
-\usepackage[colorlinks=true,citecolor=red,linkcolor=black]{hyperref}
+%\usepackage[colorlinks=true,citecolor=red,linkcolor=black]{hyperref}
+%\usepackage[colorlinks=false]{hyperref}
 
 % Shortcuts...
 \newcommand{\reals}{\mathbb{R}}
@@ -299,7 +300,7 @@ components, with prior-data conflict occurring at component level yet being refl
 \label{sec:weibull}
 
 In this paper, we consider a system with components of $K$ different types.
-There are $n_k$ components of type $k$ ($k=1,\ldots,K$) in the systems, their
+There are $n_k$ components of type $k$ ($k=1,\ldots,K$) in the system, their
 failure times $T_i^k$ ($i=1,\ldots,n_k$, $k = 1, \ldots, K$) are assumed to have
 a Weibull distribution with fixed shape parameter $\beta_k > 0$ and unknown scale
 parameter $\lambda_k$. This distribution has the following probability density function
@@ -623,7 +624,7 @@ Essentially, this creates a $K$-dimensional partition for the event $\Tsys > t$,
 such that $\Rsys(t) = P(\Tsys > t)$ can be calculated using the law of total probability,
 \begin{linenomath*}
 \begin{align}
-P(\Tsys > t) &= \sum_{l_1=0}^{m_1} \cdots \sum_{l_K=0}^{m_K} P(\Tsys > t \mid C^1_t = l_1,\ldots, C^K_t = l_K)
+P(\Tsys > t) &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} P(\Tsys > t \mid C^1_t = l_1,\ldots, C^K_t = l_K)
                                                                                   P\Big( \bigcap_{k=1}^K \{ C^k_t = l_k\} \Big) \nonumber\\
              &= \sum_{l_1=0}^{n_1} \cdots \sum_{l_K=0}^{n_K} \Phi(l_1,\ldots,l_K) P\Big( \bigcap_{k=1}^K \{ C^k_t = l_k\} \Big) \nonumber\\
 %\intertext{ and assuming components of different types are independent,}
