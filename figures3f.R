@@ -107,7 +107,7 @@ fig5a <- ggplot(popr1df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig5a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 
-pdf("fig5a.pdf", width=8, height=6)
+pdf("fig5.pdf", width=8, height=6)
 showtext.begin()
 fig5a
 showtext.end()
@@ -130,7 +130,7 @@ fig5
 
 #setEPS()
 #postscript("fig5.eps",width=8,height=6)
-pdf("fig5.pdf", width=8, height=3)
+pdf("fig5-old.pdf", width=8, height=3)
 fig5
 dev.off()
 
@@ -159,7 +159,7 @@ fig6a <- ggplot(popr2df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig6a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 
-pdf("fig6a.pdf", width=8, height=6)
+pdf("fig6.pdf", width=8, height=6)
 showtext.begin()
 fig6a
 showtext.end()
@@ -182,7 +182,7 @@ fig6
 
 #setEPS()
 #postscript("fig6.eps",width=8,height=3)
-pdf("fig6.pdf", width=8, height=3)
+pdf("fig6-old.pdf", width=8, height=3)
 fig6
 dev.off()
 
@@ -213,7 +213,7 @@ fig7a # warnings refer to the instances which have been rounded down to 1, bug i
 
 pdf("fig7a.pdf", width=8, height=6)
 showtext.begin()
-fig7a
+fig7
 showtext.end()
 dev.off()
 
@@ -234,7 +234,7 @@ fig7
 
 #setEPS()
 #postscript("fig7.eps",width=8,height=3)
-pdf("fig7.pdf", width=8, height=3)
+pdf("fig7-old.pdf", width=8, height=3)
 fig7
 dev.off()
 
