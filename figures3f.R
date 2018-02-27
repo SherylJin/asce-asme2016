@@ -73,10 +73,10 @@ fig4 # warnings refer to the four instances which have been rounded down to 1, b
 
 #setEPS()
 #postscript("fig4.eps",width=8,height=6)
-pdf("fig4.pdf", width=8, height=6)
-showtext.begin()
+pdf("fig4-new.pdf", width=8, height=6)
+#showtext.begin()
 fig4
-showtext.end()
+#showtext.end()
 dev.off()
 #embed_fonts("fig4.pdf") # has problems with transparency
 
@@ -107,10 +107,10 @@ fig5a <- ggplot(popr1df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig5a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 
-pdf("fig5.pdf", width=8, height=6)
-showtext.begin()
+pdf("fig5-new.pdf", width=8, height=6)
+#showtext.begin()
 fig5a
-showtext.end()
+#showtext.end()
 dev.off()
 
 # posterior system reliability function at tnow = 8
@@ -159,10 +159,10 @@ fig6a <- ggplot(popr2df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig6a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 
-pdf("fig6.pdf", width=8, height=6)
-showtext.begin()
+pdf("fig6-new.pdf", width=8, height=6)
+#showtext.begin()
 fig6a
-showtext.end()
+#showtext.end()
 dev.off()
 
 # posterior system reliability function at tnow = 2
@@ -211,10 +211,10 @@ fig7a <- ggplot(popr3df, aes(x = tvec)) + theme_bw() + ijarcol + ijarfill + ylim
   facet_wrap(~Part, nrow=2) + xlab(expression(t)) + ylab(expression(R(t))) + rightlegend 
 fig7a # warnings refer to the instances which have been rounded down to 1, bug in ggplot?
 
-pdf("fig7a.pdf", width=8, height=6)
-showtext.begin()
-fig7
-showtext.end()
+pdf("fig7-new.pdf", width=8, height=6)
+#showtext.begin()
+fig7a
+#showtext.end()
 dev.off()
 
 # posterior system reliability function at tnow = 12
@@ -258,10 +258,10 @@ fig8
 
 #setEPS()
 #postscript("fig8.eps",width=8,height=6)
-pdf("fig8.pdf", width=8, height=6)
-showtext.begin()
+pdf("fig8-new.pdf", width=8, height=6)
+#showtext.begin()
 fig8
-showtext.end()
+#showtext.end()
 dev.off()
 
 # plot of sysrel prior / posterior imprecision
@@ -290,10 +290,10 @@ fig9
 
 #setEPS()
 #postscript("fig9.eps",width=8,height=3)
-pdf("fig9.pdf", width=8, height=3)
-showtext.begin()
+pdf("fig9-new.pdf", width=8, height=3)
+#showtext.begin()
 fig9
-showtext.end()
+#showtext.end()
 dev.off()
 
 

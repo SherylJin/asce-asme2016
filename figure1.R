@@ -41,11 +41,12 @@ fig1 <- ggplot(fig1df, aes(x=x)) + geom_line(aes(y=y, group=p, colour=p)) + ylim
   theme_bw() + ijarcol + rightlegend + xlab(expression(lambda)) + ylab(expression(F(lambda)))
 #setEPS()
 #postscript("fig1.eps",width=5,height=3)
-pdf("fig1.pdf",width=6,height=3)
-showtext.begin()
+pdf("fig1-new.pdf",width=6,height=3)
+#showtext.begin()
 fig1
-showtext.end()
+#showtext.end()
 dev.off()
 
+system("gs -o fig1.pdf -sDEVICE=pdfwrite -dEmbedAllFonts=true -dPDFSETTINGS=/prepress fig1-new.pdf")
 #embedFonts("fig1.pdf")
 #
